@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Supporto — Yashi</title>
+<meta name="description" content="Driver, firmware e manuali dei prodotti Yashi, modulo RMA, condizioni di garanzia e contatti dell'assistenza tecnica.">
+<link rel="canonical" href="https://www.yashiweb.com/supporto.html">
+<meta name="theme-color" content="#000000">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Yashi">
+<meta property="og:locale" content="it_IT">
+<meta property="og:title" content="Supporto — Yashi">
+<meta property="og:description" content="Archivio driver e manuali, apertura RMA, garanzia e contatti.">
+<meta property="og:url" content="https://www.yashiweb.com/supporto.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23000'/%3E%3Cpath d='M3 4h4.5l4.5 7 4.5-7H21l-6.7 10.6V20h-4.6v-5.4z' fill='%23EFF1F2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap">
+<link rel="stylesheet" href="assets/yashi.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.yashiweb.com/"},{"@type":"ListItem","position":2,"name":"Supporto","item":"https://www.yashiweb.com/supporto.html"}]}
+</script>
+</head>
+<body class="no-js">
+
+<main id="main">
+
+  <header class="pagehead s-dark">
+    <div class="wrap">
+      <nav class="breadcrumb" aria-label="Percorso">
+        <ol><li><a href="index.html">Home</a></li><li aria-current="page">Supporto</li></ol>
+      </nav>
+      <div class="pagehead__inner">
+        <div>
+          <p class="eyebrow">Assistenza</p>
+          <h1 class="display" style="font-size:var(--t-h1)">Supporto</h1>
+        </div>
+        <p class="lead">Driver, firmware e manuali di tutte le serie a listino. Per un guasto si apre
+        una RMA: la lavoriamo in media in 48 ore lavorative.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Archivio file -------------------------------------------------------- -->
+  <section class="s-light section" id="driver" aria-labelledby="drv-title">
+    <div class="wrap">
+      <div class="section-head section-head--split">
+        <div>
+          <p class="eyebrow">Archivio</p>
+          <h2 id="drv-title">Driver, firmware e manuali</h2>
+        </div>
+        <p class="muted">Cerca per modello o codice. I firmware si installano da chiavetta USB:
+        istruzioni nel manuale, capitolo 7.</p>
+      </div>
+
+      <form class="catalog__toolbar" data-files-form role="search">
+        <div class="field" style="flex:1;min-width:240px">
+          <label class="visually-hidden" for="f-q">Cerca un file</label>
+          <input class="input" type="search" id="f-q" name="q" placeholder="Modello, codice o parola chiave" autocomplete="off">
+        </div>
+        <div class="chips" role="group" aria-label="Tipo di file" data-files-types></div>
+      </form>
+
+      <p class="micro muted" data-files-count aria-live="polite">—</p>
+      <div data-files></div>
+      <div class="empty-state" data-files-empty hidden>
+        <p class="lead">Nessun file per questa ricerca.</p>
+        <p class="muted">Se il tuo modello è fuori produzione scrivi ad
+        <a href="mailto:assistenza@yashiweb.com">assistenza@yashiweb.com</a>: l'archivio storico è
+        completo ma non tutto è pubblicato.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RMA ------------------------------------------------------------------ -->
+  <section class="s-dark section" id="rma" aria-labelledby="rma-title">
+    <div class="wrap">
+      <div class="grid-hair grid-2">
+        <div style="padding:var(--sp-6)">
+          <p class="eyebrow eyebrow--live">Riparazioni</p>
+          <h2 id="rma-title">Apri una pratica RMA</h2>
+          <p class="muted" style="margin-top:var(--sp-4)">Serve il numero di serie che trovi
+          sull'etichetta posteriore (formato <span class="num">YS-00000000</span>) e la data di
+          acquisto sul documento fiscale. Se il prodotto è stato comprato da meno di 30 giorni,
+          la pratica la apre il rivenditore.</p>
+          <ol class="stack small muted" style="padding-left:1.2rem;margin-top:var(--sp-4)">
+            <li>Compili il modulo: parte una mail con tutti i dati già dentro.</li>
+            <li>Ricevi un numero di pratica entro 48 ore lavorative.</li>
+            <li>Il corriere ritira all'indirizzo che ci indichi, imballo incluso.</li>
+          </ol>
+          <p class="small muted" style="margin-top:var(--sp-4)">Non c'è ancora un endpoint di invio:
+          il modulo prepara la mail, non salva nulla.</p>
+        </div>
+
+        <form style="padding:var(--sp-6)" class="stack" data-rma novalidate>
+          <div class="config-row">
+            <div class="field">
+              <label for="r-serial">Numero di serie</label>
+              <input class="input num" id="r-serial" name="serial" placeholder="YS-00000000" required>
+            </div>
+            <div class="field">
+              <label for="r-model">Modello</label>
+              <input class="input" id="r-model" name="model" placeholder="Le Mans AI 27" required>
+            </div>
+          </div>
+          <div class="config-row">
+            <div class="field">
+              <label for="r-date">Data di acquisto</label>
+              <input class="input" id="r-date" name="date" type="date" required>
+            </div>
+            <div class="field">
+              <label for="r-dealer">Rivenditore</label>
+              <input class="input" id="r-dealer" name="dealer" placeholder="Ragione sociale">
+            </div>
+          </div>
+          <div class="field">
+            <label for="r-type">Tipo di guasto</label>
+            <select class="input" id="r-type" name="type">
+              <option>Non si accende</option>
+              <option>Pixel difettosi</option>
+              <option>Problema di segnale o porte</option>
+              <option>Rumore o ventola</option>
+              <option>Danno meccanico</option>
+              <option>Altro</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="r-desc">Descrizione</label>
+            <textarea class="input" id="r-desc" name="desc" required
+              placeholder="Cosa succede, da quando, con quale sorgente collegata"></textarea>
+          </div>
+          <div class="field">
+            <label for="r-mail">Email di contatto</label>
+            <input class="input" id="r-mail" name="mail" type="email" required autocomplete="email">
+          </div>
+          <p class="field__error" data-rma-error hidden></p>
+          <button type="submit" class="btn btn--solid"><span>Prepara la richiesta</span></button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Garanzia e FAQ -------------------------------------------------------- -->
+  <section class="s-light section" id="garanzia" aria-labelledby="gar-title">
+    <div class="wrap wrap--narrow">
+      <div class="section-head">
+        <p class="eyebrow">Condizioni</p>
+        <h2 id="gar-title">Garanzia e domande frequenti</h2>
+      </div>
+      <div data-faq></div>
+      <p class="row" style="margin-top:var(--sp-5)">
+        <button type="button" class="btn btn--ghost" data-print>
+          <svg aria-hidden="true"><use href="#i-print"/></svg><span>Stampa le condizioni</span></button>
+      </p>
+    </div>
+  </section>
+
+  <!-- Contatti -------------------------------------------------------------- -->
+  <section class="s-light section--tight" id="contatti" aria-labelledby="con-title">
+    <div class="wrap">
+      <h2 id="con-title" class="visually-hidden">Contatti</h2>
+      <div class="grid-hair grid-3">
+        <div class="card">
+          <h3 class="card__title">Assistenza tecnica</h3>
+          <p class="small muted">Lunedì–venerdì 9–13 e 14–18</p>
+          <p class="small"><a class="link-arrow" href="mailto:assistenza@yashiweb.com">assistenza@yashiweb.com</a></p>
+        </div>
+        <div class="card">
+          <h3 class="card__title">Ufficio commerciale</h3>
+          <p class="small muted">Preventivi, disponibilità, progetti</p>
+          <p class="small"><a class="link-arrow" href="mailto:commerciale@yashiweb.com">commerciale@yashiweb.com</a></p>
+        </div>
+        <div class="card">
+          <h3 class="card__title">Sede</h3>
+          <p class="small muted">Via Torricelli 15, 37135 Verona</p>
+          <p class="small"><a class="link-arrow" href="tel:+390450000000">045 000 0000</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="s-light section--tight" id="materiali" aria-labelledby="mat-title">
+    <div class="wrap">
+      <div class="notice">
+        <svg aria-hidden="true"><use href="#i-alert"/></svg>
+        <span><strong>Materiali marketing e area dealer.</strong> L'accesso riservato ai rivenditori
+        non è ancora parte di questo prototipo: per loghi, foto e schede in alta risoluzione scrivi a
+        <a href="mailto:marketing@yashiweb.com">marketing@yashiweb.com</a>.</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="assets/yashi.js"></script>
+<script>
+if (!window.Yashi) {
+  document.body.insertAdjacentHTML('afterbegin',
+    '<p class="notice" style="margin:1rem">assets/yashi.js non caricato: archivio driver e modulo RMA non sono disponibili.</p>');
+} else (function () {
+  'use strict';
+  var Y = window.Yashi, qs = Y.qs, qsa = Y.qsa, on = Y.on, esc = Y.esc;
+
+  /* --- Archivio file (dal CMS in produzione) ----------------------------- */
+  var F = [
+    { n: 'Firmware Le Mans AI 27 — 1.4.2', p: 'YM27LMA', t: 'firmware', v: '1.4.2', d: '2026-02-11', s: '18 MB' },
+    { n: 'Manuale utente Le Mans AI 27', p: 'YM27LMA', t: 'manuale', v: 'rev. C', d: '2026-01-20', s: '4,8 MB' },
+    { n: 'Scheda prodotto Le Mans AI 27', p: 'YM27LMA', t: 'scheda', v: '2026', d: '2026-01-20', s: '2,1 MB' },
+    { n: 'Firmware Monza 27 IPS — 2.0.7', p: 'YM27IPS', t: 'firmware', v: '2.0.7', d: '2025-11-04', s: '12 MB' },
+    { n: 'Manuale utente Monza 27 IPS', p: 'YM27IPS', t: 'manuale', v: 'rev. B', d: '2025-09-30', s: '3,9 MB' },
+    { n: 'Manuale utente Imola 24', p: 'YM24IPS', t: 'manuale', v: 'rev. A', d: '2025-06-12', s: '3,1 MB' },
+    { n: 'Driver monitor Windows 11 (INF)', p: 'Tutti i monitor', t: 'driver', v: '3.2', d: '2026-01-08', s: '640 kB' },
+    { n: 'Driver touch Windows/Linux', p: 'YD86T, YD65T', t: 'driver', v: '5.1', d: '2025-12-15', s: '22 MB' },
+    { n: 'Firmware Touch 86 Edu — 3.3.0', p: 'YD86T', t: 'firmware', v: '3.3.0', d: '2026-02-02', s: '96 MB' },
+    { n: 'Manuale Signage 55 24/7', p: 'YD55S', t: 'manuale', v: 'rev. D', d: '2025-10-21', s: '5,4 MB' },
+    { n: 'Driver chipset MyBook 14 Pro', p: 'YN14PRO', t: 'driver', v: '1.9', d: '2025-12-01', s: '84 MB' },
+    { n: 'BIOS MyBook 15 Edu — F.12', p: 'YN15EDU', t: 'firmware', v: 'F.12', d: '2025-08-18', s: '9 MB' },
+    { n: 'Manuale Rack 1U Xeon', p: 'YS1U24', t: 'manuale', v: 'rev. B', d: '2025-07-09', s: '6,2 MB' },
+    { n: 'Utility IPMI Rack 1U/2U', p: 'YS1U24, YS2U48', t: 'driver', v: '4.4', d: '2026-01-30', s: '31 MB' },
+    { n: 'Disegni quotati serie monitor (DWG)', p: 'Serie monitor', t: 'scheda', v: '2026', d: '2026-01-20', s: '11 MB' },
+    { n: 'Manuale Totem 43 indoor', p: 'YK43K', t: 'manuale', v: 'rev. A', d: '2025-05-27', s: '4,1 MB' }
+  ];
+  var TIPI = { driver: 'Driver', firmware: 'Firmware', manuale: 'Manuali', scheda: 'Schede e disegni' };
+  var tipo = null, q = '';
+
+  qs('[data-files-types]').innerHTML = Object.keys(TIPI).map(function (k) {
+    return '<button type="button" class="chip" data-type="' + k + '" aria-pressed="false">' + TIPI[k] + '</button>';
+  }).join('');
+
+  function fmtDate(iso) {
+    var p = iso.split('-');
+    return p[2] + '/' + p[1] + '/' + p[0];
+  }
+
+  function renderFiles() {
+    var list = F.filter(function (f) {
+      if (tipo && f.t !== tipo) return false;
+      if (!q) return true;
+      var hay = (f.n + ' ' + f.p + ' ' + f.v).toLowerCase();
+      return hay.indexOf(q.toLowerCase()) > -1;
+    }).sort(function (a, b) { return a.d < b.d ? 1 : -1; });
+
+    qs('[data-files]').innerHTML = list.map(function (f) {
+      return '<div class="file-row">'
+        + '<div><p style="margin:0"><strong>' + esc(f.n) + '</strong></p>'
+        + '<p class="small muted" style="margin:0">' + esc(f.p) + ' · ' + esc(TIPI[f.t]) + '</p></div>'
+        + '<p class="small muted num" style="margin:0">' + esc(f.v) + ' · ' + fmtDate(f.d) + ' · ' + esc(f.s) + '</p>'
+        + '<a class="btn btn--sm" href="#" aria-label="Scarica ' + esc(f.n) + '">'
+        + '<svg aria-hidden="true"><use href="#i-download"/></svg><span>Scarica</span></a>'
+        + '</div>';
+    }).join('');
+    qs('[data-files]').hidden = list.length === 0;
+    qs('[data-files-empty]').hidden = list.length > 0;
+    qs('[data-files-count]').textContent = list.length + (list.length === 1 ? ' file' : ' file') + ' su ' + F.length;
+  }
+
+  on(qs('[data-files-form]'), 'input', function (e) {
+    if (e.target.name === 'q') { q = e.target.value.trim(); renderFiles(); }
+  });
+  on(qs('[data-files-form]'), 'submit', function (e) { e.preventDefault(); });
+  on(qs('[data-files-types]'), 'click', function (e) {
+    var b = e.target.closest('[data-type]');
+    if (!b) return;
+    tipo = tipo === b.getAttribute('data-type') ? null : b.getAttribute('data-type');
+    qsa('[data-type]').forEach(function (x) {
+      x.setAttribute('aria-pressed', x.getAttribute('data-type') === tipo ? 'true' : 'false');
+      x.style.borderColor = x.getAttribute('data-type') === tipo ? 'var(--ink)' : '';
+    });
+    renderFiles();
+  });
+  renderFiles();
+
+  /* --- RMA: prepara la mail, non salva nulla ----------------------------- */
+  on(qs('[data-rma]'), 'submit', function (e) {
+    e.preventDefault();
+    var f = e.target, err = qs('[data-rma-error]'), problemi = [];
+    if (!/^YS-?\d{6,10}$/i.test(f.serial.value.trim())) problemi.push('il numero di serie (formato YS-00000000)');
+    if (!f.model.value.trim()) problemi.push('il modello');
+    if (!f.date.value) problemi.push('la data di acquisto');
+    if (!f.desc.value.trim()) problemi.push('la descrizione del guasto');
+    if (!/.+@.+\..+/.test(f.mail.value)) problemi.push('un\'email valida');
+    if (problemi.length) {
+      err.textContent = 'Manca ' + problemi.join(', ') + '.';
+      err.hidden = false;
+      return;
+    }
+    err.hidden = true;
+    location.href = Y.mailto('assistenza@yashiweb.com', 'RMA ' + f.serial.value.toUpperCase() + ' — ' + f.model.value, [
+      'Buongiorno,', 'apro una pratica RMA.', '',
+      'Numero di serie: ' + f.serial.value.toUpperCase(),
+      'Modello: ' + f.model.value,
+      'Data di acquisto: ' + f.date.value,
+      'Rivenditore: ' + (f.dealer.value || '—'),
+      'Tipo di guasto: ' + f.type.value,
+      '', 'Descrizione:', f.desc.value,
+      '', 'Email di contatto: ' + f.mail.value,
+      'Indirizzo di ritiro: '
+    ]);
+  });
+
+  /* --- FAQ e garanzia ---------------------------------------------------- */
+  var FAQ = [
+    { q: 'Quanto dura la garanzia?', a: 'Tre anni sulle serie Office e Signage, cinque anni sulle serie Pro e sui server. La garanzia decorre dalla data del documento fiscale del rivenditore, non dalla produzione.' },
+    { q: 'Cosa prevede la pixel policy?', a: 'Sui monitor Pro nessun pixel difettoso è tollerato nel primo anno: uno solo dà diritto alla sostituzione. Dal secondo anno si applica la classe II della ISO 9241-307.' },
+    { q: 'Chi paga il trasporto della RMA?', a: 'In garanzia il ritiro e la riconsegna sono a nostro carico, imballo compreso se serve. Fuori garanzia il preventivo comprende il trasporto ed è vincolante prima di ogni intervento.' },
+    { q: 'Per quanto tempo ci sono i ricambi?', a: 'Almeno 24 mesi dalla fine produzione del modello. Alimentatori, colonne e staffe restano disponibili anche oltre, come ricambio commerciale.' },
+    { q: 'Posso comprare direttamente da Yashi?', a: 'No, in nessun caso: la vendita passa sempre da un rivenditore autorizzato. Se non ne trovi uno in zona scrivi al commerciale, ti indichiamo il partner più vicino.' }
+  ];
+  qs('[data-faq]').innerHTML = FAQ.map(function (f, i) {
+    return '<div class="acc"><h3><button type="button" class="acc__btn" aria-expanded="false" aria-controls="faq-' + i + '">'
+      + esc(f.q) + '<svg aria-hidden="true"><use href="#i-plus"/></svg></button></h3>'
+      + '<div class="acc__panel" id="faq-' + i + '" data-open="false"><p class="muted">' + esc(f.a) + '</p></div></div>';
+  }).join('');
+  Y.bindAccordions();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pagina non trovata — Yashi</title>
+<meta name="description" content="La pagina cercata non esiste o è stata spostata.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23000'/%3E%3Cpath d='M3 4h4.5l4.5 7 4.5-7H21l-6.7 10.6V20h-4.6v-5.4z' fill='%23EFF1F2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap">
+<link rel="stylesheet" href="assets/yashi.css">
+</head>
+<body class="no-js">
+
+<main id="main">
+  <section class="err s-dark">
+    <div class="wrap wrap--narrow">
+      <p class="eyebrow eyebrow--live" style="justify-content:center">Errore 404</p>
+      <h1 class="display">Segnale assente</h1>
+      <p class="lead" style="margin:var(--sp-5) auto 0">La pagina che cercavi non esiste più, oppure
+      l'indirizzo è stato scritto in modo diverso. Il catalogo e l'assistenza sono sempre qui sotto.</p>
+      <p class="row" style="justify-content:center;margin-top:var(--sp-6)">
+        <a class="btn btn--solid" href="index.html"><span>Torna alla home</span></a>
+        <a class="btn" href="catalogo.html"><span>Vai al catalogo</span></a>
+        <a class="btn btn--ghost" href="supporto.html"><span>Supporto</span></a>
+      </p>
+      <p class="small muted" style="margin:var(--sp-6) auto 0">Se sei arrivato qui da un link nostro,
+      segnalacelo: <a href="mailto:webmaster@yashiweb.com">webmaster@yashiweb.com</a>.</p>
+    </div>
+  </section>
+</main>
+
+<script src="assets/yashi.js"></script>
+<script>
+if (!window.Yashi) {
+  document.body.insertAdjacentHTML('afterbegin',
+    '<p class="notice" style="margin:1rem">assets/yashi.js non caricato: header e footer non sono disponibili.</p>');
+}
+</script>
+</body>
+</html>

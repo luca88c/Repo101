@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catalogo — Yashi</title>
+<meta name="description" content="Monitor, all-in-one, notebook, server, digital signage e totem Yashi. Filtra per categoria, ambito d'uso, diagonale e caratteristiche, confronta fino a tre prodotti.">
+<link rel="canonical" href="https://www.yashiweb.com/catalogo.html">
+<meta name="theme-color" content="#000000">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Yashi">
+<meta property="og:locale" content="it_IT">
+<meta property="og:title" content="Catalogo — Yashi">
+<meta property="og:description" content="Filtra per categoria, ambito d'uso, diagonale e caratteristiche. Confronta fino a tre prodotti.">
+<meta property="og:url" content="https://www.yashiweb.com/catalogo.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23000'/%3E%3Cpath d='M3 4h4.5l4.5 7 4.5-7H21l-6.7 10.6V20h-4.6v-5.4z' fill='%23EFF1F2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap">
+<link rel="stylesheet" href="assets/yashi.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.yashiweb.com/"},{"@type":"ListItem","position":2,"name":"Catalogo","item":"https://www.yashiweb.com/catalogo.html"}]}
+</script>
+</head>
+<body class="no-js">
+
+<main id="main">
+
+  <header class="pagehead s-dark">
+    <div class="wrap">
+      <nav class="breadcrumb" aria-label="Percorso">
+        <ol><li><a href="index.html">Home</a></li><li aria-current="page">Catalogo</li></ol>
+      </nav>
+      <div class="pagehead__inner">
+        <div>
+          <p class="eyebrow">Listino 2026</p>
+          <h1 class="display" style="font-size:var(--t-h1)">Catalogo</h1>
+        </div>
+        <p class="lead">Tutti i prodotti a listino, con le specifiche che servono per capire se
+        stanno nel progetto. Per prezzi e disponibilità si passa dal rivenditore.</p>
+      </div>
+    </div>
+  </header>
+
+  <section class="s-light section" aria-label="Prodotti">
+    <div class="wrap">
+      <div class="catalog">
+
+        <!-- Faccette -->
+        <form class="facets" data-facets aria-label="Filtri">
+          <div class="row row--between">
+            <p class="micro muted" style="margin:0">Filtri</p>
+            <button type="button" class="chip" data-clear hidden>Azzera</button>
+          </div>
+          <button type="button" class="btn btn--sm facets__toggle" data-facets-toggle
+                  aria-expanded="false" aria-controls="facet-body">
+            <span>Filtra i prodotti</span>
+            <svg aria-hidden="true"><use href="#i-filter"/></svg>
+          </button>
+          <div class="facets__body" id="facet-body" data-open="false">
+            <div data-facet-groups></div>
+          </div>
+          <noscript><p class="small muted">Con JavaScript disattivato i filtri non sono disponibili:
+          l'elenco completo resta comunque leggibile qui sotto.</p></noscript>
+        </form>
+
+        <!-- Risultati -->
+        <div>
+          <div class="catalog__toolbar">
+            <p class="micro" data-count aria-live="polite" style="margin:0">—</p>
+            <div class="row">
+              <div class="chips" data-active-chips></div>
+              <label class="field" style="min-width:190px">
+                <span class="visually-hidden">Ordina i prodotti</span>
+                <select class="input btn--sm" data-sort>
+                  <option value="rilevanza">Ordina: rilevanza</option>
+                  <option value="diagonale-desc">Diagonale ↓</option>
+                  <option value="diagonale-asc">Diagonale ↑</option>
+                  <option value="nome">Nome A–Z</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="grid-hair grid-3" data-results></div>
+          <div class="empty-state" data-empty hidden>
+            <p class="lead">Nessun prodotto con questi filtri.</p>
+            <button type="button" class="btn" data-clear><span>Azzera i filtri</span></button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Barra confronto -->
+<div class="compare-bar" data-compare-bar data-open="false">
+  <div class="compare-bar__slots" data-compare-slots aria-hidden="true"></div>
+  <p class="small" data-compare-label style="margin:0">Seleziona fino a 3 prodotti</p>
+  <button type="button" class="btn btn--sm" data-compare-open disabled><span>Confronta</span></button>
+  <button type="button" class="chip" data-compare-reset>Svuota</button>
+</div>
+
+<dialog class="compare" data-compare-dialog aria-labelledby="cmp-title">
+  <div class="compare__head">
+    <h2 id="cmp-title" style="font-size:var(--t-h3)">Confronto prodotti</h2>
+    <div class="row">
+      <button type="button" class="btn btn--sm" data-print><span>Stampa</span></button>
+      <button type="button" class="btn btn--sm" data-compare-close><span>Chiudi</span></button>
+    </div>
+  </div>
+  <div class="compare__body"><table class="compare__grid" data-compare-table></table></div>
+</dialog>
+
+<script src="assets/yashi.js"></script>
+<script>
+if (!window.Yashi) {
+  document.body.insertAdjacentHTML('afterbegin',
+    '<p class="notice" style="margin:1rem">assets/yashi.js non caricato: filtri e confronto non sono disponibili.</p>');
+} else (function () {
+  'use strict';
+  var Y = window.Yashi, qs = Y.qs, qsa = Y.qsa, on = Y.on, esc = Y.esc;
+
+  /* ---------------------------------------------------------------------
+     Dati. In produzione arrivano dal CMS: struttura piatta, un oggetto per
+     record. `f` raccoglie i token usati dalle faccette.
+     --------------------------------------------------------------------- */
+  var P = [
+    { id: 'YM27LMA', nome: 'Le Mans AI 27', cat: 'monitor', serie: 'Pro', draw: 'monitor',
+      pollici: 27, ris: '2560 × 1440', hz: 240, pannello: 'QD-OLED', luminosita: 400,
+      porte: 'USB-C 96 W, 2× HDMI 2.1, DP 1.4', garanzia: 5, uso: ['ufficio'], feat: ['usbc', 'ergo'],
+      href: 'prodotto.html' },
+    { id: 'YM27IPS', nome: 'Monza 27 IPS', cat: 'monitor', serie: 'Office', draw: 'monitor',
+      pollici: 27, ris: '2560 × 1440', hz: 100, pannello: 'IPS', luminosita: 350,
+      porte: 'USB-C 65 W, HDMI 2.0, DP 1.2', garanzia: 3, uso: ['ufficio', 'scuola'], feat: ['usbc', 'ergo'] },
+    { id: 'YM24IPS', nome: 'Imola 24', cat: 'monitor', serie: 'Office', draw: 'monitor',
+      pollici: 24, ris: '1920 × 1080', hz: 75, pannello: 'IPS', luminosita: 250,
+      porte: 'HDMI 1.4, VGA', garanzia: 3, uso: ['ufficio', 'scuola', 'sanita'], feat: ['vesa'] },
+    { id: 'YM34UW', nome: 'Mugello 34 UW', cat: 'monitor', serie: 'Pro', draw: 'monitor',
+      pollici: 34, ris: '3440 × 1440', hz: 144, pannello: 'VA curvo', luminosita: 400,
+      porte: 'USB-C 90 W, 2× HDMI 2.0, DP 1.4', garanzia: 5, uso: ['ufficio'], feat: ['usbc', 'ergo'] },
+    { id: 'YM27GX', nome: 'Vallelunga 27 GX', cat: 'monitor', serie: 'Gaming', draw: 'monitor',
+      pollici: 27, ris: '2560 × 1440', hz: 180, pannello: 'Fast IPS', luminosita: 350,
+      porte: '2× HDMI 2.1, DP 1.4', garanzia: 3, uso: ['ufficio'], feat: ['ergo'] },
+    { id: 'YA24CEL', nome: 'AiO Celeron 24', cat: 'aio', serie: 'Office', draw: 'aio',
+      pollici: 23.8, ris: '1920 × 1080', hz: 60, pannello: 'IPS', luminosita: 250,
+      porte: 'Wi-Fi 6, RJ45, 4× USB', garanzia: 3, uso: ['ufficio', 'scuola', 'sanita'], feat: ['vesa'] },
+    { id: 'YA27I5', nome: 'AiO Core i5 27', cat: 'aio', serie: 'Pro', draw: 'aio',
+      pollici: 27, ris: '2560 × 1440', hz: 75, pannello: 'IPS', luminosita: 300,
+      porte: 'Wi-Fi 6E, RJ45, USB-C', garanzia: 3, uso: ['ufficio', 'sanita'], feat: ['usbc', 'vesa'] },
+    { id: 'YN14PRO', nome: 'MyBook 14 Pro', cat: 'notebook', serie: 'Pro', draw: 'notebook',
+      pollici: 14, ris: '2880 × 1800', hz: 90, pannello: 'IPS', luminosita: 400,
+      porte: '2× USB-C, HDMI 2.0, jack', garanzia: 3, uso: ['ufficio'], feat: ['usbc'] },
+    { id: 'YN15EDU', nome: 'MyBook 15 Edu', cat: 'notebook', serie: 'Office', draw: 'notebook',
+      pollici: 15.6, ris: '1920 × 1080', hz: 60, pannello: 'IPS', luminosita: 250,
+      porte: 'USB-C, 2× USB-A, HDMI', garanzia: 3, uso: ['scuola'], feat: ['usbc'] },
+    { id: 'YS1U24', nome: 'Rack 1U Xeon', cat: 'server', serie: 'Server', draw: 'server',
+      pollici: 0, ris: '—', hz: 0, pannello: '—', luminosita: 0,
+      porte: '2× 10 GbE, IPMI, 4× NVMe', garanzia: 5, uso: ['ufficio'], feat: ['rack'] },
+    { id: 'YS2U48', nome: 'Rack 2U Storage', cat: 'server', serie: 'Server', draw: 'server',
+      pollici: 0, ris: '—', hz: 0, pannello: '—', luminosita: 0,
+      porte: '2× 10 GbE, IPMI, 12× SATA', garanzia: 5, uso: ['ufficio'], feat: ['rack'] },
+    { id: 'YD55S', nome: 'Signage 55 24/7', cat: 'signage', serie: 'Signage', draw: 'signage',
+      pollici: 55, ris: '3840 × 2160', hz: 60, pannello: 'IPS', luminosita: 500,
+      porte: 'HDMI 2.0, RS-232, RJ45, OPS', garanzia: 3, uso: ['retail'], feat: ['vesa', 'ops'] },
+    { id: 'YD86T', nome: 'Touch 86 Edu', cat: 'touch', serie: 'Signage', draw: 'touch',
+      pollici: 86, ris: '3840 × 2160', hz: 60, pannello: 'IPS antiriflesso', luminosita: 400,
+      porte: '3× HDMI, USB touch, OPS', garanzia: 3, uso: ['scuola'], feat: ['ops', 'touch'] },
+    { id: 'YD65T', nome: 'Touch 65 Edu', cat: 'touch', serie: 'Signage', draw: 'touch',
+      pollici: 65, ris: '3840 × 2160', hz: 60, pannello: 'IPS antiriflesso', luminosita: 400,
+      porte: '3× HDMI, USB touch, OPS', garanzia: 3, uso: ['scuola', 'retail'], feat: ['ops', 'touch'] },
+    { id: 'YK43K', nome: 'Totem 43 indoor', cat: 'kiosk', serie: 'Signage', draw: 'kiosk',
+      pollici: 43, ris: '1920 × 1080', hz: 60, pannello: 'IPS verticale', luminosita: 700,
+      porte: 'HDMI, RJ45, lettore NFC', garanzia: 3, uso: ['retail', 'sanita'], feat: ['touch'] },
+    { id: 'YMPC1', nome: 'Mini PC N100', cat: 'minipc', serie: 'Office', draw: 'minipc',
+      pollici: 0, ris: '—', hz: 0, pannello: '—', luminosita: 0,
+      porte: '2× HDMI, 4× USB, RJ45', garanzia: 3, uso: ['ufficio', 'retail', 'scuola'], feat: ['vesa'] }
+  ];
+
+  /* Etichette leggibili per i token delle faccette. */
+  var L = {
+    monitor: 'Monitor', aio: 'All-in-One', notebook: 'Notebook', server: 'Server',
+    signage: 'Digital signage', touch: 'Monitor touch', kiosk: 'Totem', minipc: 'Mini PC',
+    ufficio: 'Ufficio e PA', scuola: 'Scuola', retail: 'Retail', sanita: 'Sanità',
+    usbc: 'USB-C con power delivery', ergo: 'Regolazione in altezza', vesa: 'Attacco VESA',
+    ops: 'Slot OPS', touch_f: 'Touch', rack: 'Formato rack',
+    pro: 'Pro', office: 'Office', gaming: 'Gaming',
+    s0: 'Fino a 27"', s1: '28" – 55"', s2: 'Oltre 55"', s3: 'Senza display',
+    hz60: '60 – 75 Hz', hz100: '90 – 144 Hz', hz200: '180 Hz e oltre'
+  };
+  function label(tok) { return L[tok] || L[tok + '_f'] || tok; }
+
+  function sizeTok(p) {
+    if (!p.pollici) return 's3';
+    if (p.pollici <= 27) return 's0';
+    if (p.pollici <= 55) return 's1';
+    return 's2';
+  }
+  function hzTok(p) {
+    if (!p.hz) return null;
+    if (p.hz <= 75) return 'hz60';
+    if (p.hz <= 144) return 'hz100';
+    return 'hz200';
+  }
+
+  var FACETS = [
+    { key: 'cat',  title: 'Categoria',        get: function (p) { return [p.cat]; } },
+    { key: 'uso',  title: 'Ambito d\'uso',    get: function (p) { return p.uso; } },
+    { key: 'size', title: 'Diagonale',        get: function (p) { return [sizeTok(p)]; } },
+    { key: 'hz',   title: 'Frequenza',        get: function (p) { var t = hzTok(p); return t ? [t] : []; } },
+    { key: 'feat', title: 'Caratteristiche',  get: function (p) { return p.feat; } },
+    { key: 'serie', title: 'Serie',           get: function (p) { return [p.serie.toLowerCase()]; } }
+  ];
+
+  var state = {};          /* key → array di token selezionati */
+  var compare = [];        /* id dei prodotti in confronto, max 3 */
+  var sort = 'rilevanza';
+
+  /* --- Stato nella query string ---------------------------------------- */
+  function readURL() {
+    var qsr = location.search.replace(/^\?/, '');
+    if (!qsr) return;
+    qsr.split('&').forEach(function (pair) {
+      var kv = pair.split('='), k = decodeURIComponent(kv[0] || ''), v = decodeURIComponent(kv[1] || '');
+      if (!k || !v) return;
+      if (k === 'sort') { sort = v; return; }
+      if (k === 'cmp') { compare = v.split(',').slice(0, 3); return; }
+      state[k] = v.split(',');
+    });
+  }
+  function writeURL() {
+    var parts = [];
+    FACETS.forEach(function (f) {
+      if (state[f.key] && state[f.key].length) parts.push(f.key + '=' + encodeURIComponent(state[f.key].join(',')));
+    });
+    if (sort !== 'rilevanza') parts.push('sort=' + sort);
+    if (compare.length) parts.push('cmp=' + compare.join(','));
+    var url = location.pathname + (parts.length ? '?' + parts.join('&') : '');
+    history.replaceState(null, '', url);
+  }
+
+  /* --- Filtro e conteggi incrociati -------------------------------------
+     Il conteggio di un'opzione ignora la propria faccetta: mostra quanti
+     prodotti resterebbero selezionandola, non quanti ce ne sono ora. */
+  function matches(p, skipKey) {
+    for (var i = 0; i < FACETS.length; i++) {
+      var f = FACETS[i];
+      if (f.key === skipKey) continue;
+      var sel = state[f.key];
+      if (!sel || !sel.length) continue;
+      var vals = f.get(p) || [], hit = false;
+      for (var j = 0; j < sel.length; j++) if (vals.indexOf(sel[j]) > -1) { hit = true; break; }
+      if (!hit) return false;
+    }
+    return true;
+  }
+  function filtered() { return P.filter(function (p) { return matches(p, null); }); }
+
+  function countFor(facet, tok) {
+    var n = 0;
+    for (var i = 0; i < P.length; i++) {
+      if (!matches(P[i], facet.key)) continue;
+      if ((facet.get(P[i]) || []).indexOf(tok) > -1) n++;
+    }
+    return n;
+  }
+  function tokensOf(facet) {
+    var seen = {}, out = [];
+    P.forEach(function (p) {
+      (facet.get(p) || []).forEach(function (t) { if (!seen[t]) { seen[t] = 1; out.push(t); } });
+    });
+    return out;
+  }
+
+  /* --- Render faccette --------------------------------------------------- */
+  function renderFacets() {
+    var host = qs('[data-facet-groups]'), html = '';
+    FACETS.forEach(function (f) {
+      html += '<fieldset style="border:0;padding:0;margin:0 0 var(--sp-5)">'
+           +  '<legend class="facet__title" style="width:100%">' + esc(f.title) + '</legend>';
+      tokensOf(f).forEach(function (tok) {
+        var n = countFor(f, tok);
+        var on_ = (state[f.key] || []).indexOf(tok) > -1;
+        html += '<label class="check"><input type="checkbox" data-facet="' + f.key + '" value="' + esc(tok) + '"'
+             +  (on_ ? ' checked' : '') + (n === 0 && !on_ ? ' disabled' : '') + '>'
+             +  '<span>' + esc(label(tok)) + '</span>'
+             +  '<span class="check__count">' + n + '</span></label>';
+      });
+      html += '</fieldset>';
+    });
+    host.innerHTML = html;
+
+    var attivi = 0;
+    FACETS.forEach(function (f) { attivi += (state[f.key] || []).length; });
+    qsa('[data-clear]').forEach(function (b) { b.hidden = attivi === 0; });
+    var tLabel = qs('[data-facets-toggle] span');
+    if (tLabel) tLabel.textContent = attivi ? 'Filtri attivi: ' + attivi : 'Filtra i prodotti';
+
+    /* Chip dei filtri attivi, rimuovibili uno a uno */
+    var chips = '';
+    FACETS.forEach(function (f) {
+      (state[f.key] || []).forEach(function (tok) {
+        chips += '<button type="button" class="chip" data-remove="' + f.key + '|' + esc(tok) + '">'
+              +  esc(label(tok)) + ' ×</button>';
+      });
+    });
+    qs('[data-active-chips]').innerHTML = chips;
+  }
+
+  /* --- Render risultati --------------------------------------------------- */
+  function sorted(list) {
+    var out = list.slice();
+    if (sort === 'diagonale-desc') out.sort(function (a, b) { return b.pollici - a.pollici; });
+    else if (sort === 'diagonale-asc') out.sort(function (a, b) { return a.pollici - b.pollici; });
+    else if (sort === 'nome') out.sort(function (a, b) { return a.nome.localeCompare(b.nome, 'it'); });
+    return out;
+  }
+
+  function cardHTML(p) {
+    var checked = compare.indexOf(p.id) > -1;
+    var full = compare.length >= 3 && !checked;
+    return '<article class="card">'
+      + Y.draw(p.draw, p.nome, p.pollici ? p.pollici + '"' : p.serie)
+      + '<div class="card__head"><h3 class="card__title">'
+      + '<a href="' + (p.href || 'prodotto.html') + '" class="card__link">' + esc(p.nome) + '</a></h3>'
+      + '<span class="tag">' + esc(L[p.cat] || p.cat) + '</span></div>'
+      + '<p class="card__meta">' + (p.pollici ? '<span>' + p.pollici + '"</span>' : '')
+      + (p.ris !== '—' ? '<span>' + esc(p.ris) + '</span>' : '')
+      + (p.hz ? '<span>' + p.hz + ' Hz</span>' : '')
+      + '<span>Garanzia ' + p.garanzia + ' anni</span></p>'
+      + '<p class="small muted">' + esc(p.porte) + '</p>'
+      + '<div class="card__foot">'
+      + '<label class="check" style="position:relative;z-index:1;padding:0">'
+      + '<input type="checkbox" data-cmp="' + p.id + '"' + (checked ? ' checked' : '') + (full ? ' disabled' : '') + '>'
+      + '<span class="micro">Confronta</span></label>'
+      + '<span class="micro muted">' + esc(p.id) + '</span>'
+      + '</div></article>';
+  }
+
+  function render() {
+    var list = sorted(filtered());
+    qs('[data-results]').innerHTML = list.map(cardHTML).join('');
+    qs('[data-results]').hidden = list.length === 0;
+    qs('[data-empty]').hidden = list.length > 0;
+    qs('[data-count]').textContent = list.length === P.length
+      ? P.length + ' prodotti a listino'
+      : list.length + ' prodotti su ' + P.length;
+    renderFacets();
+    renderCompareBar();
+    writeURL();
+  }
+
+  /* --- Confronto ---------------------------------------------------------- */
+  function byId(id) { for (var i = 0; i < P.length; i++) if (P[i].id === id) return P[i]; return null; }
+
+  function renderCompareBar() {
+    var bar = qs('[data-compare-bar]');
+    var slots = '';
+    for (var i = 0; i < 3; i++) {
+      var p = compare[i] ? byId(compare[i]) : null;
+      slots += '<span class="compare-bar__slot" data-filled="' + (p ? 'true' : 'false') + '">'
+            +  (p ? esc(p.nome.split(' ')[0]) : (i + 1)) + '</span>';
+    }
+    qs('[data-compare-slots]').innerHTML = slots;
+    qs('[data-compare-label]').textContent = compare.length < 2
+      ? 'Seleziona almeno 2 prodotti (max 3)'
+      : compare.length + ' prodotti selezionati';
+    qs('[data-compare-open]').disabled = compare.length < 2;
+    bar.setAttribute('data-open', compare.length ? 'true' : 'false');
+  }
+
+  var ROWS = [
+    { t: 'Categoria', v: function (p) { return L[p.cat] || p.cat; } },
+    { t: 'Serie', v: function (p) { return p.serie; } },
+    { t: 'Diagonale', v: function (p) { return p.pollici ? p.pollici + '"' : '—'; }, n: function (p) { return p.pollici; } },
+    { t: 'Risoluzione', v: function (p) { return p.ris; } },
+    { t: 'Frequenza', v: function (p) { return p.hz ? p.hz + ' Hz' : '—'; }, n: function (p) { return p.hz; } },
+    { t: 'Pannello', v: function (p) { return p.pannello; } },
+    { t: 'Luminosità', v: function (p) { return p.luminosita ? p.luminosita + ' cd/m²' : '—'; }, n: function (p) { return p.luminosita; } },
+    { t: 'Connettività', v: function (p) { return p.porte; } },
+    { t: 'Ambiti', v: function (p) { return p.uso.map(label).join(', '); } },
+    { t: 'Garanzia', v: function (p) { return p.garanzia + ' anni'; }, n: function (p) { return p.garanzia; } },
+    { t: 'Codice', v: function (p) { return p.id; } }
+  ];
+
+  function renderCompareTable() {
+    var items = compare.map(byId).filter(Boolean);
+    var html = '<thead><tr><th scope="col">Specifica</th>';
+    items.forEach(function (p) { html += '<th scope="col">' + esc(p.nome) + '</th>'; });
+    html += '</tr></thead><tbody>';
+    ROWS.forEach(function (r) {
+      var best = -1;
+      if (r.n) {
+        var max = -1;
+        items.forEach(function (p, i) { var v = r.n(p) || 0; if (v > max) { max = v; best = i; } });
+        var ties = items.filter(function (p) { return (r.n(p) || 0) === max; }).length;
+        if (ties > 1 || max <= 0) best = -1;
+      }
+      html += '<tr><th scope="row">' + esc(r.t) + '</th>';
+      items.forEach(function (p, i) {
+        html += '<td class="num' + (i === best ? ' is-best' : '') + '">' + esc(r.v(p)) + '</td>';
+      });
+      html += '</tr>';
+    });
+    html += '<tr><th scope="row">Richiesta</th>';
+    items.forEach(function (p) {
+      html += '<td><a class="link-arrow" href="' + Y.mailto('commerciale@yashiweb.com', 'Informazioni su ' + p.nome, [
+        'Buongiorno,', 'vorrei informazioni sul modello ' + p.nome + ' (' + p.id + ').', '', 'Quantità: ', 'Azienda: ', 'Recapito: '
+      ]) + '">Chiedi informazioni</a></td>';
+    });
+    html += '</tr></tbody>';
+    qs('[data-compare-table]').innerHTML = html;
+  }
+
+  var dlg = qs('[data-compare-dialog]');
+  function openCompare() {
+    renderCompareTable();
+    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', 'open');
+  }
+
+  /* --- Eventi -------------------------------------------------------------- */
+  on(qs('[data-facets]'), 'change', function (e) {
+    var t = e.target;
+    if (!t.getAttribute || !t.getAttribute('data-facet')) return;
+    var k = t.getAttribute('data-facet'), v = t.value;
+    state[k] = state[k] || [];
+    var i = state[k].indexOf(v);
+    if (t.checked && i < 0) state[k].push(v);
+    if (!t.checked && i > -1) state[k].splice(i, 1);
+    render();
+  });
+
+  on(document, 'click', function (e) {
+    var t = e.target.closest ? e.target.closest('[data-remove],[data-clear],[data-compare-open],[data-compare-close],[data-compare-reset]') : null;
+    if (!t) return;
+    if (t.hasAttribute('data-remove')) {
+      var parts = t.getAttribute('data-remove').split('|');
+      state[parts[0]] = (state[parts[0]] || []).filter(function (x) { return x !== parts[1]; });
+      render();
+    } else if (t.hasAttribute('data-clear')) {
+      state = {}; render();
+    } else if (t.hasAttribute('data-compare-open')) {
+      openCompare();
+    } else if (t.hasAttribute('data-compare-close')) {
+      if (dlg.close) dlg.close(); else dlg.removeAttribute('open');
+    } else if (t.hasAttribute('data-compare-reset')) {
+      compare = []; render();
+    }
+  });
+
+  on(qs('[data-results]'), 'change', function (e) {
+    var t = e.target;
+    if (!t.getAttribute || !t.getAttribute('data-cmp')) return;
+    var id = t.getAttribute('data-cmp'), i = compare.indexOf(id);
+    if (t.checked && i < 0 && compare.length < 3) compare.push(id);
+    if (!t.checked && i > -1) compare.splice(i, 1);
+    render();
+  });
+
+  on(qs('[data-sort]'), 'change', function (e) { sort = e.target.value; render(); });
+
+  /* Su schermo stretto il pannello dei filtri si apre a richiesta. */
+  on(qs('[data-facets-toggle]'), 'click', function (e) {
+    var btn = e.currentTarget, body = qs('#facet-body');
+    var open = btn.getAttribute('aria-expanded') !== 'true';
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    body.setAttribute('data-open', open ? 'true' : 'false');
+  });
+
+  readURL();
+  var sortSel = qs('[data-sort]');
+  if (sortSel) sortSel.value = sort;
+  render();
+})();
+</script>
+</body>
+</html>
