@@ -14,18 +14,55 @@
 <meta property="og:description" content="I rivenditori autorizzati Yashi, regione per regione.">
 <meta property="og:url" content="https://www.yashiweb.com/dove-acquistare.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23000'/%3E%3Cpath d='M3 4h4.5l4.5 7 4.5-7H21l-6.7 10.6V20h-4.6v-5.4z' fill='%23EFF1F2'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap">
+<link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 /* ==========================================================================
    Yashi — foglio di stile unico
-   1. Token          2. Reset e base      3. Tipografia
-   4. Layout         5. Header            6. Footer
-   7. Componenti     8. Pagine            9. Stampa
+   0. Font           1. Token             2. Reset e base
+   3. Tipografia     4. Layout            5. Header
+   6. Footer         7. Componenti        8. Pagine        9. Stampa
    Tutti i valori (colore, spazio, tipo) nascono qui in cima: non introdurre
    colori o dimensioni hardcoded nel resto del file.
    ========================================================================== */
+
+/* 0. FONT ================================================================= */
+
+/* Archivo servito da noi, non da Google: il Garante considera problematico
+   mandare l'IP dell'utente a un CDN terzo solo per un font. I due file sono
+   i sottoinsiemi ottimizzati di Google Fonts (SIL OFL 1.1, vedi
+   assets/fonts/OFL.txt); i percorsi sono relativi al foglio di stile e
+   build.py li riscrive quando inlinea il CSS dentro dist/. */
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  src: url("assets/fonts/archivo-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  src: url("assets/fonts/archivo-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* Ripiego con le stesse metriche verticali di Archivo (asc 87.8%, desc 21%,
+   gap 0): durante lo swap il testo cambia disegno ma non salta di riga. */
+@font-face {
+  font-family: "Archivo Fallback";
+  src: local("Helvetica Neue"), local("Helvetica"), local("Arial"), local("Liberation Sans");
+  ascent-override: 87.8%;
+  descent-override: 21%;
+  line-gap-override: 0%;
+}
 
 /* 1. TOKEN ================================================================ */
 
@@ -38,12 +75,12 @@
   /* Ruoli derivati, ricalcolati dentro .s-dark / .s-light */
   --surface: var(--c-light);
   --ink: var(--c-black);
-  --ink-mute: rgba(0, 0, 0, .58);
-  --ink-faint: rgba(0, 0, 0, .38);
-  --hair: rgba(0, 0, 0, .14);
-  --hair-strong: rgba(0, 0, 0, .28);
-  --fill-soft: rgba(0, 0, 0, .04);
-  --fill-hover: rgba(0, 0, 0, .08);
+  --ink-mute: color-mix(in srgb, var(--c-black) 58%, transparent);
+  --ink-faint: color-mix(in srgb, var(--c-black) 38%, transparent);
+  --hair: color-mix(in srgb, var(--c-black) 14%, transparent);
+  --hair-strong: color-mix(in srgb, var(--c-black) 28%, transparent);
+  --fill-soft: color-mix(in srgb, var(--c-black) 4%, transparent);
+  --fill-hover: color-mix(in srgb, var(--c-black) 8%, transparent);
 
   /* Tipografia — Archivo variabile, famiglia unica */
   --font: "Archivo", "Archivo Fallback", Helvetica, Arial, sans-serif;
@@ -98,15 +135,18 @@
 
 /* Contesti cromatici. L'alternanza chiaro/scuro è il dispositivo narrativo
    della pagina: scorrendo, il sito "si accende" entrando nel prodotto. */
-.s-dark {
+/* Ogni superficie nera dichiara i propri token, o i toni secondari
+   (--ink-mute, --hair) resterebbero quelli della tavolozza chiara e
+   sparirebbero sul fondo. */
+.s-dark, .mega, .drawer, .site-footer, .compare__head {
   --surface: var(--c-black);
   --ink: var(--c-light);
-  --ink-mute: rgba(239, 241, 242, .62);
-  --ink-faint: rgba(239, 241, 242, .38);
-  --hair: rgba(239, 241, 242, .16);
-  --hair-strong: rgba(239, 241, 242, .34);
-  --fill-soft: rgba(239, 241, 242, .05);
-  --fill-hover: rgba(239, 241, 242, .1);
+  --ink-mute: color-mix(in srgb, var(--c-light) 62%, transparent);
+  --ink-faint: color-mix(in srgb, var(--c-light) 38%, transparent);
+  --hair: color-mix(in srgb, var(--c-light) 16%, transparent);
+  --hair-strong: color-mix(in srgb, var(--c-light) 34%, transparent);
+  --fill-soft: color-mix(in srgb, var(--c-light) 5%, transparent);
+  --fill-hover: color-mix(in srgb, var(--c-light) 10%, transparent);
   background: var(--c-black);
   color: var(--c-light);
 }
@@ -114,12 +154,12 @@
 .s-light {
   --surface: var(--c-light);
   --ink: var(--c-black);
-  --ink-mute: rgba(0, 0, 0, .58);
-  --ink-faint: rgba(0, 0, 0, .38);
-  --hair: rgba(0, 0, 0, .14);
-  --hair-strong: rgba(0, 0, 0, .28);
-  --fill-soft: rgba(0, 0, 0, .04);
-  --fill-hover: rgba(0, 0, 0, .08);
+  --ink-mute: color-mix(in srgb, var(--c-black) 58%, transparent);
+  --ink-faint: color-mix(in srgb, var(--c-black) 38%, transparent);
+  --hair: color-mix(in srgb, var(--c-black) 14%, transparent);
+  --hair-strong: color-mix(in srgb, var(--c-black) 28%, transparent);
+  --fill-soft: color-mix(in srgb, var(--c-black) 4%, transparent);
+  --fill-hover: color-mix(in srgb, var(--c-black) 8%, transparent);
   background: var(--c-light);
   color: var(--c-black);
 }
@@ -178,7 +218,7 @@ table { border-collapse: collapse; width: 100%; }
   outline-offset: 3px;
 }
 
-::selection { background: var(--c-red); color: #fff; }
+::selection { background: var(--c-red); color: var(--c-light); }
 
 /* Scrollbar sobria, coerente col contesto cromatico */
 * { scrollbar-width: thin; scrollbar-color: var(--hair-strong) transparent; }
@@ -294,6 +334,22 @@ p:last-child { margin-bottom: 0; }
   .section-head--split { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
 }
 
+/* Testo lungo (pagine legali): misura di lettura e gerarchia interna, senza
+   introdurre una seconda famiglia. */
+.prose { max-width: var(--wrap-text); }
+.prose > * + * { margin-top: var(--sp-4); }
+.prose h3 {
+  font-size: var(--t-h3);
+  margin-top: var(--sp-7);
+  padding-top: var(--sp-4);
+  border-top: var(--hairline) solid var(--hair);
+}
+.prose h3:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+.prose ul { margin: 0; padding-left: var(--sp-5); display: grid; gap: var(--sp-2); }
+.prose li::marker { color: var(--ink-faint); }
+.prose a { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--hair-strong); }
+.prose a:hover { text-decoration-color: var(--c-red); }
+
 .stack > * + * { margin-top: var(--sp-4); }
 .stack-lg > * + * { margin-top: var(--sp-6); }
 .row { display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: center; }
@@ -323,7 +379,7 @@ p:last-child { margin-bottom: 0; }
   z-index: 300;
   padding: var(--sp-3) var(--sp-4);
   background: var(--c-red);
-  color: #fff;
+  color: var(--c-light);
   font-size: var(--t-small);
   font-weight: 600;
   transform: translateY(-200%);
@@ -350,11 +406,11 @@ p:last-child { margin-bottom: 0; }
 .site-header[data-scrolled="true"] {
   background: color-mix(in srgb, var(--c-black) 82%, transparent);
   backdrop-filter: saturate(140%) blur(14px);
-  box-shadow: 0 var(--hairline) 0 rgba(239, 241, 242, .16);
+  box-shadow: 0 var(--hairline) 0 color-mix(in srgb, var(--c-light) 16%, transparent);
 }
 .site-header[data-scrolled="true"][data-contrast="light"] {
   background: color-mix(in srgb, var(--c-light) 84%, transparent);
-  box-shadow: 0 var(--hairline) 0 rgba(0, 0, 0, .14);
+  box-shadow: 0 var(--hairline) 0 color-mix(in srgb, var(--c-black) 14%, transparent);
 }
 .site-header[data-open="true"] {
   background: var(--c-black);
@@ -466,9 +522,7 @@ p:last-child { margin-bottom: 0; }
   top: var(--header-h);
   left: 0; right: 0;
   z-index: var(--z-mega);
-  background: var(--c-black);
-  color: var(--c-light);
-  border-top: var(--hairline) solid rgba(239, 241, 242, .16);
+  border-top: var(--hairline) solid var(--hair);
   display: none;
 }
 .mega[data-open="true"] { display: block; animation: megaIn var(--dur-2) var(--ease); }
@@ -493,7 +547,7 @@ p:last-child { margin-bottom: 0; }
   font-size: var(--t-micro);
   letter-spacing: var(--track-eyebrow);
   text-transform: uppercase;
-  color: rgba(239, 241, 242, .5);
+  color: var(--ink-mute);
   margin-bottom: var(--sp-3);
 }
 .mega__list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-1); }
@@ -507,17 +561,19 @@ p:last-child { margin-bottom: 0; }
   border-bottom: var(--hairline) solid transparent;
   transition: border-color var(--dur-1) var(--ease), padding-left var(--dur-1) var(--ease);
 }
-.mega__list a::after { content: "→"; opacity: 0; transition: opacity var(--dur-1) var(--ease); }
-.mega__list a:hover { border-color: rgba(239, 241, 242, .3); padding-left: var(--sp-2); }
-.mega__list a:hover::after { opacity: .6; }
+/* La freccia è l'icona dello sprite, non il carattere →: Archivo non ha
+   U+2192 e il glifo arriverebbe da un altro font. */
+.mega__list a svg { width: 14px; height: 14px; opacity: 0; transition: opacity var(--dur-1) var(--ease); }
+.mega__list a:hover { border-color: var(--hair-strong); padding-left: var(--sp-2); }
+.mega__list a:hover svg, .mega__list a:focus-visible svg { opacity: .6; }
 
 .mega__feature {
   display: block;
   padding: var(--sp-5);
-  background: rgba(239, 241, 242, .05);
+  background: var(--fill-soft);
   transition: background var(--dur-1) var(--ease);
 }
-.mega__feature:hover { background: rgba(239, 241, 242, .1); }
+.mega__feature:hover { background: var(--fill-hover); }
 .mega__feature .tech-draw { margin-bottom: var(--sp-4); }
 
 /* Menu mobile a pannello pieno */
@@ -525,15 +581,13 @@ p:last-child { margin-bottom: 0; }
   position: fixed;
   inset: var(--header-h) 0 0;
   z-index: var(--z-mega);
-  background: var(--c-black);
-  color: var(--c-light);
   overflow-y: auto;
   display: none;
   padding: var(--sp-5) var(--gutter) var(--sp-9);
 }
 .drawer[data-open="true"] { display: block; }
 @media (min-width: 1080px) { .drawer[data-open="true"] { display: none; } }
-.drawer__group { border-top: var(--hairline) solid rgba(239, 241, 242, .16); padding-block: var(--sp-3); }
+.drawer__group { border-top: var(--hairline) solid var(--hair); padding-block: var(--sp-3); }
 .drawer__group > a, .drawer__toggle {
   display: flex;
   width: 100%;
@@ -557,10 +611,6 @@ p:last-child { margin-bottom: 0; }
 /* 6. FOOTER =============================================================== */
 
 .site-footer {
-  background: var(--c-black);
-  color: var(--c-light);
-  --hair: rgba(239, 241, 242, .16);
-  --ink-mute: rgba(239, 241, 242, .6);
   padding-top: var(--sp-8);
 }
 .footer-top {
@@ -585,7 +635,7 @@ p:last-child { margin-bottom: 0; }
   font-weight: 600;
 }
 .footer-cols ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-2); }
-.footer-cols a { font-size: var(--t-small); color: rgba(239, 241, 242, .82); }
+.footer-cols a { font-size: var(--t-small); color: color-mix(in srgb, var(--c-light) 82%, transparent); }
 .footer-cols a:hover { color: var(--c-light); text-decoration: underline; text-underline-offset: 4px; }
 
 .footer-brand .display { font-size: clamp(2.4rem, 5vw, 3.6rem); }
@@ -805,12 +855,11 @@ dialog.compare {
   background: var(--c-light);
   color: var(--c-black);
 }
-dialog.compare::backdrop { background: rgba(0, 0, 0, .82); backdrop-filter: blur(3px); }
+dialog.compare::backdrop { background: color-mix(in srgb, var(--c-black) 82%, transparent); backdrop-filter: blur(3px); }
 .compare__head {
   position: sticky; top: 0; z-index: 2;
   display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4);
   padding: var(--sp-4) var(--sp-5);
-  background: var(--c-black); color: var(--c-light);
 }
 .compare__body { overflow: auto; padding: var(--sp-5); }
 .compare__grid { min-width: 640px; }
@@ -821,7 +870,9 @@ dialog.compare::backdrop { background: rgba(0, 0, 0, .82); backdrop-filter: blur
   vertical-align: top;
 }
 .compare__grid thead th { position: sticky; top: 0; background: var(--c-light); }
-.compare__grid td.is-best { background: color-mix(in srgb, var(--c-red) 8%, transparent); font-weight: 600; }
+/* Il valore migliore si segna con un marcatore rosso a filo, non con una
+   tinta di fondo: il rosso resta un segnale, mai una campitura. */
+.compare__grid td.is-best { box-shadow: inset 2px 0 0 var(--c-red); font-weight: 600; }
 
 /* Barra confronto flottante */
 .compare-bar {
@@ -832,7 +883,7 @@ dialog.compare::backdrop { background: rgba(0, 0, 0, .82); backdrop-filter: blur
   display: flex; align-items: center; gap: var(--sp-4);
   padding: var(--sp-3) var(--sp-4);
   background: var(--c-black); color: var(--c-light);
-  box-shadow: 0 var(--hairline) 0 rgba(239, 241, 242, .2);
+  box-shadow: 0 var(--hairline) 0 color-mix(in srgb, var(--c-light) 20%, transparent);
   transition: transform var(--dur-2) var(--ease);
   max-width: calc(100vw - var(--sp-6));
 }
@@ -841,9 +892,9 @@ dialog.compare::backdrop { background: rgba(0, 0, 0, .82); backdrop-filter: blur
 .compare-bar__slot {
   width: 42px; height: 42px;
   display: grid; place-items: center;
-  border: var(--hairline) dashed rgba(239, 241, 242, .3);
+  border: var(--hairline) dashed var(--hair-strong);
   font-size: var(--t-micro);
-  color: rgba(239, 241, 242, .5);
+  color: var(--ink-mute);
 }
 .compare-bar__slot[data-filled="true"] { border-style: solid; border-color: var(--c-light); color: var(--c-light); }
 
@@ -896,7 +947,7 @@ dialog.compare::backdrop { background: rgba(0, 0, 0, .82); backdrop-filter: blur
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(4, 1fr);
   gap: 2px;
-  background: rgba(239, 241, 242, .1);
+  background: color-mix(in srgb, var(--c-light) 10%, transparent);
 }
 @media (max-width: 720px) { .hero__wall { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(6, 1fr); } }
 .hero__tile {
@@ -908,7 +959,7 @@ dialog.compare::backdrop { background: rgba(0, 0, 0, .82); backdrop-filter: blur
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(239, 241, 242, .16), transparent 62%);
+  background: radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--c-light) 16%, transparent), transparent 62%);
   opacity: 0;
   animation: wall 7s var(--ease) infinite;
   animation-delay: var(--d, 0s);
@@ -917,7 +968,7 @@ dialog.compare::backdrop { background: rgba(0, 0, 0, .82); backdrop-filter: blur
 .hero__veil {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, .82) 0%, rgba(0, 0, 0, .25) 42%, rgba(0, 0, 0, .92) 100%);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--c-black) 82%, transparent) 0%, color-mix(in srgb, var(--c-black) 25%, transparent) 42%, color-mix(in srgb, var(--c-black) 92%, transparent) 100%);
 }
 .hero__inner { position: relative; width: 100%; }
 .hero__grid {
@@ -935,7 +986,7 @@ dialog.compare::backdrop { background: rgba(0, 0, 0, .82); backdrop-filter: blur
   font-size: var(--t-micro);
   letter-spacing: var(--track-eyebrow);
   text-transform: uppercase;
-  color: rgba(239, 241, 242, .6);
+  color: color-mix(in srgb, var(--c-light) 60%, transparent);
 }
 .hero__scroll svg { width: 12px; height: 12px; animation: nudge 2.2s var(--ease) infinite; }
 @keyframes nudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
@@ -1101,6 +1152,8 @@ dialog.compare::backdrop { background: rgba(0, 0, 0, .82); backdrop-filter: blur
 
 /* 9. STAMPA =============================================================== */
 
+/* Unica eccezione ai token: sulla carta il fondo è bianco e l'inchiostro
+   nero, il nero pieno delle sezioni scure sprecherebbe toner. */
 @media print {
   :root { --surface: #fff; --ink: #000; --hair: #ccc; }
   body { background: #fff; color: #000; font-size: 10.5pt; }
@@ -1123,7 +1176,7 @@ dialog.compare::backdrop { background: rgba(0, 0, 0, .82); backdrop-filter: blur
 </head>
 <body class="no-js">
 <svg id="yashi-sprite" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden"><symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter"><path d="M2 5h20M2 12h20M2 19h20"/></symbol><symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter"><path d="M4 4l16 16M20 4L4 20"/></symbol><symbol id="i-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter"><path d="M4 8l8 8 8-8"/></symbol><symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter"><path d="M4 12h16M14 6l6 6-6 6"/></symbol><symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter"><path d="M12 4v16M4 12h16"/></symbol><symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter"><path d="M12 3v13M6 11l6 6 6-6M4 21h16"/></symbol><symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter"><path d="M4 12.5l5.5 5.5L20 6"/></symbol><symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter"><path d="M12 3l9.5 17h-19L12 3zM12 9v5M12 17.5v.5"/></symbol><symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter"><path d="M12 22s7-7.2 7-12a7 7 0 10-14 0c0 4.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></symbol><symbol id="i-compare" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter"><path d="M4 5h6v14H4zM14 5h6v14h-6zM10 12h4"/></symbol><symbol id="i-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter"><path d="M3 5h18l-7 8v6l-4 2v-8z"/></symbol><symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter"><path d="M3 5h18v14H3zM3 6l9 7 9-7"/></symbol><symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter"><path d="M6 3h4l2 5-2.5 1.5a12 12 0 005 5L16 12l5 2v4a2 2 0 01-2 2A16 16 0 014 6a2 2 0 012-3z"/></symbol><symbol id="i-print" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter"><path d="M7 9V3h10v6M7 19H4V9h16v10h-3M7 14h10v7H7z"/></symbol><symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></symbol><symbol id="i-rotate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter"><path d="M20 12a8 8 0 11-2.4-5.7M20 3v4h-4"/></symbol></svg>
-<a class="skip-link" href="#main">Vai al contenuto</a><header class="site-header" id="site-header" data-scrolled="false" data-contrast="dark"><div class="header-bar"><a class="brand" href="index.html" aria-label="Yashi, home"><svg viewBox="0 0 24 24" aria-hidden="true" class="brand__mark" fill="currentColor"><path d="M2 3h5l5 8 5-8h5l-7.5 12V21h-5v-6z"/></svg>Yashi</a><nav class="nav" aria-label="Principale"><div class="nav__item"><button type="button" class="nav__link" data-mega="prodotti" aria-expanded="false" aria-controls="mega-prodotti">Prodotti<svg class="" aria-hidden="true" focusable="false"><use href="#i-chevron"/></svg></button></div><div class="nav__item"><button type="button" class="nav__link" data-mega="soluzioni" aria-expanded="false" aria-controls="mega-soluzioni">Soluzioni<svg class="" aria-hidden="true" focusable="false"><use href="#i-chevron"/></svg></button></div><div class="nav__item"><a class="nav__link" href="dove-acquistare.html" aria-current="page">Dove acquistare</a></div><div class="nav__item"><a class="nav__link" href="supporto.html">Supporto</a></div><div class="nav__item"><a class="nav__link" href="azienda.html">Azienda</a></div></nav><div class="header-tools"><button type="button" class="lang" data-lang aria-label="Lingua del sito, italiano">IT<span aria-hidden="true">/</span><span class="muted">EN</span></button><a class="btn btn--sm" href="dove-acquistare.html"><span>Trova un rivenditore</span></a><button type="button" class="burger" data-drawer aria-expanded="false" aria-controls="drawer" aria-label="Apri il menu"><svg class="" aria-hidden="true" focusable="false"><use href="#i-menu"/></svg></button></div></header><div class="mega" id="mega-prodotti" data-open="false"><div class="mega__inner"><div class="mega__cols"><div><p class="mega__title">Monitor</p><ul class="mega__list"><li><a href="catalogo.html?cat=monitor&serie=office">Serie Office</a></li><li><a href="catalogo.html?cat=monitor&serie=pro">Serie Pro</a></li><li><a href="catalogo.html?cat=monitor&serie=gaming">Serie Gaming</a></li><li><a href="catalogo.html?cat=monitor">Tutti i monitor</a></li></ul></div><div><p class="mega__title">Computer</p><ul class="mega__list"><li><a href="catalogo.html?cat=aio">All-in-One</a></li><li><a href="catalogo.html?cat=notebook">Notebook</a></li><li><a href="catalogo.html?cat=minipc">Mini PC</a></li><li><a href="catalogo.html?cat=server">Server</a></li></ul></div><div><p class="mega__title">Digital signage</p><ul class="mega__list"><li><a href="catalogo.html?cat=signage">Display professionali</a></li><li><a href="index.html#configuratore">Pareti LED</a></li><li><a href="catalogo.html?cat=kiosk">Totem e chioschi</a></li><li><a href="catalogo.html?cat=touch">Monitor touch</a></li></ul></div></div><a class="mega__feature" href="prodotto.html"><span class="tech-draw" role="img" aria-label="Le Mans AI 27&quot;"><svg viewBox="0 0 320 240" preserveAspectRatio="xMidYMid meet"><g class="tech-draw__line" opacity=".45"><path d="M14 30V14h16M290 14h16v16M306 210v16h-16M30 226H14v-16"/></g><rect class="tech-draw__screen" x="46" y="34" width="228" height="128"/><rect class="tech-draw__line" x="46" y="34" width="228" height="128"/><rect class="tech-draw__line" x="52" y="40" width="216" height="116"/><path class="tech-draw__line" d="M150 162v28h20v-28M126 196h68"/><path class="tech-draw__line" d="M126 196c0-4 3-6 8-6h52c5 0 8 2 8 6"/><text class="tech-draw__label" x="14" y="248" opacity="0">Le Mans AI 27&quot;</text></svg></span><p class="eyebrow">Novità 2026</p><h3>Le Mans AI 27&quot;</h3><p class="small muted">QD-OLED 240 Hz con motore di upscaling on-device.</p></a></div></div><div class="mega" id="mega-soluzioni" data-open="false"><div class="mega__inner"><div class="mega__cols"><div><p class="mega__title">Settori</p><ul class="mega__list"><li><a href="catalogo.html?uso=scuola">Scuola e formazione</a></li><li><a href="catalogo.html?uso=ufficio">Ufficio e PA</a></li><li><a href="catalogo.html?uso=retail">Retail e horeca</a></li><li><a href="catalogo.html?uso=sanita">Sanità</a></li></ul></div><div><p class="mega__title">Per i rivenditori</p><ul class="mega__list"><li><a href="azienda.html#business-club">Business Club</a></li><li><a href="dove-acquistare.html#diventa-rivenditore">Diventa rivenditore</a></li><li><a href="supporto.html#materiali">Materiali marketing</a></li><li><a href="supporto.html#rma">Garanzia e RMA</a></li></ul></div></div><a class="mega__feature" href="catalogo.html?uso=scuola"><span class="tech-draw" role="img" aria-label="Aule connesse"><svg viewBox="0 0 320 240" preserveAspectRatio="xMidYMid meet"><g class="tech-draw__line" opacity=".45"><path d="M14 30V14h16M290 14h16v16M306 210v16h-16M30 226H14v-16"/></g><rect class="tech-draw__screen" x="38" y="28" width="244" height="146"/><rect class="tech-draw__line" x="38" y="28" width="244" height="146"/><path class="tech-draw__line" d="M155 174v22M120 196h80M60 50h40M60 60h24"/><text class="tech-draw__label" x="14" y="248" opacity="0">Aule connesse</text></svg></span><p class="eyebrow">Bando scuola</p><h3>Aule connesse</h3><p class="small muted">Monitor touch 65–86&quot; con staffa, PC OPS e formazione inclusa.</p></a></div></div><div class="drawer" id="drawer" data-open="false"><div class="drawer__group"><button type="button" class="drawer__toggle" aria-expanded="false" aria-controls="dpanel-prodotti">Prodotti<svg class="" aria-hidden="true" focusable="false"><use href="#i-chevron"/></svg></button><div class="drawer__panel" id="dpanel-prodotti" data-open="false"><div><p class="mega__title">Monitor</p><ul class="mega__list"><li><a href="catalogo.html?cat=monitor&serie=office">Serie Office</a></li><li><a href="catalogo.html?cat=monitor&serie=pro">Serie Pro</a></li><li><a href="catalogo.html?cat=monitor&serie=gaming">Serie Gaming</a></li><li><a href="catalogo.html?cat=monitor">Tutti i monitor</a></li></ul></div><div><p class="mega__title">Computer</p><ul class="mega__list"><li><a href="catalogo.html?cat=aio">All-in-One</a></li><li><a href="catalogo.html?cat=notebook">Notebook</a></li><li><a href="catalogo.html?cat=minipc">Mini PC</a></li><li><a href="catalogo.html?cat=server">Server</a></li></ul></div><div><p class="mega__title">Digital signage</p><ul class="mega__list"><li><a href="catalogo.html?cat=signage">Display professionali</a></li><li><a href="index.html#configuratore">Pareti LED</a></li><li><a href="catalogo.html?cat=kiosk">Totem e chioschi</a></li><li><a href="catalogo.html?cat=touch">Monitor touch</a></li></ul></div></div></div><div class="drawer__group"><button type="button" class="drawer__toggle" aria-expanded="false" aria-controls="dpanel-soluzioni">Soluzioni<svg class="" aria-hidden="true" focusable="false"><use href="#i-chevron"/></svg></button><div class="drawer__panel" id="dpanel-soluzioni" data-open="false"><div><p class="mega__title">Settori</p><ul class="mega__list"><li><a href="catalogo.html?uso=scuola">Scuola e formazione</a></li><li><a href="catalogo.html?uso=ufficio">Ufficio e PA</a></li><li><a href="catalogo.html?uso=retail">Retail e horeca</a></li><li><a href="catalogo.html?uso=sanita">Sanità</a></li></ul></div><div><p class="mega__title">Per i rivenditori</p><ul class="mega__list"><li><a href="azienda.html#business-club">Business Club</a></li><li><a href="dove-acquistare.html#diventa-rivenditore">Diventa rivenditore</a></li><li><a href="supporto.html#materiali">Materiali marketing</a></li><li><a href="supporto.html#rma">Garanzia e RMA</a></li></ul></div></div></div><div class="drawer__group"><a href="dove-acquistare.html">Dove acquistare<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></div><div class="drawer__group"><a href="supporto.html">Supporto<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></div><div class="drawer__group"><a href="azienda.html">Azienda<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></div><div class="drawer__group"><a href="dove-acquistare.html">Trova un rivenditore<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></div></div>
+<a class="skip-link" href="#main">Vai al contenuto</a><header class="site-header" id="site-header" data-scrolled="false" data-contrast="dark"><div class="header-bar"><a class="brand" href="index.html" aria-label="Yashi, home"><svg viewBox="0 0 24 24" aria-hidden="true" class="brand__mark" fill="currentColor"><path d="M2 3h5l5 8 5-8h5l-7.5 12V21h-5v-6z"/></svg>Yashi</a><nav class="nav" aria-label="Principale"><div class="nav__item"><button type="button" class="nav__link" data-mega="prodotti" aria-expanded="false" aria-controls="mega-prodotti">Prodotti<svg class="" aria-hidden="true" focusable="false"><use href="#i-chevron"/></svg></button></div><div class="nav__item"><button type="button" class="nav__link" data-mega="soluzioni" aria-expanded="false" aria-controls="mega-soluzioni">Soluzioni<svg class="" aria-hidden="true" focusable="false"><use href="#i-chevron"/></svg></button></div><div class="nav__item"><a class="nav__link" href="dove-acquistare.html" aria-current="page">Dove acquistare</a></div><div class="nav__item"><a class="nav__link" href="supporto.html">Supporto</a></div><div class="nav__item"><a class="nav__link" href="azienda.html">Azienda</a></div></nav><div class="header-tools"><button type="button" class="lang" data-lang aria-label="Lingua del sito, italiano">IT<span aria-hidden="true">/</span><span class="muted">EN</span></button><a class="btn btn--sm" href="dove-acquistare.html"><span>Trova un rivenditore</span></a><button type="button" class="burger" data-drawer aria-expanded="false" aria-controls="drawer" aria-label="Apri il menu"><svg class="" aria-hidden="true" focusable="false"><use href="#i-menu"/></svg></button></div></header><div class="mega" id="mega-prodotti" data-open="false"><div class="mega__inner"><div class="mega__cols"><div><p class="mega__title">Monitor</p><ul class="mega__list"><li><a href="catalogo.html?cat=monitor&serie=office">Serie Office<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="catalogo.html?cat=monitor&serie=pro">Serie Pro<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="catalogo.html?cat=monitor&serie=gaming">Serie Gaming<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="catalogo.html?cat=monitor">Tutti i monitor<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li></ul></div><div><p class="mega__title">Computer</p><ul class="mega__list"><li><a href="catalogo.html?cat=aio">All-in-One<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="catalogo.html?cat=notebook">Notebook<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="catalogo.html?cat=minipc">Mini PC<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="catalogo.html?cat=server">Server<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li></ul></div><div><p class="mega__title">Digital signage</p><ul class="mega__list"><li><a href="catalogo.html?cat=signage">Display professionali<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="index.html#configuratore">Pareti LED<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="catalogo.html?cat=kiosk">Totem e chioschi<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="catalogo.html?cat=touch">Monitor touch<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li></ul></div></div><a class="mega__feature" href="prodotto.html"><span class="tech-draw" role="img" aria-label="Le Mans AI 27&quot;"><svg viewBox="0 0 320 240" preserveAspectRatio="xMidYMid meet"><g class="tech-draw__line" opacity=".45"><path d="M14 30V14h16M290 14h16v16M306 210v16h-16M30 226H14v-16"/></g><rect class="tech-draw__screen" x="46" y="34" width="228" height="128"/><rect class="tech-draw__line" x="46" y="34" width="228" height="128"/><rect class="tech-draw__line" x="52" y="40" width="216" height="116"/><path class="tech-draw__line" d="M150 162v28h20v-28M126 196h68"/><path class="tech-draw__line" d="M126 196c0-4 3-6 8-6h52c5 0 8 2 8 6"/><text class="tech-draw__label" x="14" y="248" opacity="0">Le Mans AI 27&quot;</text></svg></span><p class="eyebrow">Novità 2026</p><h3>Le Mans AI 27&quot;</h3><p class="small muted">QD-OLED 240 Hz con motore di upscaling on-device.</p></a></div></div><div class="mega" id="mega-soluzioni" data-open="false"><div class="mega__inner"><div class="mega__cols"><div><p class="mega__title">Settori</p><ul class="mega__list"><li><a href="catalogo.html?uso=scuola">Scuola e formazione<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="catalogo.html?uso=ufficio">Ufficio e PA<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="catalogo.html?uso=retail">Retail e horeca<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="catalogo.html?uso=sanita">Sanità<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li></ul></div><div><p class="mega__title">Per i rivenditori</p><ul class="mega__list"><li><a href="azienda.html#business-club">Business Club<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="dove-acquistare.html#diventa-rivenditore">Diventa rivenditore<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="supporto.html#materiali">Materiali marketing<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="supporto.html#rma">Garanzia e RMA<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li></ul></div></div><a class="mega__feature" href="catalogo.html?uso=scuola"><span class="tech-draw" role="img" aria-label="Aule connesse"><svg viewBox="0 0 320 240" preserveAspectRatio="xMidYMid meet"><g class="tech-draw__line" opacity=".45"><path d="M14 30V14h16M290 14h16v16M306 210v16h-16M30 226H14v-16"/></g><rect class="tech-draw__screen" x="38" y="28" width="244" height="146"/><rect class="tech-draw__line" x="38" y="28" width="244" height="146"/><path class="tech-draw__line" d="M155 174v22M120 196h80M60 50h40M60 60h24"/><text class="tech-draw__label" x="14" y="248" opacity="0">Aule connesse</text></svg></span><p class="eyebrow">Bando scuola</p><h3>Aule connesse</h3><p class="small muted">Monitor touch 65–86&quot; con staffa, PC OPS e formazione inclusa.</p></a></div></div><div class="drawer" id="drawer" data-open="false"><div class="drawer__group"><button type="button" class="drawer__toggle" aria-expanded="false" aria-controls="dpanel-prodotti">Prodotti<svg class="" aria-hidden="true" focusable="false"><use href="#i-chevron"/></svg></button><div class="drawer__panel" id="dpanel-prodotti" data-open="false"><div><p class="mega__title">Monitor</p><ul class="mega__list"><li><a href="catalogo.html?cat=monitor&serie=office">Serie Office<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="catalogo.html?cat=monitor&serie=pro">Serie Pro<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="catalogo.html?cat=monitor&serie=gaming">Serie Gaming<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="catalogo.html?cat=monitor">Tutti i monitor<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li></ul></div><div><p class="mega__title">Computer</p><ul class="mega__list"><li><a href="catalogo.html?cat=aio">All-in-One<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="catalogo.html?cat=notebook">Notebook<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="catalogo.html?cat=minipc">Mini PC<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="catalogo.html?cat=server">Server<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li></ul></div><div><p class="mega__title">Digital signage</p><ul class="mega__list"><li><a href="catalogo.html?cat=signage">Display professionali<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="index.html#configuratore">Pareti LED<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="catalogo.html?cat=kiosk">Totem e chioschi<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="catalogo.html?cat=touch">Monitor touch<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li></ul></div></div></div><div class="drawer__group"><button type="button" class="drawer__toggle" aria-expanded="false" aria-controls="dpanel-soluzioni">Soluzioni<svg class="" aria-hidden="true" focusable="false"><use href="#i-chevron"/></svg></button><div class="drawer__panel" id="dpanel-soluzioni" data-open="false"><div><p class="mega__title">Settori</p><ul class="mega__list"><li><a href="catalogo.html?uso=scuola">Scuola e formazione<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="catalogo.html?uso=ufficio">Ufficio e PA<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="catalogo.html?uso=retail">Retail e horeca<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="catalogo.html?uso=sanita">Sanità<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li></ul></div><div><p class="mega__title">Per i rivenditori</p><ul class="mega__list"><li><a href="azienda.html#business-club">Business Club<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="dove-acquistare.html#diventa-rivenditore">Diventa rivenditore<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="supporto.html#materiali">Materiali marketing<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li><li><a href="supporto.html#rma">Garanzia e RMA<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></li></ul></div></div></div><div class="drawer__group"><a href="dove-acquistare.html">Dove acquistare<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></div><div class="drawer__group"><a href="supporto.html">Supporto<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></div><div class="drawer__group"><a href="azienda.html">Azienda<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></div><div class="drawer__group"><a href="dove-acquistare.html">Trova un rivenditore<svg class="" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a></div></div>
 
 <main id="main">
 
@@ -1222,7 +1275,7 @@ dialog.compare::backdrop { background: rgba(0, 0, 0, .82); backdrop-filter: blur
 
 </main>
 
-<footer class="site-footer" id="site-footer"><div class="wrap"><div class="footer-top"><div class="footer-brand"><p class="display">Yashi</p><p class="small muted">Yashi Italia Srl · Via Torricelli 15, 37135 Verona<br>P. IVA 03616270234 · <a href="mailto:info@yashiweb.com">info@yashiweb.com</a></p><p class="small muted">Vendiamo esclusivamente attraverso rivenditori autorizzati.<br><a class="link-arrow" href="dove-acquistare.html">Trova il tuo</a></p></div><div class="footer-cols"><div><h3>Prodotti</h3><ul><li><a href="catalogo.html?cat=monitor">Monitor</a></li><li><a href="catalogo.html?cat=aio">All-in-One</a></li><li><a href="catalogo.html?cat=notebook">Notebook</a></li><li><a href="catalogo.html?cat=server">Server</a></li><li><a href="catalogo.html?cat=signage">Digital signage</a></li></ul></div><div><h3>Supporto</h3><ul><li><a href="supporto.html#driver">Driver e manuali</a></li><li><a href="supporto.html#rma">Apri una RMA</a></li><li><a href="supporto.html#garanzia">Garanzia</a></li><li><a href="supporto.html#contatti">Contatti</a></li></ul></div><div><h3>Azienda</h3><ul><li><a href="azienda.html">Chi siamo</a></li><li><a href="azienda.html#conformita">Conformità</a></li><li><a href="azienda.html#business-club">Business Club</a></li><li><a href="dove-acquistare.html">Dove acquistare</a></li></ul></div></div></div><div class="footer-legal"><p>© 2026 Yashi Italia Srl · Tutti i marchi appartengono ai rispettivi proprietari.</p><p class="row"><a href="#">Privacy</a><a href="#">Cookie</a><a href="azienda.html#conformita">Conformità</a></p></div></div></footer>
+<footer class="site-footer" id="site-footer"><div class="wrap"><div class="footer-top"><div class="footer-brand"><p class="display">Yashi</p><p class="small muted">Yashi Italia Srl · Via Torricelli 15, 37135 Verona<br>P. IVA 03616270234 · <a href="mailto:info@yashiweb.com">info@yashiweb.com</a></p><p class="small muted">Vendiamo esclusivamente attraverso rivenditori autorizzati.<br><a class="link-arrow" href="dove-acquistare.html">Trova il tuo</a></p></div><div class="footer-cols"><div><h3>Prodotti</h3><ul><li><a href="catalogo.html?cat=monitor">Monitor</a></li><li><a href="catalogo.html?cat=aio">All-in-One</a></li><li><a href="catalogo.html?cat=notebook">Notebook</a></li><li><a href="catalogo.html?cat=server">Server</a></li><li><a href="catalogo.html?cat=signage">Digital signage</a></li></ul></div><div><h3>Supporto</h3><ul><li><a href="supporto.html#driver">Driver e manuali</a></li><li><a href="supporto.html#rma">Apri una RMA</a></li><li><a href="supporto.html#garanzia">Garanzia</a></li><li><a href="supporto.html#contatti">Contatti</a></li></ul></div><div><h3>Azienda</h3><ul><li><a href="azienda.html">Chi siamo</a></li><li><a href="azienda.html#conformita">Conformità</a></li><li><a href="azienda.html#business-club">Business Club</a></li><li><a href="dove-acquistare.html">Dove acquistare</a></li></ul></div></div></div><div class="footer-legal"><p>© 2026 Yashi Italia Srl · Tutti i marchi appartengono ai rispettivi proprietari.</p><p class="row"><a href="privacy.html">Privacy</a><a href="cookie.html">Cookie</a><a href="azienda.html#conformita">Conformità</a></p></div></div></footer>
 <script>
 /* ==========================================================================
    Yashi — comportamenti e template condivisi
@@ -1501,7 +1554,7 @@ dialog.compare::backdrop { background: rgba(0, 0, 0, .82); backdrop-filter: blur
         html += '<div><p class="mega__title">' + esc(m.cols[i].title) + '</p><ul class="mega__list">';
         for (var j = 0; j < m.cols[i].links.length; j++) {
           var l = m.cols[i].links[j];
-          html += '<li><a href="' + l.href + '">' + esc(l.label) + '</a></li>';
+          html += '<li><a href="' + l.href + '">' + esc(l.label) + icon('arrow') + '</a></li>';
         }
         html += '</ul></div>';
       }
@@ -1526,7 +1579,8 @@ dialog.compare::backdrop { background: rgba(0, 0, 0, .82); backdrop-filter: blur
         for (var c = 0; c < cols.length; c++) {
           html += '<div><p class="mega__title">' + esc(cols[c].title) + '</p><ul class="mega__list">';
           for (var k = 0; k < cols[c].links.length; k++) {
-            html += '<li><a href="' + cols[c].links[k].href + '">' + esc(cols[c].links[k].label) + '</a></li>';
+            html += '<li><a href="' + cols[c].links[k].href + '">' + esc(cols[c].links[k].label)
+              + icon('arrow') + '</a></li>';
           }
           html += '</ul></div>';
         }
@@ -1563,7 +1617,7 @@ dialog.compare::backdrop { background: rgba(0, 0, 0, .82); backdrop-filter: blur
 
     html += '</div></div><div class="footer-legal">'
       + '<p>© ' + (new Date().getFullYear()) + ' Yashi Italia Srl · Tutti i marchi appartengono ai rispettivi proprietari.</p>'
-      + '<p class="row"><a href="#">Privacy</a><a href="#">Cookie</a><a href="azienda.html#conformita">Conformità</a></p>'
+      + '<p class="row"><a href="privacy.html">Privacy</a><a href="cookie.html">Cookie</a><a href="azienda.html#conformita">Conformità</a></p>'
       + '</div></div></footer>';
     return html;
   }

@@ -275,7 +275,7 @@
         html += '<div><p class="mega__title">' + esc(m.cols[i].title) + '</p><ul class="mega__list">';
         for (var j = 0; j < m.cols[i].links.length; j++) {
           var l = m.cols[i].links[j];
-          html += '<li><a href="' + l.href + '">' + esc(l.label) + '</a></li>';
+          html += '<li><a href="' + l.href + '">' + esc(l.label) + icon('arrow') + '</a></li>';
         }
         html += '</ul></div>';
       }
@@ -300,7 +300,8 @@
         for (var c = 0; c < cols.length; c++) {
           html += '<div><p class="mega__title">' + esc(cols[c].title) + '</p><ul class="mega__list">';
           for (var k = 0; k < cols[c].links.length; k++) {
-            html += '<li><a href="' + cols[c].links[k].href + '">' + esc(cols[c].links[k].label) + '</a></li>';
+            html += '<li><a href="' + cols[c].links[k].href + '">' + esc(cols[c].links[k].label)
+              + icon('arrow') + '</a></li>';
           }
           html += '</ul></div>';
         }
@@ -337,7 +338,7 @@
 
     html += '</div></div><div class="footer-legal">'
       + '<p>© ' + (new Date().getFullYear()) + ' Yashi Italia Srl · Tutti i marchi appartengono ai rispettivi proprietari.</p>'
-      + '<p class="row"><a href="#">Privacy</a><a href="#">Cookie</a><a href="azienda.html#conformita">Conformità</a></p>'
+      + '<p class="row"><a href="privacy.html">Privacy</a><a href="cookie.html">Cookie</a><a href="azienda.html#conformita">Conformità</a></p>'
       + '</div></div></footer>';
     return html;
   }

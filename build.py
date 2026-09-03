@@ -8,8 +8,9 @@ Cosa fa, in ordine:
    perché segna la voce di menu corrente);
 2. inserisce quell'HTML dentro ogni pagina, così la navigazione e il contenuto
    funzionano anche senza JavaScript;
-3. inlinea CSS e JS: le pagine in dist/ sono file singoli, apribili pure da
-   file:// senza server;
+3. inlinea CSS e JS: l'unica risorsa esterna che resta sono i due file del
+   font, copiati in dist/assets/fonts/ (inlinearli come data: URI vorrebbe
+   dire ripetere 170 kB su ognuna delle sette pagine);
 4. scrive tutto in dist/.
 
 Senza Node la build va avanti lo stesso, ma header e footer tornano a dipendere
@@ -30,6 +31,7 @@ ROOT = Path(__file__).resolve().parent
 DIST = ROOT / "dist"
 CSS = ROOT / "assets" / "yashi.css"
 JS = ROOT / "assets" / "yashi.js"
+FONTS = ROOT / "assets" / "fonts"
 
 PAGES = [
     "index.html",
@@ -38,6 +40,8 @@ PAGES = [
     "dove-acquistare.html",
     "supporto.html",
     "azienda.html",
+    "privacy.html",
+    "cookie.html",
     "404.html",
 ]
 
@@ -78,6 +82,9 @@ process.stdout.write(JSON.stringify(out));
 """
 
 BODY_RE = re.compile(r"<body[^>]*>")
+# Gli url dei font nel CSS sono relativi ad assets/yashi.css; una volta
+# inlineato, il CSS vive dentro la pagina e vanno riferiti alla pagina.
+FONT_URL_RE = re.compile(r'url\("fonts/')
 CSS_LINK_RE = re.compile(r'[ \t]*<link rel="stylesheet" href="assets/yashi\.css">\n?')
 JS_TAG_RE = re.compile(r'[ \t]*<script src="assets/yashi\.js"></script>\n?')
 
@@ -108,6 +115,11 @@ def extract_shell():
     except json.JSONDecodeError as exc:
         print(f"  ! Output di Node illeggibile: {exc}", file=sys.stderr)
         return None
+
+
+def inline_css(src: str) -> str:
+    """Inlinea yashi.css riportando gli url dei font al livello della pagina."""
+    return FONT_URL_RE.sub('url("assets/fonts/', src)
 
 
 def inline_js(src: str) -> str:
@@ -157,8 +169,14 @@ def main() -> int:
         shutil.rmtree(DIST)
     DIST.mkdir(parents=True)
 
-    css = CSS.read_text(encoding="utf-8")
+    css = inline_css(CSS.read_text(encoding="utf-8"))
     js = JS.read_text(encoding="utf-8")
+
+    if FONTS.is_dir():
+        shutil.copytree(FONTS, DIST / "assets" / "fonts")
+        print(f"  · font copiati in dist/assets/fonts/ ({len(list(FONTS.glob('*.woff2')))} file)")
+    else:
+        print("  ! assets/fonts/ manca: le pagine ripiegheranno su Helvetica", file=sys.stderr)
 
     total = 0
     for name in PAGES:
