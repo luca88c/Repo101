@@ -40,6 +40,9 @@ PAGES = [
     "dove-acquistare.html",
     "supporto.html",
     "azienda.html",
+    "referenze.html",
+    "eventi.html",
+    "area-dealer.html",
     "privacy.html",
     "cookie.html",
     "404.html",
@@ -175,6 +178,11 @@ def main() -> int:
     # Ogni sottocartella di assets/ (fonts/, img/, …) finisce in dist/assets/
     # con lo stesso nome: così "assets/img/foo.jpg" è un percorso valido sia
     # nei sorgenti sia nella pagina generata, e non serve riscrivere niente.
+    htaccess = ROOT / ".htaccess"
+    if htaccess.is_file():
+        shutil.copy2(htaccess, DIST / ".htaccess")
+        print("  · .htaccess copiato (ErrorDocument 404, CSP, cache)")
+
     for folder in sorted(d for d in ASSETS.iterdir() if d.is_dir()):
         dest = DIST / "assets" / folder.name
         shutil.copytree(folder, dest, ignore=shutil.ignore_patterns("*.md"))

@@ -3,16 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Privacy — Yashi</title>
-<meta name="description" content="Come Yashi Italia Srl tratta i dati personali di chi visita il sito e di chi ci scrive: finalità, base giuridica, conservazione e diritti dell'interessato.">
-<link rel="canonical" href="https://www.yashiweb.com/privacy.html">
+<title>Area dealer — Yashi</title>
+<meta name="description" content="Area riservata ai rivenditori autorizzati Yashi: listini, disponibilità, materiali marketing e pratiche RMA.">
+<link rel="canonical" href="https://www.yashiweb.com/area-dealer.html">
+<meta name="robots" content="noindex">
 <meta name="theme-color" content="#000000">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Yashi">
 <meta property="og:locale" content="it_IT">
-<meta property="og:title" content="Privacy — Yashi">
-<meta property="og:description" content="Finalità, base giuridica, conservazione e diritti dell'interessato.">
-<meta property="og:url" content="https://www.yashiweb.com/privacy.html">
+<meta property="og:title" content="Area dealer — Yashi">
+<meta property="og:description" content="Area riservata ai rivenditori autorizzati.">
+<meta property="og:url" content="https://www.yashiweb.com/area-dealer.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23000'/%3E%3Cpath d='M3 4h4.5l4.5 7 4.5-7H21l-6.7 10.6V20h-4.6v-5.4z' fill='%23EFF1F2'/%3E%3C/svg%3E">
 <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
@@ -1325,95 +1326,89 @@ dialog.compare::backdrop { background: color-mix(in srgb, var(--c-black) 82%, tr
   <header class="pagehead s-light">
     <div class="wrap">
       <nav class="breadcrumb" aria-label="Percorso">
-        <ol><li><a href="index.html">Home</a></li><li aria-current="page">Privacy</li></ol>
+        <ol><li><a href="index.html">Home</a></li><li aria-current="page">Area dealer</li></ol>
       </nav>
       <div class="pagehead__inner">
         <div>
-          <p class="eyebrow">Informativa</p>
-          <h1 class="display" style="font-size:var(--t-h1)">Trattamento<br>dei dati personali</h1>
+          <p class="eyebrow">Riservata</p>
+          <h1 class="display" style="font-size:var(--t-h1)">Area<br>rivenditori</h1>
         </div>
-        <p class="lead">Il sito non usa cookie, non profila e non chiama servizi di terze parti.
-        I dati che riceviamo sono quelli che ci scrivete voi, per posta elettronica.</p>
+        <p class="lead">Listini aggiornati, disponibilità a magazzino, materiali marketing e stato
+        delle pratiche RMA. Le credenziali le rilascia il vostro area manager.</p>
       </div>
     </div>
   </header>
 
-  <section class="s-light section" aria-labelledby="pri-title">
-    <div class="wrap wrap--narrow">
-      <div class="section-head">
-        <p class="eyebrow">Articolo 13 GDPR</p>
-        <h2 id="pri-title">Cosa raccogliamo e perché</h2>
-      </div>
-
+  <section class="s-light section" id="accesso" aria-labelledby="acc-title">
+    <div class="wrap">
       <p class="notice" style="margin-bottom:var(--sp-7)">
         <svg aria-hidden="true"><use href="#i-alert"/></svg>
-        <span><strong>Testo da validare.</strong> Questa pagina descrive con esattezza il
-        comportamento tecnico del sito, ma l'anagrafica del titolare, i tempi di conservazione e
-        l'eventuale nomina del responsabile della protezione dei dati vanno confermati dall'azienda
-        prima della pubblicazione.</span>
+        <span><strong>Accesso non ancora collegato.</strong> Questo prototipo non ha un backend:
+        non c'è nessun sistema di autenticazione dietro questa pagina e nessuna credenziale viene
+        verificata. In produzione il pulsante punterà al login del gestionale esistente, che è dove
+        vivono già gli account dei rivenditori. Non inserite qui password vere.</span>
       </p>
 
-      <div class="prose">
-        <h3>Titolare del trattamento</h3>
-        <p>Yashi Italia Srl, Via Torricelli 15, 37135 Verona, P. IVA 03616270234. Per ogni
-        questione relativa ai dati personali si scrive a
-        <a href="mailto:privacy@yashiweb.com">privacy@yashiweb.com</a>.</p>
+      <div class="grid-hair grid-2">
+        <div style="padding:var(--sp-6)">
+          <p class="eyebrow">Cosa c'è dentro</p>
+          <h2 id="acc-title">Quattro cose, tutte operative</h2>
+          <table class="spec-table" style="width:100%;margin-top:var(--sp-5)">
+            <tbody>
+              <tr><th scope="row">Listini</th><td>Prezzi riservati per fascia, aggiornati ogni lunedì, scaricabili in CSV per l'import a gestionale.</td></tr>
+              <tr><th scope="row">Disponibilità</th><td>Giacenza reale per codice articolo e data della prossima merce in arrivo.</td></tr>
+              <tr><th scope="row">Marketing</th><td>Foto ad alta risoluzione, schede in PDF personalizzabili col vostro logo, testi per capitolato.</td></tr>
+              <tr><th scope="row">RMA</th><td>Stato delle pratiche aperte, numero di tracking del ritiro, storico per numero di serie.</td></tr>
+            </tbody>
+          </table>
+        </div>
 
-        <h3>Dati raccolti attraverso il sito</h3>
-        <p>Il sito è composto di pagine statiche. Non imposta cookie, non usa la memoria locale del
-        browser, non incorpora widget social, mappe, video o font di terze parti: aprendo una
-        pagina il browser non contatta alcun dominio esterno a quello di Yashi.</p>
-        <ul>
-          <li><strong>Dati di navigazione.</strong> Il server web registra, come qualunque server,
-          indirizzo IP, data e ora della richiesta, pagina richiesta e user agent. Servono a tenere
-          in piedi il servizio e a difenderlo dagli abusi.</li>
-          <li><strong>Dati che ci inviate.</strong> I moduli del sito (richiesta di preventivo,
-          apertura RMA, ricerca rivenditore) non trasmettono nulla a un server: preparano una email
-          nel vostro programma di posta, che partirà solo se decidete di inviarla. Riceviamo quindi
-          i dati che avete scelto di scrivere.</li>
-        </ul>
+        <div style="padding:var(--sp-6)" class="stack">
+          <p class="eyebrow">Accesso</p>
+          <p class="muted">Il login definitivo passerà dal gestionale. Qui sotto c'è la forma che
+          avrà, disattivata: serve a fissare l'ingombro nel layout, non funziona.</p>
 
-        <h3>Finalità e base giuridica</h3>
-        <ul>
-          <li>Rispondere alle richieste commerciali e di assistenza: esecuzione di misure
-          precontrattuali e contrattuali (art. 6.1.b GDPR).</li>
-          <li>Sicurezza e funzionamento del sito, dai log del server: legittimo interesse del
-          titolare a mantenere il servizio disponibile e integro (art. 6.1.f GDPR).</li>
-          <li>Adempimenti fiscali e di garanzia legati alle pratiche RMA: obbligo di legge
-          (art. 6.1.c GDPR).</li>
-        </ul>
-
-        <h3>Destinatari</h3>
-        <p>Le richieste commerciali vengono inoltrate al rivenditore autorizzato competente per
-        zona, perché la vendita passa sempre da lui: è la ragione per cui ci scrivete. Oltre a
-        questo, i dati sono trattati dai fornitori tecnici che gestiscono posta e hosting, nominati
-        responsabili del trattamento. Nessun dato viene ceduto a terzi per finalità di marketing né
-        trasferito fuori dallo Spazio economico europeo.</p>
-
-        <h3>Conservazione</h3>
-        <p>I log del server sono conservati per il tempo tecnico necessario alla diagnosi e alla
-        sicurezza. La corrispondenza commerciale è conservata per la durata della trattativa e, se
-        questa si conclude in un rapporto, per i termini di legge civilistici e fiscali. Le
-        pratiche RMA seguono la durata della garanzia del prodotto.</p>
-
-        <h3>Diritti dell'interessato</h3>
-        <p>Potete chiedere in ogni momento accesso ai vostri dati, rettifica, cancellazione,
-        limitazione del trattamento e portabilità, e opporvi ai trattamenti fondati sul legittimo
-        interesse (artt. 15–22 GDPR). La richiesta va a
-        <a href="mailto:privacy@yashiweb.com">privacy@yashiweb.com</a> e riceve risposta entro un
-        mese. Se la risposta non vi soddisfa potete rivolgervi al Garante per la protezione dei
-        dati personali (<a href="https://www.garanteprivacy.it" rel="noopener">garanteprivacy.it</a>).</p>
-
-        <h3>Aggiornamenti</h3>
-        <p>Se il sito cambierà — per esempio con l'introduzione di statistiche di traffico o di un
-        modulo che invia i dati a un server — questa informativa verrà aggiornata prima
-        dell'attivazione, e la <a href="cookie.html">pagina sui cookie</a> lo dichiarerà.</p>
+          <form class="stack" style="margin-top:var(--sp-4)" aria-describedby="acc-nota" onsubmit="return false">
+            <div class="field">
+              <label for="d-user">Codice cliente o email</label>
+              <input class="input" id="d-user" name="user" autocomplete="off" disabled>
+            </div>
+            <div class="field">
+              <label for="d-pass">Password</label>
+              <input class="input" id="d-pass" name="pass" type="password" autocomplete="off" disabled>
+            </div>
+            <p><button class="btn btn--solid" type="submit" disabled><span>Entra</span></button></p>
+            <p class="small muted" id="acc-nota">Campi disattivati di proposito: senza un backend
+            qualunque cosa scriveste resterebbe nel browser e non verrebbe verificata da nessuno.</p>
+          </form>
+        </div>
       </div>
+    </div>
+  </section>
 
-      <p class="row" style="margin-top:var(--sp-8)">
-        <a class="btn" href="cookie.html"><span>Cookie</span></a>
-        <a class="btn btn--ghost" href="azienda.html#conformita"><span>Conformità di prodotto</span></a>
-      </p>
+  <section class="s-paper section" id="credenziali" aria-labelledby="cre-title">
+    <div class="wrap">
+      <div class="grid-hair grid-2">
+        <div style="padding:var(--sp-6)">
+          <p class="eyebrow">Non avete le credenziali</p>
+          <h2 id="cre-title">Come si ottengono</h2>
+          <ol class="stack small muted" style="padding-left:1.2rem;margin-top:var(--sp-4)">
+            <li>Se siete già rivenditori, le chiede il vostro area manager: l'account è legato al
+            codice cliente, non alla persona.</li>
+            <li>Se non lo siete ancora, si parte da <a href="dove-acquistare.html#diventa-rivenditore">Diventa
+            rivenditore</a>: prima il contratto, poi l'accesso.</li>
+            <li>Password dimenticata: la reimposta l'assistenza commerciale, non è automatica.</li>
+          </ol>
+        </div>
+        <div style="padding:var(--sp-6)" class="stack">
+          <p class="micro muted">Richieste</p>
+          <p><a class="link-arrow" data-ad-mail-cred href="#">Richiedi le credenziali</a></p>
+          <p><a class="link-arrow" data-ad-mail-reset href="#">Password dimenticata</a></p>
+          <p><a class="link-arrow" href="dove-acquistare.html#diventa-rivenditore">Diventa rivenditore</a></p>
+          <p class="small muted" style="margin-top:var(--sp-5)">I link aprono una mail già scritta.
+          Nessun dato passa da questa pagina.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -2019,7 +2014,16 @@ dialog.compare::backdrop { background: color-mix(in srgb, var(--c-black) 82%, tr
 if (!window.Yashi) {
   document.body.insertAdjacentHTML('afterbegin',
     '<p class="notice" style="margin:1rem">assets/yashi.js non caricato: header e footer non sono disponibili.</p>');
-}
+} else (function () {
+  'use strict';
+  var Y = window.Yashi, qs = Y.qs;
+  qs('[data-ad-mail-cred]').href = Y.mailto('commerciale@yashiweb.com', 'Richiesta credenziali area dealer',
+    ['Buongiorno,', 'chiediamo le credenziali per l\'area rivenditori.', '', 'Ragione sociale: ',
+     'Codice cliente (se noto): ', 'P. IVA: ', 'Referente: ', 'Email: ', 'Telefono: ']);
+  qs('[data-ad-mail-reset]').href = Y.mailto('commerciale@yashiweb.com', 'Reimpostazione password area dealer',
+    ['Buongiorno,', 'chiediamo la reimpostazione della password.', '', 'Ragione sociale: ',
+     'Codice cliente: ', 'Email dell\'account: ']);
+})();
 </script>
 </body>
 </html>

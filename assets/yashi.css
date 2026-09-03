@@ -51,7 +51,8 @@
 :root {
   /* Colore — black level puro: siamo un brand di display */
   --c-black: #000;
-  --c-light: #EFF1F2;          /* alluminio anodizzato freddo */
+  --c-light: #EFF1F2;          /* alluminio anodizzato freddo: il fondo pagina */
+  --c-card: #FFF;              /* le superfici che galleggiano sopra il fondo */
   --c-red: #E1261C;            /* solo segnali attivi, mai decorazione */
 
   /* Ruoli derivati, ricalcolati dentro .s-dark / .s-light */
@@ -63,6 +64,9 @@
   --hair-strong: color-mix(in srgb, var(--c-black) 28%, transparent);
   --fill-soft: color-mix(in srgb, var(--c-black) 4%, transparent);
   --fill-hover: color-mix(in srgb, var(--c-black) 8%, transparent);
+  --card: var(--c-card);
+  --shadow-card: var(--shadow-1);
+  --shadow-card-hover: var(--shadow-2);
 
   /* Tipografia — Archivo variabile, famiglia unica */
   --font: "Archivo", "Archivo Fallback", Helvetica, Arial, sans-serif;
@@ -101,8 +105,20 @@
   --gutter: clamp(1.15rem, 4vw, 3.5rem);
   --header-h: 68px;
   --hairline: 1px;
-  --radius: 0;              /* niente arrotondamenti: geometria da scheda tecnica */
+  --radius-sm: 10px;
+  --radius: 16px;
+  --radius-lg: 24px;
   --radius-pill: 999px;
+
+  /* Ombre. Sempre neutre e verticali: nessun alone colorato, nessuna diffusione
+     enorme. Servono a staccare la card dal fondo, non a fare scenografia. */
+  --shadow-1: 0 1px 2px color-mix(in srgb, var(--c-black) 5%, transparent),
+              0 4px 12px color-mix(in srgb, var(--c-black) 5%, transparent);
+  --shadow-2: 0 2px 4px color-mix(in srgb, var(--c-black) 6%, transparent),
+              0 12px 28px color-mix(in srgb, var(--c-black) 10%, transparent);
+  --shadow-3: 0 8px 16px color-mix(in srgb, var(--c-black) 8%, transparent),
+              0 32px 64px color-mix(in srgb, var(--c-black) 14%, transparent);
+  --lift: -4px;             /* quanto si alza una card al passaggio del mouse */
 
   /* Movimento */
   --ease: cubic-bezier(.22, .68, .16, 1);
@@ -117,10 +133,13 @@
 
 /* Contesti cromatici. L'alternanza chiaro/scuro è il dispositivo narrativo
    della pagina: scorrendo, il sito "si accende" entrando nel prodotto. */
-/* Ogni superficie nera dichiara i propri token, o i toni secondari
+/* Il nero è rimasto solo dove serve davvero: le sezioni in cui il prodotto va
+   guardato acceso. Menu, drawer, footer e confronto sono passati al chiaro,
+   perché il fondo chiaro è ora quello dominante.
+   Ogni superficie nera dichiara i propri token, o i toni secondari
    (--ink-mute, --hair) resterebbero quelli della tavolozza chiara e
    sparirebbero sul fondo. */
-.s-dark, .mega, .drawer, .site-footer, .compare__head {
+.s-dark, .compare-bar {
   --surface: var(--c-black);
   --ink: var(--c-light);
   --ink-mute: color-mix(in srgb, var(--c-light) 62%, transparent);
@@ -129,6 +148,11 @@
   --hair-strong: color-mix(in srgb, var(--c-light) 34%, transparent);
   --fill-soft: color-mix(in srgb, var(--c-light) 5%, transparent);
   --fill-hover: color-mix(in srgb, var(--c-light) 10%, transparent);
+  /* Sul nero un'ombra non si vede: la card si stacca con un velo di luce e un
+     filo, non con un'ombra che non esiste. */
+  --card: color-mix(in srgb, var(--c-light) 7%, transparent);
+  --shadow-card: none;
+  --shadow-card-hover: none;
   background: var(--c-black);
   color: var(--c-light);
 }
@@ -142,7 +166,19 @@
   --hair-strong: color-mix(in srgb, var(--c-black) 28%, transparent);
   --fill-soft: color-mix(in srgb, var(--c-black) 4%, transparent);
   --fill-hover: color-mix(in srgb, var(--c-black) 8%, transparent);
+  --card: var(--c-card);
+  --shadow-card: var(--shadow-1);
+  --shadow-card-hover: var(--shadow-2);
   background: var(--c-light);
+  color: var(--c-black);
+}
+
+/* Terzo contesto: carta bianca. Serve ad alternare due sezioni chiare vicine,
+   che sul solo fondo alluminio si fonderebbero in un blocco unico. Eredita
+   tutti i toni del chiaro, cambia solo il fondo. */
+.s-paper {
+  --surface: var(--c-card);
+  background: var(--c-card);
   color: var(--c-black);
 }
 
@@ -338,14 +374,14 @@ p:last-child { margin-bottom: 0; }
 .row--end { justify-content: flex-end; }
 .row--between { justify-content: space-between; }
 
-/* Griglie a filo: gap 1px su sfondo hairline, mai bordi sulle card */
+/* Griglia di card staccate. Prima era una griglia a filo (gap di 1px su fondo
+   grigio) e andava riempita per intero, o sotto l'ultima riga restava scoperto
+   il fondo: con un elenco filtrabile quella condizione non è garantibile.
+   Le card ora hanno un fondo proprio e uno spazio vero fra loro. */
 .grid-hair {
   display: grid;
-  gap: var(--hairline);
-  background: var(--hair);
-  border-block: var(--hairline) solid var(--hair);
+  gap: var(--sp-4);
 }
-.grid-hair > * { background: var(--surface); }
 .grid-2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
 .grid-3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
 .grid-4 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 232px), 1fr)); }
@@ -362,6 +398,7 @@ p:last-child { margin-bottom: 0; }
   padding: var(--sp-3) var(--sp-4);
   background: var(--c-red);
   color: var(--c-light);
+  border-radius: var(--radius-sm);
   font-size: var(--t-small);
   font-weight: 600;
   transform: translateY(-200%);
@@ -374,7 +411,7 @@ p:last-child { margin-bottom: 0; }
   inset: 0 0 auto;
   z-index: var(--z-header);
   height: var(--header-h);
-  color: var(--c-light);
+  color: var(--c-black);
   /* L'header cambia fondo sotto di sé: i toni secondari seguono il testo,
      non i token della sezione, o sparirebbero a ogni inversione. */
   --ink: currentColor;
@@ -383,16 +420,19 @@ p:last-child { margin-bottom: 0; }
   transition: background var(--dur-2) var(--ease), color var(--dur-2) var(--ease),
               box-shadow var(--dur-2) var(--ease);
 }
-/* L'header inverte il contrasto sopra le sezioni chiare */
+/* L'header si schiarisce solo sopra le sezioni nere, che ora sono l'eccezione.
+   Il valore di partenza è il chiaro: prima che il JavaScript misuri cosa c'è
+   sotto, l'header deve essere già leggibile. */
 .site-header[data-contrast="light"] { color: var(--c-black); }
+.site-header[data-contrast="dark"] { color: var(--c-light); }
 .site-header[data-scrolled="true"] {
-  background: color-mix(in srgb, var(--c-black) 82%, transparent);
+  background: color-mix(in srgb, var(--c-card) 78%, transparent);
   backdrop-filter: saturate(140%) blur(14px);
-  box-shadow: 0 var(--hairline) 0 color-mix(in srgb, var(--c-light) 16%, transparent);
+  box-shadow: var(--shadow-1);
 }
-.site-header[data-scrolled="true"][data-contrast="light"] {
-  background: color-mix(in srgb, var(--c-light) 84%, transparent);
-  box-shadow: 0 var(--hairline) 0 color-mix(in srgb, var(--c-black) 14%, transparent);
+.site-header[data-scrolled="true"][data-contrast="dark"] {
+  background: color-mix(in srgb, var(--c-black) 72%, transparent);
+  box-shadow: 0 var(--hairline) 0 color-mix(in srgb, var(--c-light) 16%, transparent);
 }
 .site-header[data-open="true"] {
   background: var(--c-black);
@@ -483,6 +523,20 @@ p:last-child { margin-bottom: 0; }
 .lang .muted { color: currentColor; opacity: .5; }
 @media (min-width: 720px) { .lang { display: inline-flex; } }
 
+/* Ingresso all'area riservata: presente ma defilato, non è una CTA. Sotto i
+   1080px sparisce dall'header e resta nel menu a pannello. */
+.dealer-link {
+  display: none;
+  font-size: var(--t-micro);
+  letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: var(--sp-2);
+  opacity: .62;
+}
+.dealer-link:hover { opacity: 1; }
+@media (min-width: 1080px) { .dealer-link { display: inline-flex; } }
+
 /* Sotto i 640px resta solo il logo e il menu: la CTA è dentro al pannello. */
 @media (max-width: 639px) { .header-tools > .btn { display: none; } }
 
@@ -504,7 +558,10 @@ p:last-child { margin-bottom: 0; }
   top: var(--header-h);
   left: 0; right: 0;
   z-index: var(--z-mega);
+  background: var(--c-card);
   border-top: var(--hairline) solid var(--hair);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  box-shadow: var(--shadow-3);
   display: none;
 }
 .mega[data-open="true"] { display: block; animation: megaIn var(--dur-2) var(--ease); }
@@ -553,28 +610,23 @@ p:last-child { margin-bottom: 0; }
   display: block;
   padding: var(--sp-5);
   background: var(--fill-soft);
-  transition: background var(--dur-1) var(--ease);
+  border-radius: var(--radius);
+  transition: background var(--dur-1) var(--ease), box-shadow var(--dur-2) var(--ease),
+              transform var(--dur-2) var(--ease);
 }
-.mega__feature:hover { background: var(--fill-hover); }
-.mega__feature /* Foto prodotto: stesso ingombro del disegno tecnico (4/3 a piena larghezza),
-   così si sostituisce una `Yashi.draw()` con un `<img>` senza che le griglie
-   si muovano. Nessun arrotondamento e nessuna ombra: vale la regola generale. */
-.photo {
-  display: block;
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  background: var(--fill-soft);
+.mega__feature:hover {
+  background: var(--fill-hover);
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(var(--lift));
 }
-.photo--contain { object-fit: contain; }
-
-.tech-draw { margin-bottom: var(--sp-4); }
+.mega__feature .tech-draw { margin-bottom: var(--sp-4); }
 
 /* Menu mobile a pannello pieno */
 .drawer {
   position: fixed;
   inset: var(--header-h) 0 0;
   z-index: var(--z-mega);
+  background: var(--c-card);
   overflow-y: auto;
   display: none;
   padding: var(--sp-5) var(--gutter) var(--sp-9);
@@ -605,6 +657,8 @@ p:last-child { margin-bottom: 0; }
 /* 6. FOOTER =============================================================== */
 
 .site-footer {
+  background: var(--c-light);
+  border-top: var(--hairline) solid var(--hair);
   padding-top: var(--sp-8);
 }
 .footer-top {
@@ -629,8 +683,8 @@ p:last-child { margin-bottom: 0; }
   font-weight: 600;
 }
 .footer-cols ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-2); }
-.footer-cols a { font-size: var(--t-small); color: color-mix(in srgb, var(--c-light) 82%, transparent); }
-.footer-cols a:hover { color: var(--c-light); text-decoration: underline; text-underline-offset: 4px; }
+.footer-cols a { font-size: var(--t-small); color: var(--ink-mute); }
+.footer-cols a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
 
 .footer-brand .display { font-size: clamp(2.4rem, 5vw, 3.6rem); }
 .footer-legal {
@@ -644,7 +698,7 @@ p:last-child { margin-bottom: 0; }
   font-size: var(--t-small);
   color: var(--ink-mute);
 }
-.footer-legal a:hover { color: var(--c-light); }
+.footer-legal a:hover { color: var(--ink); }
 
 /* 7. COMPONENTI =========================================================== */
 
@@ -654,39 +708,37 @@ p:last-child { margin-bottom: 0; }
   align-items: center;
   justify-content: center;
   gap: var(--sp-2);
-  padding: var(--sp-3) var(--sp-5);
+  padding: var(--sp-3) var(--sp-6);
   min-height: 46px;
   border: var(--hairline) solid currentColor;
+  border-radius: var(--radius-pill);
   background: none;
   color: inherit;
   font-size: var(--t-small);
   font-weight: 600;
-  letter-spacing: .04em;
-  text-transform: uppercase;
+  letter-spacing: .02em;
   cursor: pointer;
   position: relative;
-  overflow: hidden;
-  transition: color var(--dur-2) var(--ease);
+  transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease),
+              box-shadow var(--dur-2) var(--ease), transform var(--dur-2) var(--ease);
 }
-.btn::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: currentColor;
-  transform: scaleY(0);
-  transform-origin: bottom;
-  transition: transform var(--dur-2) var(--ease);
-}
-.btn:hover::before { transform: scaleY(1); }
-.btn > * { position: relative; z-index: 1; }
-.btn:hover { color: var(--surface); }
-.btn svg { width: 14px; height: 14px; position: relative; z-index: 1; }
+.btn:hover { background: var(--fill-hover); transform: translateY(-2px); }
+.btn:active { transform: none; }
+.btn svg { width: 14px; height: 14px; }
 
-.btn--solid { background: var(--ink); color: var(--surface); border-color: var(--ink); }
-.btn--solid::before { background: var(--surface); }
-.btn--solid:hover { color: var(--ink); }
+.btn--solid {
+  background: var(--ink);
+  color: var(--surface);
+  border-color: var(--ink);
+  box-shadow: var(--shadow-1);
+}
+.btn--solid:hover {
+  background: color-mix(in srgb, var(--ink) 84%, var(--surface));
+  color: var(--surface);
+  box-shadow: var(--shadow-2);
+}
 .btn--ghost { border-color: var(--hair-strong); }
-.btn--sm { min-height: 36px; padding: var(--sp-2) var(--sp-3); font-size: var(--t-micro); }
+.btn--sm { min-height: 36px; padding: var(--sp-2) var(--sp-4); font-size: var(--t-micro); }
 .btn[disabled] { opacity: .4; pointer-events: none; }
 
 .link-arrow {
@@ -708,8 +760,9 @@ p:last-child { margin-bottom: 0; }
   display: inline-flex;
   align-items: center;
   gap: var(--sp-1);
-  padding: 3px var(--sp-2);
+  padding: 3px var(--sp-3);
   border: var(--hairline) solid var(--hair-strong);
+  border-radius: var(--radius-pill);
   font-size: var(--t-micro);
   letter-spacing: .08em;
   text-transform: uppercase;
@@ -719,14 +772,31 @@ p:last-child { margin-bottom: 0; }
 .tag--live { border-color: var(--c-red); color: var(--c-red); }
 
 /* Disegni tecnici: segnaposto onesto finché non arrivano le foto */
+/* Foto prodotto: stesso ingombro del disegno tecnico, così si sostituisce una
+   `Yashi.draw()` con un `<img>` senza che le griglie si muovano. */
+.photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius);
+  background: var(--fill-soft);
+}
+.photo--contain { object-fit: contain; }
+
 .tech-draw {
   position: relative;
   display: block;
   width: 100%;
   aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  overflow: hidden;
+  /* Il prodotto sta su un fondo sfumato, come nelle schede prodotto dei grandi
+     marchi di elettronica: la carta millimetrata resta, ma sotto la luce. */
   background:
     linear-gradient(var(--hair) var(--hairline), transparent var(--hairline)) 0 0 / 100% 32px,
-    linear-gradient(90deg, var(--hair) var(--hairline), transparent var(--hairline)) 0 0 / 32px 100%;
+    linear-gradient(90deg, var(--hair) var(--hairline), transparent var(--hairline)) 0 0 / 32px 100%,
+    radial-gradient(120% 90% at 50% 0%, var(--fill-hover), transparent 70%);
   color: var(--ink);
 }
 .tech-draw svg { width: 100%; height: 100%; }
@@ -749,9 +819,15 @@ p:last-child { margin-bottom: 0; }
   gap: var(--sp-4);
   padding: var(--sp-5);
   position: relative;
-  transition: background var(--dur-2) var(--ease);
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  transition: box-shadow var(--dur-2) var(--ease), transform var(--dur-2) var(--ease);
 }
-.card:hover { background: var(--fill-soft); }   /* niente sollevamento, solo tono */
+.card:hover { box-shadow: var(--shadow-card-hover); transform: translateY(var(--lift)); }
+/* Sul nero l'ombra non esiste: la card si stacca con un filo di luce. */
+.s-dark .card { border: var(--hairline) solid var(--hair); }
+.s-dark .card:hover { background: var(--fill-hover); }
 .card__head { display: flex; justify-content: space-between; gap: var(--sp-3); align-items: start; }
 .card__title { font-size: var(--t-h3); }
 .card__meta { display: flex; flex-wrap: wrap; gap: var(--sp-1) var(--sp-3); font-size: var(--t-small); color: var(--ink-mute); }
@@ -759,7 +835,13 @@ p:last-child { margin-bottom: 0; }
 .card__link::after { content: ""; position: absolute; inset: 0; }
 
 /* Blocchi statistici */
-.stat { padding: var(--sp-5); }
+.stat {
+  padding: var(--sp-5);
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+.s-dark .stat { border: var(--hairline) solid var(--hair); }
 .stat__value {
   font-size: clamp(2rem, 3.4vw, 3.2rem);
   font-weight: 700;
@@ -780,14 +862,19 @@ p:last-child { margin-bottom: 0; }
 }
 .input, select.input, textarea.input {
   width: 100%;
-  padding: var(--sp-3);
-  background: transparent;
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--card);
   border: var(--hairline) solid var(--hair-strong);
+  border-radius: var(--radius-sm);
   color: var(--ink);
   font-size: var(--t-body);
   transition: border-color var(--dur-1) var(--ease);
 }
-.input:focus { border-color: var(--c-red); outline: none; }
+.input:focus {
+  border-color: var(--ink);
+  outline: 2px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  outline-offset: 1px;
+}
 select.input {
   appearance: none;
   background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
@@ -815,6 +902,7 @@ textarea.input { min-height: 130px; resize: vertical; }
 
 /* Accordion (specifiche, FAQ) */
 .acc { border-top: var(--hairline) solid var(--hair); }
+.acc__btn:hover { color: var(--ink); }
 .acc__btn {
   display: flex;
   width: 100%;
@@ -846,12 +934,17 @@ dialog.compare {
   max-height: 88vh;
   padding: 0;
   border: 0;
-  background: var(--c-light);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--c-card);
   color: var(--c-black);
+  box-shadow: var(--shadow-3);
 }
 dialog.compare::backdrop { background: color-mix(in srgb, var(--c-black) 82%, transparent); backdrop-filter: blur(3px); }
 .compare__head {
   position: sticky; top: 0; z-index: 2;
+  background: var(--c-card);
+  border-bottom: var(--hairline) solid var(--hair);
   display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4);
   padding: var(--sp-4) var(--sp-5);
 }
@@ -863,7 +956,7 @@ dialog.compare::backdrop { background: color-mix(in srgb, var(--c-black) 82%, tr
   font-size: var(--t-small);
   vertical-align: top;
 }
-.compare__grid thead th { position: sticky; top: 0; background: var(--c-light); }
+.compare__grid thead th { position: sticky; top: 0; background: var(--c-card); }
 /* Il valore migliore si segna con un marcatore rosso a filo, non con una
    tinta di fondo: il rosso resta un segnale, mai una campitura. */
 .compare__grid td.is-best { box-shadow: inset 2px 0 0 var(--c-red); font-weight: 600; }
@@ -877,7 +970,8 @@ dialog.compare::backdrop { background: color-mix(in srgb, var(--c-black) 82%, tr
   display: flex; align-items: center; gap: var(--sp-4);
   padding: var(--sp-3) var(--sp-4);
   background: var(--c-black); color: var(--c-light);
-  box-shadow: 0 var(--hairline) 0 color-mix(in srgb, var(--c-light) 20%, transparent);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-3);
   transition: transform var(--dur-2) var(--ease);
   max-width: calc(100vw - var(--sp-6));
 }
@@ -891,14 +985,16 @@ dialog.compare::backdrop { background: color-mix(in srgb, var(--c-black) 82%, tr
   color: var(--ink-mute);
 }
 .compare-bar__slot[data-filled="true"] { border-style: solid; border-color: var(--c-light); color: var(--c-light); }
+.compare-bar__slot { border-radius: var(--radius-sm); }
 
 /* Nota di avviso: dato provvisorio, non decorazione */
 .notice {
   display: flex;
   gap: var(--sp-3);
   max-width: none;
-  padding: var(--sp-4);
+  padding: var(--sp-4) var(--sp-5);
   border-left: 3px solid var(--c-red);
+  border-radius: var(--radius-sm);
   background: var(--fill-soft);
   font-size: var(--t-small);
 }
@@ -909,6 +1005,7 @@ dialog.compare::backdrop { background: color-mix(in srgb, var(--c-black) 82%, tr
   padding-top: calc(var(--header-h) + clamp(var(--sp-7), 7vw, var(--sp-9)));
   padding-bottom: clamp(var(--sp-6), 5vw, var(--sp-8));
 }
+.pagehead.s-light + .s-light { border-top: var(--hairline) solid var(--hair); }
 .pagehead__inner {
   display: grid;
   gap: var(--sp-5);
@@ -925,16 +1022,34 @@ dialog.compare::backdrop { background: color-mix(in srgb, var(--c-black) 82%, tr
 
 /* 8. PAGINE =============================================================== */
 
-/* Home — parete video */
+/* Home — apertura chiara, con il prodotto in luce */
 .hero {
   position: relative;
   min-height: 100svh;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   overflow: hidden;
-  padding-bottom: clamp(var(--sp-6), 6vw, var(--sp-9));
+  padding-block: calc(var(--header-h) + var(--sp-8)) clamp(var(--sp-6), 6vw, var(--sp-9));
 }
-.hero__wall {
+/* Il fondo sfumato: due sorgenti di luce fredde, nessun colore aggiunto alla
+   tavolozza. È l'unico gradiente decorativo del sito, insieme alla parete. */
+.hero__glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(76% 60% at 72% 18%, var(--c-card), transparent 68%),
+    radial-gradient(60% 50% at 12% 88%, color-mix(in srgb, var(--c-black) 7%, transparent), transparent 70%);
+}
+.hero__media {
+  position: relative;
+  filter: drop-shadow(0 24px 48px color-mix(in srgb, var(--c-black) 14%, transparent));
+}
+.hero__media .tech-draw { background-color: var(--c-card); }
+@media (max-width: 900px) { .hero__media { display: none; } }
+
+/* Parete video: era il fondo dell'apertura, ora marca la sezione in cui il
+   prodotto si guarda acceso. */
+.wall {
   position: absolute;
   inset: 0;
   display: grid;
@@ -943,13 +1058,13 @@ dialog.compare::backdrop { background: color-mix(in srgb, var(--c-black) 82%, tr
   gap: 2px;
   background: color-mix(in srgb, var(--c-light) 10%, transparent);
 }
-@media (max-width: 720px) { .hero__wall { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(6, 1fr); } }
-.hero__tile {
+@media (max-width: 720px) { .wall { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(6, 1fr); } }
+.wall__tile {
   background: var(--c-black);
   position: relative;
   overflow: hidden;
 }
-.hero__tile::after {
+.wall__tile::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -959,7 +1074,7 @@ dialog.compare::backdrop { background: color-mix(in srgb, var(--c-black) 82%, tr
   animation-delay: var(--d, 0s);
 }
 @keyframes wall { 0%, 72%, 100% { opacity: 0; } 12%, 44% { opacity: 1; } }
-.hero__veil {
+.wall__veil {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, color-mix(in srgb, var(--c-black) 82%, transparent) 0%, color-mix(in srgb, var(--c-black) 25%, transparent) 42%, color-mix(in srgb, var(--c-black) 92%, transparent) 100%);
@@ -967,11 +1082,16 @@ dialog.compare::backdrop { background: color-mix(in srgb, var(--c-black) 82%, tr
 .hero__inner { position: relative; width: 100%; }
 .hero__grid {
   display: grid;
-  gap: var(--sp-5);
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
-  align-items: end;
+  gap: clamp(var(--sp-5), 4vw, var(--sp-8));
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  align-items: center;
 }
 @media (max-width: 900px) { .hero__grid { grid-template-columns: minmax(0, 1fr); } }
+.hero__copy > * + * { margin-top: var(--sp-5); }
+/* In apertura il titolo divide la riga col prodotto: la scala di --t-display
+   è tarata su tutta la larghezza e qui sborderebbe. */
+.hero .display { font-size: clamp(2.2rem, 4.3vw, 4.1rem); }
+@media (max-width: 900px) { .hero .display { font-size: clamp(2.05rem, 9vw, 3.4rem); } }
 .hero__scroll {
   display: inline-flex;
   align-items: center;
@@ -980,10 +1100,13 @@ dialog.compare::backdrop { background: color-mix(in srgb, var(--c-black) 82%, tr
   font-size: var(--t-micro);
   letter-spacing: var(--track-eyebrow);
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--c-light) 60%, transparent);
+  color: var(--ink-mute);
 }
 .hero__scroll svg { width: 12px; height: 12px; animation: nudge 2.2s var(--ease) infinite; }
 @keyframes nudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+
+.showcase-wrap { position: relative; overflow: hidden; }
+.showcase-wrap > .wrap, .showcase-wrap > .showcase { position: relative; }
 
 /* Showcase a media sticky */
 .showcase { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
@@ -1044,12 +1167,18 @@ dialog.compare::backdrop { background: color-mix(in srgb, var(--c-black) 82%, tr
 .chips { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
 .chip {
   display: inline-flex; align-items: center; gap: var(--sp-2);
-  padding: 4px var(--sp-3);
+  padding: 5px var(--sp-4);
   border: var(--hairline) solid var(--hair-strong);
+  border-radius: var(--radius-pill);
   font-size: var(--t-micro); text-transform: uppercase; letter-spacing: .06em; font-weight: 600;
-  background: none; cursor: pointer;
+  background: var(--card); cursor: pointer;
+  transition: background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease),
+              color var(--dur-1) var(--ease);
 }
 .chip:hover { border-color: var(--c-red); color: var(--c-red); }
+/* Chip che fa da interruttore: acceso si inverte, come .view-btn e .region.
+   Il rosso resta ai segnali, non marca uno stato di filtro. */
+.chip[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--surface); }
 .empty-state { padding: var(--sp-8) var(--sp-4); text-align: center; }
 
 /* Prodotto */
@@ -1057,17 +1186,20 @@ dialog.compare::backdrop { background: color-mix(in srgb, var(--c-black) 82%, tr
 @media (max-width: 980px) { .product-hero { grid-template-columns: minmax(0, 1fr); } }
 .views { display: flex; gap: var(--sp-2); flex-wrap: wrap; }
 .view-btn {
-  padding: var(--sp-2) var(--sp-3);
+  padding: var(--sp-2) var(--sp-4);
   border: var(--hairline) solid var(--hair);
-  background: none; cursor: pointer;
+  border-radius: var(--radius-pill);
+  background: var(--card); cursor: pointer;
   font-size: var(--t-micro); text-transform: uppercase; letter-spacing: .06em; font-weight: 600;
 }
 .view-btn[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--surface); }
 .config-row { display: grid; gap: var(--sp-3); grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
 .opt {
-  display: block; padding: var(--sp-3); cursor: pointer;
+  display: block; padding: var(--sp-4); cursor: pointer;
   border: var(--hairline) solid var(--hair);
-  transition: border-color var(--dur-1) var(--ease);
+  border-radius: var(--radius);
+  background: var(--card);
+  transition: border-color var(--dur-1) var(--ease), box-shadow var(--dur-2) var(--ease);
 }
 .opt:hover { border-color: var(--hair-strong); }
 .opt input { position: absolute; opacity: 0; }
@@ -1080,14 +1212,14 @@ dialog.compare::backdrop { background: color-mix(in srgb, var(--c-black) 82%, tr
    altrimenti resta scoperto il fondo della griglia a filo. */
 .regions {
   display: grid;
-  gap: var(--hairline);
-  background: var(--hair);
+  gap: var(--sp-2);
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 @media (min-width: 560px) { .regions { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @media (min-width: 1080px) { .regions { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 .region {
-  background: var(--surface);
+  background: var(--card);
+  box-shadow: var(--shadow-card);
   padding: var(--sp-4);
   text-align: left;
   border: 0;
@@ -1096,6 +1228,7 @@ dialog.compare::backdrop { background: color-mix(in srgb, var(--c-black) 82%, tr
   gap: var(--sp-1);
   transition: background var(--dur-1) var(--ease);
 }
+.region { border-radius: var(--radius-sm); }
 .region:hover { background: var(--fill-hover); }
 .region[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
 .region__n { font-size: var(--t-micro); color: currentColor; opacity: .6; font-variant-numeric: tabular-nums; }

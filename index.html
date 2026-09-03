@@ -26,16 +26,13 @@
 <main id="main">
 
   <!-- Hero: parete video ------------------------------------------------ -->
-  <section class="hero s-dark" aria-labelledby="hero-title">
-    <div class="hero__wall" aria-hidden="true" data-wall></div>
-    <div class="hero__veil" aria-hidden="true"></div>
+  <section class="hero s-light" aria-labelledby="hero-title">
+    <div class="hero__glow" aria-hidden="true"></div>
     <div class="hero__inner wrap">
       <div class="hero__grid">
-        <div>
+        <div class="hero__copy">
           <p class="eyebrow eyebrow--live">Verona · dal 2006</p>
           <h1 class="display" id="hero-title">Il display<br>è l'interfaccia</h1>
-        </div>
-        <div class="stack">
           <p class="lead">Monitor, all-in-one, notebook, server e digital signage progettati in Italia
           e installati in uffici, scuole e punti vendita. Nessuna vendita diretta: solo rivenditori.</p>
           <div class="row">
@@ -44,12 +41,13 @@
           </div>
           <p class="hero__scroll">Scorri<svg aria-hidden="true"><use href="#i-chevron"/></svg></p>
         </div>
+        <div class="hero__media" data-hero-media aria-hidden="true"></div>
       </div>
     </div>
   </section>
 
   <!-- Numeri -------------------------------------------------------------- -->
-  <section class="s-dark section--flush" aria-label="Yashi in numeri">
+  <section class="s-paper section--flush" aria-label="Yashi in numeri">
     <div class="wrap">
       <div class="grid-hair grid-4">
         <div class="stat"><p class="stat__value">19</p><p class="stat__label">anni di progettazione italiana</p></div>
@@ -80,7 +78,9 @@
   </section>
 
   <!-- Showcase a media sticky --------------------------------------------- -->
-  <section class="s-dark" aria-labelledby="show-title">
+  <section class="s-dark showcase-wrap" aria-labelledby="show-title">
+    <div class="wall" aria-hidden="true" data-wall></div>
+    <div class="wall__veil" aria-hidden="true"></div>
     <div class="wrap section--tight">
       <p class="eyebrow eyebrow--live">In evidenza</p>
       <h2 id="show-title" class="display" style="font-size:var(--t-h1)">Le Mans AI 27"</h2>
@@ -178,7 +178,7 @@
   </section>
 
   <!-- Settori -------------------------------------------------------------- -->
-  <section class="s-dark section" aria-labelledby="set-title">
+  <section class="s-light section" aria-labelledby="set-title">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">Soluzioni</p>
@@ -245,11 +245,14 @@ if (!window.Yashi) {
   var Y = window.Yashi, qs = Y.qs, qsa = Y.qsa, on = Y.on;
 
   /* --- Parete video dell'hero: caselle con sfarfallio sfalsato ---------- */
+  var media = qs('[data-hero-media]');
+  if (media) media.innerHTML = Y.draw('monitor', 'Le Mans AI 27 pollici', '614 × 364 × 52 mm');
+
   var wall = qs('[data-wall]');
   if (wall) {
     var n = window.matchMedia('(max-width: 720px)').matches ? 18 : 24, html = '';
     for (var i = 0; i < n; i++) {
-      html += '<span class="hero__tile" style="--d:' + (Math.round(Math.random() * 60) / 10) + 's"></span>';
+      html += '<span class="wall__tile" style="--d:' + (Math.round(Math.random() * 60) / 10) + 's"></span>';
     }
     wall.innerHTML = html;
   }

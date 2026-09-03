@@ -56,6 +56,9 @@ prodotto.html           scheda Le Mans AI: viste, config, specifiche, download
 dove-acquistare.html    mappa a caselle delle 20 regioni        → array D
 supporto.html           archivio driver + modulo RMA            → array F
 azienda.html            storia, conformità, Business Club
+referenze.html          installazioni per settore                → array R
+eventi.html             calendario fiere e corsi                 → array E
+area-dealer.html        area riservata: cosa c'è, come si accede
 privacy.html            informativa art. 13 GDPR
 cookie.html             dichiarazione cookie (il sito non ne imposta)
 404.html
@@ -63,6 +66,7 @@ assets/yashi.css        font, token, tipografia, header, footer, confronto, stam
 assets/yashi.js         template header/footer, sprite icone, disegni, comportamenti
 assets/fonts/           Archivo variabile (latin, latin-ext) + licenza OFL
 assets/img/             immagini; il README spiega convenzioni e formati
+.htaccess               ErrorDocument 404, CSP, cache, compressione
 build.py                genera dist/
 dist/                   GENERATA — non toccare
 ```
@@ -70,13 +74,27 @@ dist/                   GENERATA — non toccare
 I dati sono array JS in fondo a ciascuna pagina. In produzione arrivano dal CMS:
 la struttura è piatta apposta, un oggetto per record.
 
-## Design — non negoziabile
+## Design
 
 Sono scelte motivate, non preferenze. Se vanno cambiate, va detto perché.
 
-- **Nero puro `#000` per le sezioni scure.** È un brand di display: il black
-  level è un valore del settore. Non usare grigi tipo `#111`.
-- **Chiaro `#EFF1F2`**, alluminio anodizzato freddo. Non bianco, non crema.
+Il linguaggio è cambiato una volta, su richiesta esplicita: era una geometria
+da scheda tecnica (angoli a zero, nessuna ombra, griglie a filo, nero
+dominante), ora è la forma dei grandi marchi di elettronica di consumo —
+samsung.com come riferimento — cioè fondo chiaro, superfici arrotondate che
+galleggiano su un'ombra, bottoni a pillola. La tavolozza però non è cambiata:
+è la forma ad essere Samsung, non il marchio.
+
+- **Tre fondi, non due.** `--c-light` `#EFF1F2` è il terreno della pagina
+  (alluminio anodizzato freddo, non bianco); `--c-card` `#FFF` è la superficie
+  che ci galleggia sopra; `#000` puro resta per le sezioni in cui il prodotto
+  va guardato acceso. Le sezioni si marcano `.s-light` (terreno), `.s-paper`
+  (carta bianca, per non far fondere due sezioni chiare vicine) e `.s-dark`.
+- **Il nero è rimasto in quattro punti in tutto:** apertura della vetrina in
+  home, testata della scheda prodotto, pagina 404, barra di confronto. Se ne
+  aggiungi altri, il chiaro smette di essere dominante e l'effetto svanisce.
+- **Nero puro `#000` dove il nero c'è.** È un brand di display: il black level
+  è un valore del settore. Non usare grigi tipo `#111`.
 - **Rosso `#E1261C` solo per segnali attivi** — stato live, sottolineature attive,
   errori. Mai come accento decorativo o come tinta di sfondo: nel confronto il
   valore migliore si marca con un filo rosso a sinistra della cella, non con una
@@ -86,23 +104,31 @@ Sono scelte motivate, non preferenze. Se vanno cambiate, va detto perché.
   per i dati: si usa `font-variant-numeric: tabular-nums`. Il font sta in
   `assets/fonts/`, mai su un CDN: mandare l'IP dei visitatori a Google per un
   carattere è proprio quello che il Garante contesta.
-- **Alternanza chiaro/scuro come dispositivo narrativo:** scorrendo, la pagina
-  "si accende" entrando nelle sezioni prodotto. Le sezioni si marcano con
-  `.s-dark` / `.s-light`, che ridefiniscono i token di contesto (`--ink`,
-  `--ink-mute`, `--hair`, `--hair-strong`, `--fill-soft`, `--fill-hover`,
-  `--surface`). Ogni superficie nera va aggiunta al selettore di `.s-dark`
-  (ci stanno già mega menu, drawer, footer e testata del confronto), altrimenti
-  i toni secondari restano quelli della tavolozza chiara e spariscono sul nero.
+- **I contesti ridefiniscono i token, non i singoli colori.** `.s-light`,
+  `.s-paper` e `.s-dark` riscrivono `--surface`, `--ink`, `--ink-mute`,
+  `--hair`, `--hair-strong`, `--fill-soft`, `--fill-hover`, `--card` e
+  `--shadow-card`. Ogni superficie nera che non sia una sezione va aggiunta al
+  selettore di `.s-dark` — c'è già la barra di confronto — altrimenti i suoi
+  toni secondari restano quelli del chiaro e spariscono sul nero. Menu, drawer,
+  footer e dialogo confronto sono passati al chiaro e non stanno più lì.
   Non aggiungere un theme toggle, romperebbe il meccanismo.
 - **Prodotti come disegni tecnici SVG** (`Yashi.draw(tipo, etichetta, quota)`),
   non foto. Segnaposto onesto finché non arrivano le immagini vere, e non si
   rompe mai. Quando arriva la foto si sostituisce la chiamata con un `<img
   class="photo">`: stesso ingombro 4/3, le griglie non si muovono.
-- **Griglie a filo:** `gap:1px` su sfondo `--hair` invece dei bordi sulle card.
-  Attenzione: la griglia va riempita per intero o resta scoperto il fondo grigio
-  (per questo `.regions` usa colonne esatte, non `auto-fit`).
-- Niente ombre morbide, niente card che si sollevano all'hover, niente gradienti
-  decorativi fuori dal motivo "parete video".
+- **Le card galleggiano.** Fondo `--card`, `--radius-lg`, `--shadow-card`, e
+  all'hover salgono di `--lift` passando a `--shadow-card-hover`. Sul nero
+  l'ombra non si vede: lì `--shadow-card` è `none` e la card si stacca con un
+  filo di luce. Le griglie hanno spazio vero fra le celle (`--sp-4`): la vecchia
+  griglia a filo andava riempita per intero o restava scoperto il fondo grigio,
+  condizione impossibile da garantire con un elenco filtrabile.
+- **Bottoni e chip a pillola** (`--radius-pill`), campi e avvisi a
+  `--radius-sm`, card e dialoghi a `--radius-lg`. Nessun valore scritto a mano:
+  tutto passa dalla scala `--radius-sm / --radius / --radius-lg`.
+- **Le ombre sono neutre e verticali** (`--shadow-1/2/3`): servono a staccare la
+  superficie dal fondo, non a fare scenografia. Niente aloni colorati.
+- Gli unici gradienti decorativi sono due: la luce dietro l'apertura
+  (`.hero__glow`) e la parete video (`.wall`).
 
 ## Trappole
 
@@ -143,22 +169,25 @@ larghezza e menu mobile generato dagli stessi dati; skip link, `aria-live` sui
 contatori, tutto navigabile da tastiera; foglio di stampa che apre gli accordion
 via `beforeprint`; Open Graph, JSON-LD, favicon inline; Archivo servito in
 locale, zero richieste a domini terzi; privacy e cookie policy collegate dal
-footer.
+footer; `.htaccess` con `ErrorDocument`, CSP verificata a browser aperto su
+tutte le pagine, cache lunga sugli asset.
 
 ## Aperto
 
 Ordinati per urgenza reale.
 
-1. **Dati rivenditori inventati** in `dove-acquistare.html` (array `D`). C'è un
-   avviso visibile in pagina. Vanno sostituiti prima di qualunque pubblicazione.
+1. **Dati inventati in tre pagine:** rivenditori (`dove-acquistare.html`, array
+   `D`), calendario (`eventi.html`, array `E`), installazioni (`referenze.html`,
+   array `R`). Ognuna porta un avviso visibile. Vanno sostituiti prima di
+   qualunque pubblicazione; le referenze solo con autorizzazione scritta del
+   committente e del rivenditore.
 2. **Foto prodotto** al posto degli SVG, dove disponibili.
 3. **Verificare il dominio** nelle `rel="canonical"`: ora puntano a `www.yashiweb.com`.
-4. **404 da collegare al server** (`ErrorDocument 404 /404.html` in Apache).
-5. **Pagine mancanti:** eventi, referenze, login area dealer. Seguono lo schema
-   `pagehead` + sezioni, si fanno in fretta.
-6. **Testi legali da validare.** `privacy.html` descrive con esattezza cosa fa il
+4. **Login area dealer da collegare** al gestionale esistente: `area-dealer.html`
+   ha il modulo disattivato e lo dichiara in pagina.
+5. **Testi legali da validare.** `privacy.html` descrive con esattezza cosa fa il
    sito, ma tempi di conservazione, anagrafica del titolare ed eventuale DPO
    vanno confermati dall'azienda. C'è un avviso visibile in pagina.
-7. **Multilingua IT/EN:** il selettore nell'header è finto e lo dichiara.
-8. **Integrazione col PHP esistente:** header e footer diventano `include`,
+6. **Multilingua IT/EN:** il selettore nell'header è finto e lo dichiara.
+7. **Integrazione col PHP esistente:** header e footer diventano `include`,
    il catalogo legge dal database invece che dall'array `P`.

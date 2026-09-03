@@ -1,0 +1,36 @@
+# Configurazione Apache del sito statico. Va nella radice del documento, accanto
+# alle pagine generate da build.py. Su nginx gli equivalenti sono error_page,
+# add_header e gzip/brotli, ma la sostanza è la stessa.
+
+# Pagina di errore: senza questa riga il 404.html esiste ma non lo vede nessuno.
+ErrorDocument 404 /404.html
+
+# Il sito non ha ancora un backend: nessuna pagina va servita da un indice
+# generato automaticamente.
+Options -Indexes
+
+<IfModule mod_headers.c>
+  # Il sito non incorpora nulla di terzi e non ne ha bisogno: dichiararlo qui
+  # rende la promessa fatta in cookie.html verificabile dal browser.
+  Header set Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; font-src 'self'; form-action 'none'; frame-ancestors 'none'; base-uri 'self'"
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # I font non cambiano mai: hanno il nome della versione nel percorso e possono
+  # restare in cache a lungo. Le pagine no, cambiano a ogni build.
+  <FilesMatch "\.(woff2|jpg|jpeg|png|svg|webp|avif)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_deflate.c>
+  # CSS e JS sono inline dentro l'HTML: comprimere l'HTML comprime tutto.
+  AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript image/svg+xml
+</IfModule>
+
+<IfModule mod_mime.c>
+  AddType font/woff2 .woff2
+</IfModule>

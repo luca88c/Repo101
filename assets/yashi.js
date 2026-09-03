@@ -67,7 +67,10 @@
           { label: 'Business Club', href: 'azienda.html#business-club' },
           { label: 'Diventa rivenditore', href: 'dove-acquistare.html#diventa-rivenditore' },
           { label: 'Materiali marketing', href: 'supporto.html#materiali' },
-          { label: 'Garanzia e RMA', href: 'supporto.html#rma' }
+          { label: 'Garanzia e RMA', href: 'supporto.html#rma' },
+          { label: 'Referenze', href: 'referenze.html' },
+          { label: 'Eventi', href: 'eventi.html' },
+          { label: 'Area dealer', href: 'area-dealer.html' }
         ] }
       ],
       feature: {
@@ -96,6 +99,8 @@
     ] },
     { title: 'Azienda', links: [
       { label: 'Chi siamo', href: 'azienda.html' },
+      { label: 'Referenze', href: 'referenze.html' },
+      { label: 'Eventi', href: 'eventi.html' },
       { label: 'Conformità', href: 'azienda.html#conformita' },
       { label: 'Business Club', href: 'azienda.html#business-club' },
       { label: 'Dove acquistare', href: 'dove-acquistare.html' }
@@ -259,6 +264,7 @@
     }
 
     html += '</nav><div class="header-tools">'
+      + '<a class="dealer-link" href="area-dealer.html">Area dealer</a>'
       + '<button type="button" class="lang" data-lang aria-label="Lingua del sito, italiano">IT<span aria-hidden="true">/</span><span class="muted">EN</span></button>'
       + '<a class="btn btn--sm" href="dove-acquistare.html"><span>Trova un rivenditore</span></a>'
       + '<button type="button" class="burger" data-drawer aria-expanded="false" aria-controls="drawer" aria-label="Apri il menu">'
@@ -312,6 +318,7 @@
       html += '</div>';
     }
     html += '<div class="drawer__group"><a href="dove-acquistare.html">Trova un rivenditore' + icon('arrow') + '</a></div>'
+         +  '<div class="drawer__group"><a href="area-dealer.html">Area dealer' + icon('arrow') + '</a></div>'
       + '</div>';
 
     return html;
