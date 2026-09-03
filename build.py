@@ -8,9 +8,9 @@ Cosa fa, in ordine:
    perché segna la voce di menu corrente);
 2. inserisce quell'HTML dentro ogni pagina, così la navigazione e il contenuto
    funzionano anche senza JavaScript;
-3. inlinea CSS e JS: l'unica risorsa esterna che resta sono i due file del
-   font, copiati in dist/assets/fonts/ (inlinearli come data: URI vorrebbe
-   dire ripetere 170 kB su ognuna delle sette pagine);
+3. inlinea CSS e JS e copia le cartelle di assets/ (fonts/, img/, …) in
+   dist/assets/: sono le uniche risorse che restano esterne, perché inlinearle
+   come data: URI vorrebbe dire ripeterle su ognuna delle nove pagine;
 4. scrive tutto in dist/.
 
 Senza Node la build va avanti lo stesso, ma header e footer tornano a dipendere
@@ -31,7 +31,7 @@ ROOT = Path(__file__).resolve().parent
 DIST = ROOT / "dist"
 CSS = ROOT / "assets" / "yashi.css"
 JS = ROOT / "assets" / "yashi.js"
-FONTS = ROOT / "assets" / "fonts"
+ASSETS = ROOT / "assets"
 
 PAGES = [
     "index.html",
@@ -172,10 +172,15 @@ def main() -> int:
     css = inline_css(CSS.read_text(encoding="utf-8"))
     js = JS.read_text(encoding="utf-8")
 
-    if FONTS.is_dir():
-        shutil.copytree(FONTS, DIST / "assets" / "fonts")
-        print(f"  · font copiati in dist/assets/fonts/ ({len(list(FONTS.glob('*.woff2')))} file)")
-    else:
+    # Ogni sottocartella di assets/ (fonts/, img/, …) finisce in dist/assets/
+    # con lo stesso nome: così "assets/img/foo.jpg" è un percorso valido sia
+    # nei sorgenti sia nella pagina generata, e non serve riscrivere niente.
+    for folder in sorted(d for d in ASSETS.iterdir() if d.is_dir()):
+        dest = DIST / "assets" / folder.name
+        shutil.copytree(folder, dest, ignore=shutil.ignore_patterns("*.md"))
+        n = sum(1 for f in dest.rglob("*") if f.is_file())
+        print(f"  · assets/{folder.name}/ copiata in dist/ ({n} file)")
+    if not (ASSETS / "fonts").is_dir():
         print("  ! assets/fonts/ manca: le pagine ripiegheranno su Helvetica", file=sys.stderr)
 
     total = 0

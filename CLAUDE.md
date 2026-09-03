@@ -21,9 +21,11 @@ node --check assets/yashi.js  # controllo sintassi
 Senza Node la build va avanti lo stesso ma header e footer tornano a dipendere
 dal JavaScript, che è la cosa che volevamo evitare.
 
-CSS e JS finiscono inline in ogni pagina di `dist/`. L'unica risorsa esterna
-che resta sono i due file del font, copiati in `dist/assets/fonts/`: inlinearli
-come `data:` URI vorrebbe dire ripetere 170 kB su ognuna delle nove pagine.
+CSS e JS finiscono inline in ogni pagina di `dist/`. Restano esterne solo le
+cartelle di `assets/` (`fonts/`, `img/`, …), copiate tali e quali in
+`dist/assets/`: inlinearle come `data:` URI vorrebbe dire ripeterle su ognuna
+delle nove pagine — i soli font sono 170 kB. Il percorso `assets/img/foo.jpg`
+vale quindi identico nei sorgenti e nella pagina generata.
 Serve quindi un server anche per `dist/` — Chrome tratta ogni file `file://`
 come origine opaca e rifiuta di caricare il font (il testo ripiega su
 Helvetica, il resto funziona).
@@ -60,6 +62,7 @@ cookie.html             dichiarazione cookie (il sito non ne imposta)
 assets/yashi.css        font, token, tipografia, header, footer, confronto, stampa
 assets/yashi.js         template header/footer, sprite icone, disegni, comportamenti
 assets/fonts/           Archivo variabile (latin, latin-ext) + licenza OFL
+assets/img/             immagini; il README spiega convenzioni e formati
 build.py                genera dist/
 dist/                   GENERATA — non toccare
 ```
@@ -93,7 +96,8 @@ Sono scelte motivate, non preferenze. Se vanno cambiate, va detto perché.
   Non aggiungere un theme toggle, romperebbe il meccanismo.
 - **Prodotti come disegni tecnici SVG** (`Yashi.draw(tipo, etichetta, quota)`),
   non foto. Segnaposto onesto finché non arrivano le immagini vere, e non si
-  rompe mai.
+  rompe mai. Quando arriva la foto si sostituisce la chiamata con un `<img
+  class="photo">`: stesso ingombro 4/3, le griglie non si muovono.
 - **Griglie a filo:** `gap:1px` su sfondo `--hair` invece dei bordi sulle card.
   Attenzione: la griglia va riempita per intero o resta scoperto il fondo grigio
   (per questo `.regions` usa colonne esatte, non `auto-fit`).

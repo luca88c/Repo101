@@ -574,7 +574,19 @@ p:last-child { margin-bottom: 0; }
   transition: background var(--dur-1) var(--ease);
 }
 .mega__feature:hover { background: var(--fill-hover); }
-.mega__feature .tech-draw { margin-bottom: var(--sp-4); }
+.mega__feature /* Foto prodotto: stesso ingombro del disegno tecnico (4/3 a piena larghezza),
+   così si sostituisce una `Yashi.draw()` con un `<img>` senza che le griglie
+   si muovano. Nessun arrotondamento e nessuna ombra: vale la regola generale. */
+.photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: var(--fill-soft);
+}
+.photo--contain { object-fit: contain; }
+
+.tech-draw { margin-bottom: var(--sp-4); }
 
 /* Menu mobile a pannello pieno */
 .drawer {
