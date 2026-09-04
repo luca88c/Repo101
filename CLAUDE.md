@@ -55,7 +55,7 @@ catalogo.html           filtri a faccette + confronto prodotti  → array P
 prodotto.html           scheda Le Mans AI: viste, config, specifiche, download
 dove-acquistare.html    distributori e negozi online            → array DIST/RET
 supporto.html           richiesta driver + modulo RMA
-azienda.html            storia, conformità, Business Club
+azienda.html            come lavoriamo, conformità reale, Business Club
 referenze.html          committenti per settore                  → array R
 eventi.html             archivio eventi (fermo al 2013)          → array E
 area-dealer.html        area riservata: cosa c'è, come si accede
@@ -75,6 +75,12 @@ dist/                   GENERATA — non toccare
 
 I dati sono array JS in fondo a ciascuna pagina. In produzione arrivano dal CMS:
 la struttura è piatta apposta, un oggetto per record.
+
+**Mai inventare conformità né condizioni commerciali.** Una certificazione che
+l'azienda non ha, su una pagina che finisce dentro un capitolato, e una soglia
+di fatturato su cui un rivenditore fa affidamento, non sono dettagli di
+contorno: sono dichiarazioni su cui qualcuno prende decisioni. Il sito
+documenta ENERGY STAR su modelli precisi e l'iscrizione RAEE, e basta.
 
 **Quasi tutto viene dal sito attuale.** Catalogo, referenze, distributori,
 eventi e anagrafica sono stati presi da yashiweb.com. Dove il sito non pubblica
@@ -200,17 +206,20 @@ Ordinati per urgenza reale.
 2. **Archivio driver da costruire.** Il sito attuale non pubblica i file: si
    chiedono via modulo. `supporto.html` fa lo stesso in modo più diretto e lo
    dichiara. Quando i file esisteranno, quella sezione torna a essere un elenco.
-3. **Indirizzo della sede** non pubblicato sul sito attuale: nel prototipo non
+3. **Storia e dati societari mancanti.** `azienda.html` non pubblica più anno di
+   fondazione, organico né cronologia: erano inventati e il sito attuale non ne
+   ha. Servono dall'azienda, insieme ai livelli reali del Business Club.
+4. **Indirizzo della sede** non pubblicato sul sito attuale: nel prototipo non
    compare. Va aggiunto in `privacy.html` e nel footer quando lo si ha.
    L'unico indirizzo trovato è in un evento del 2013 (Via Fleming 2, Settimo di
    Pescantina) ed è troppo vecchio per essere usato senza conferma.
-4. **Testi legali da validare.** `privacy.html` descrive con esattezza cosa fa il
+5. **Testi legali da validare.** `privacy.html` descrive con esattezza cosa fa il
    sito, ma tempi di conservazione ed eventuale DPO vanno confermati
    dall'azienda. C'è un avviso visibile in pagina.
-5. **Login area dealer da collegare** al gestionale esistente: `area-dealer.html`
+6. **Login area dealer da collegare** al gestionale esistente: `area-dealer.html`
    ha il modulo disattivato e lo dichiara in pagina.
-6. **Verificare il dominio** nelle `rel="canonical"`: ora puntano a `www.yashiweb.com`.
-7. **Multilingua IT/EN:** il selettore nell'header è finto e lo dichiara.
-8. **Integrazione col PHP esistente:** header e footer diventano `include`,
+7. **Verificare il dominio** nelle `rel="canonical"`: ora puntano a `www.yashiweb.com`.
+8. **Multilingua IT/EN:** il selettore nell'header è finto e lo dichiara.
+9. **Integrazione col PHP esistente:** header e footer diventano `include`,
    il catalogo legge dal database invece che dall'array `P`, e la fotografia
    del listino smette di essere una fotografia.

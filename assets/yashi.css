@@ -1260,22 +1260,6 @@ dialog.compare::backdrop { background: color-mix(in srgb, var(--c-black) 82%, tr
 }
 @media (max-width: 760px) { .file-row { grid-template-columns: minmax(0, 1fr); } }
 
-/* Azienda — timeline */
-.timeline { display: grid; gap: var(--hairline); background: var(--hair); }
-.timeline__item {
-  background: var(--surface);
-  display: grid;
-  gap: var(--sp-3);
-  grid-template-columns: 120px minmax(0, 1fr);
-  padding: var(--sp-5);
-}
-@media (max-width: 700px) { .timeline__item { grid-template-columns: minmax(0, 1fr); } }
-.timeline__year {
-  font-size: 1.6rem; font-weight: 700; line-height: 1;
-  font-variation-settings: "wdth" var(--wdth-display);
-  font-variant-numeric: tabular-nums;
-}
-
 /* 404 */
 .err { min-height: 100svh; display: grid; place-items: center; text-align: center; padding: var(--sp-8) var(--gutter); }
 
