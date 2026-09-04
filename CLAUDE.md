@@ -53,11 +53,11 @@ Helvetica, il resto funziona).
 index.html              home: hero parete video, showcase sticky, configuratore LED
 catalogo.html           filtri a faccette + confronto prodotti  → array P
 prodotto.html           scheda Le Mans AI: viste, config, specifiche, download
-dove-acquistare.html    mappa a caselle delle 20 regioni        → array D
-supporto.html           archivio driver + modulo RMA            → array F
+dove-acquistare.html    distributori e negozi online            → array DIST/RET
+supporto.html           richiesta driver + modulo RMA
 azienda.html            storia, conformità, Business Club
-referenze.html          installazioni per settore                → array R
-eventi.html             calendario fiere e corsi                 → array E
+referenze.html          committenti per settore                  → array R
+eventi.html             archivio eventi (fermo al 2013)          → array E
 area-dealer.html        area riservata: cosa c'è, come si accede
 privacy.html            informativa art. 13 GDPR
 cookie.html             dichiarazione cookie (il sito non ne imposta)
@@ -66,6 +66,7 @@ assets/yashi.css        font, token, tipografia, header, footer, confronto, stam
 assets/yashi.js         template header/footer, sprite icone, disegni, comportamenti
 assets/fonts/           Archivo variabile (latin, latin-ext) + licenza OFL
 assets/img/             foto prodotto da yashiweb.com; il README spiega le convenzioni
+assets/img/partner/     loghi di distributori e negozi online
 assets/doc/             brochure PDF scaricate dal sito
 .htaccess               ErrorDocument 404, CSP, cache, compressione
 build.py                genera dist/
@@ -74,6 +75,11 @@ dist/                   GENERATA — non toccare
 
 I dati sono array JS in fondo a ciascuna pagina. In produzione arrivano dal CMS:
 la struttura è piatta apposta, un oggetto per record.
+
+**Quasi tutto viene dal sito attuale.** Catalogo, referenze, distributori,
+eventi e anagrafica sono stati presi da yashiweb.com. Dove il sito non pubblica
+un dato, il prototipo non lo inventa: lo dice e offre la strada che l'azienda
+usa davvero (di norma una mail precompilata).
 
 **Il catalogo è reale.** I 154 prodotti dell'array `P`, le foto e le brochure
 vengono da yashiweb.com: codice articolo, nome, specifiche e categoria sono
@@ -180,27 +186,31 @@ le foto e i codici veri; skip link, `aria-live` sui
 contatori, tutto navigabile da tastiera; foglio di stampa che apre gli accordion
 via `beforeprint`; Open Graph, JSON-LD, favicon inline; Archivo servito in
 locale, zero richieste a domini terzi; privacy e cookie policy collegate dal
-footer; `.htaccess` con `ErrorDocument`, CSP verificata a browser aperto su
-tutte le pagine, cache lunga sugli asset.
+footer; distributori, negozi online e referenze veri presi dal sito; `.htaccess`
+con `ErrorDocument`, CSP verificata a browser aperto su tutte le pagine, cache
+lunga sugli asset.
 
 ## Aperto
 
 Ordinati per urgenza reale.
 
-1. **Dati inventati in tre pagine:** rivenditori (`dove-acquistare.html`, array
-   `D`), calendario (`eventi.html`, array `E`), installazioni (`referenze.html`,
-   array `R`). Ognuna porta un avviso visibile. Vanno sostituiti prima di
-   qualunque pubblicazione; le referenze solo con autorizzazione scritta del
-   committente e del rivenditore. Il catalogo invece è reale.
-2. **Indirizzo della sede** non pubblicato sul sito attuale: nel prototipo non
-   compare più. Va aggiunto in `privacy.html` e nel footer quando lo si ha.
-3. **Testi legali da validare.** `privacy.html` descrive con esattezza cosa fa il
+1. **Calendario eventi da ricostruire.** `eventi.html` mostra l'archivio vero,
+   che sul sito attuale si ferma a marzo 2013 e lo dichiara in pagina. O si
+   riempie con gli appuntamenti veri, o la pagina va tolta dal menu.
+2. **Archivio driver da costruire.** Il sito attuale non pubblica i file: si
+   chiedono via modulo. `supporto.html` fa lo stesso in modo più diretto e lo
+   dichiara. Quando i file esisteranno, quella sezione torna a essere un elenco.
+3. **Indirizzo della sede** non pubblicato sul sito attuale: nel prototipo non
+   compare. Va aggiunto in `privacy.html` e nel footer quando lo si ha.
+   L'unico indirizzo trovato è in un evento del 2013 (Via Fleming 2, Settimo di
+   Pescantina) ed è troppo vecchio per essere usato senza conferma.
+4. **Testi legali da validare.** `privacy.html` descrive con esattezza cosa fa il
    sito, ma tempi di conservazione ed eventuale DPO vanno confermati
    dall'azienda. C'è un avviso visibile in pagina.
-4. **Login area dealer da collegare** al gestionale esistente: `area-dealer.html`
+5. **Login area dealer da collegare** al gestionale esistente: `area-dealer.html`
    ha il modulo disattivato e lo dichiara in pagina.
-5. **Verificare il dominio** nelle `rel="canonical"`: ora puntano a `www.yashiweb.com`.
-6. **Multilingua IT/EN:** il selettore nell'header è finto e lo dichiara.
-7. **Integrazione col PHP esistente:** header e footer diventano `include`,
+6. **Verificare il dominio** nelle `rel="canonical"`: ora puntano a `www.yashiweb.com`.
+7. **Multilingua IT/EN:** il selettore nell'header è finto e lo dichiara.
+8. **Integrazione col PHP esistente:** header e footer diventano `include`,
    il catalogo legge dal database invece che dall'array `P`, e la fotografia
    del listino smette di essere una fotografia.

@@ -850,6 +850,17 @@ p:last-child { margin-bottom: 0; }
 .card__title { font-size: var(--t-h3); }
 /* I nomi a listino sono stringhe da codice articolo, lunghe: alla misura di un
    titolo occuperebbero tre righe e la griglia diventerebbe un muro di testo. */
+/* Logo di un partner: riquadro 3:1 su fondo bianco, il logo dentro senza
+   ritaglio. Non è una foto prodotto, non usa .photo. */
+.logo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 1;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+  background: var(--c-card);
+}
+
 .card--sku .card__title { font-size: 1.02rem; line-height: 1.3; font-variation-settings: "wdth" var(--wdth-body); }
 .card__meta { display: flex; flex-wrap: wrap; gap: var(--sp-1) var(--sp-3); font-size: var(--t-small); color: var(--ink-mute); }
 .card__foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); padding-top: var(--sp-3); border-top: var(--hairline) solid var(--hair); }
@@ -1338,44 +1349,59 @@ dialog.compare::backdrop { background: color-mix(in srgb, var(--c-black) 82%, tr
           <p class="eyebrow">Rete di vendita</p>
           <h1 class="display" style="font-size:var(--t-h1)">Dove acquistare</h1>
         </div>
-        <p class="lead">Yashi non vende direttamente. Scegli la regione: trovi i partner autorizzati,
-        con le linee che trattano e a chi scrivere.</p>
+        <p class="lead">Yashi non vende direttamente: passa dai distributori, che riforniscono i
+        rivenditori. Per il punto vendita più vicino si scrive all'ufficio commerciale.</p>
       </div>
     </div>
   </header>
 
-  <section class="s-light section" aria-labelledby="reg-title">
+  <section class="s-light section" aria-labelledby="dist-title">
     <div class="wrap">
-      <p class="notice" style="margin-bottom:var(--sp-6)">
-        <svg aria-hidden="true"><use href="#i-alert"/></svg>
-        <span><strong>Dati dimostrativi.</strong> Ragioni sociali, indirizzi e recapiti di questa
-        pagina sono inventati per il prototipo e vanno sostituiti con l'anagrafica reale prima di
-        qualunque pubblicazione.</span>
-      </p>
-
       <div class="section-head section-head--split">
         <div>
-          <p class="eyebrow">20 regioni</p>
-          <h2 id="reg-title">Scegli la regione</h2>
+          <p class="eyebrow">Distribuzione</p>
+          <h2 id="dist-title">I distributori</h2>
         </div>
-        <p class="muted" data-region-summary aria-live="polite">Tutti i rivenditori, ordinati per regione.</p>
+        <p class="muted">Sono loro a tenere il prodotto a magazzino e a servire i rivenditori.
+        Un rivenditore che non tratta ancora Yashi parte da qui.</p>
       </div>
-
-      <div class="regions" data-regions role="group" aria-label="Regioni"></div>
-
-      <div class="row" style="margin-top:var(--sp-5)">
-        <button type="button" class="chip" data-region-all hidden>Mostra tutte le regioni</button>
-      </div>
+      <div class="grid-hair grid-4" data-distributori></div>
     </div>
   </section>
 
-  <section class="s-light section--tight" aria-label="Elenco rivenditori">
+  <section class="s-paper section" aria-labelledby="ret-title">
     <div class="wrap">
-      <div class="grid-hair grid-3" data-dealers></div>
-      <div class="empty-state" data-dealers-empty hidden>
-        <p class="lead">In questa regione non c'è ancora un partner certificato.</p>
-        <p class="muted">Scrivici: ti mettiamo in contatto con il rivenditore più vicino.</p>
-        <p><a class="btn" data-dealers-mail href="#"><span>Contatta l'ufficio commerciale</span></a></p>
+      <div class="section-head section-head--split">
+        <div>
+          <p class="eyebrow">Online</p>
+          <h2 id="ret-title">Dove si compra in rete</h2>
+        </div>
+        <p class="muted">I negozi online che tengono il catalogo Yashi. Assortimento e disponibilità
+        li decidono loro, non noi.</p>
+      </div>
+      <div class="grid-hair grid-3" data-retailer></div>
+    </div>
+  </section>
+
+  <section class="s-light section" id="punto-vendita" aria-labelledby="pv-title">
+    <div class="wrap">
+      <div class="grid-hair grid-2">
+        <div class="card">
+          <p class="eyebrow">Punto vendita</p>
+          <h2 id="pv-title">Cerchi il negozio più vicino?</h2>
+          <p class="muted">L'elenco dei rivenditori non è pubblicato: cambia troppo spesso perché una
+          pagina statica lo tenga aggiornato senza mentire. Scrivici la zona e il tipo di prodotto,
+          e ti indirizziamo al partner che ti serve.</p>
+          <p class="small muted">Ufficio commerciale, lunedì–venerdì 8.30–13 e 14–18.</p>
+        </div>
+        <div class="card">
+          <p class="micro muted">Contatti</p>
+          <p><a class="link-arrow" data-pv-mail href="#">Chiedi il rivenditore di zona</a></p>
+          <p><a class="link-arrow" href="tel:+390456766909">045 6766909</a></p>
+          <p><a class="link-arrow" href="mailto:contact@yashi.tech">contact@yashi.tech</a></p>
+          <p class="small muted" style="margin-top:var(--sp-5)">Il link apre una mail già scritta:
+          basta aggiungere zona e recapito.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -2041,102 +2067,45 @@ if (!window.Yashi) {
   'use strict';
   var Y = window.Yashi, qs = Y.qs, on = Y.on, esc = Y.esc;
 
-  var REGIONI = ['Abruzzo', 'Basilicata', 'Calabria', 'Campania', 'Emilia-Romagna',
-    'Friuli-Venezia Giulia', 'Lazio', 'Liguria', 'Lombardia', 'Marche', 'Molise', 'Piemonte',
-    'Puglia', 'Sardegna', 'Sicilia', 'Toscana', 'Trentino-Alto Adige', 'Umbria',
-    "Valle d'Aosta", 'Veneto'];
-
-  /* ---------------------------------------------------------------------
-     DATI DIMOSTRATIVI — anagrafica inventata, da sostituire col CMS.
-     Un oggetto per record, struttura piatta.
-     --------------------------------------------------------------------- */
-  var D = [
-    { nome: 'Adige Sistemi', reg: 'Veneto', citta: 'Verona', tel: '045 000 0101', mail: 'info@adigesistemi.example', liv: 'Gold', linee: 'Monitor, signage, server' },
-    { nome: 'Laguna IT', reg: 'Veneto', citta: 'Mestre (VE)', tel: '041 000 0102', mail: 'commerciale@lagunait.example', liv: 'Silver', linee: 'Monitor, notebook' },
-    { nome: 'Brenta Digital', reg: 'Veneto', citta: 'Padova', tel: '049 000 0103', mail: 'ufficio@brentadigital.example', liv: 'Silver', linee: 'Signage, totem' },
-    { nome: 'Navigli Tech', reg: 'Lombardia', citta: 'Milano', tel: '02 000 0201', mail: 'sales@naviglitech.example', liv: 'Gold', linee: 'Tutte le linee' },
-    { nome: 'Sebino Computer', reg: 'Lombardia', citta: 'Brescia', tel: '030 000 0202', mail: 'info@sebinocomputer.example', liv: 'Silver', linee: 'Monitor, all-in-one' },
-    { nome: 'Insubria Server', reg: 'Lombardia', citta: 'Varese', tel: '0332 000 0203', mail: 'server@insubria.example', liv: 'Gold', linee: 'Server, storage' },
-    { nome: 'Mole Informatica', reg: 'Piemonte', citta: 'Torino', tel: '011 000 0301', mail: 'info@moleinformatica.example', liv: 'Gold', linee: 'Monitor, scuola' },
-    { nome: 'Tanaro Reti', reg: 'Piemonte', citta: 'Asti', tel: '0141 000 0302', mail: 'reti@tanaro.example', liv: 'Silver', linee: 'Server, signage' },
-    { nome: 'Arno Display', reg: 'Toscana', citta: 'Firenze', tel: '055 000 0401', mail: 'display@arno.example', liv: 'Gold', linee: 'Signage, retail' },
-    { nome: 'Tirreno Office', reg: 'Toscana', citta: 'Livorno', tel: '0586 000 0402', mail: 'office@tirreno.example', liv: 'Silver', linee: 'Monitor, notebook' },
-    { nome: 'Urbe Sistemi', reg: 'Lazio', citta: 'Roma', tel: '06 000 0501', mail: 'pa@urbesistemi.example', liv: 'Gold', linee: 'PA, server' },
-    { nome: 'Litorale Digital', reg: 'Lazio', citta: 'Latina', tel: '0773 000 0502', mail: 'info@litorale.example', liv: 'Silver', linee: 'Scuola, touch' },
-    { nome: 'Reno Computer', reg: 'Emilia-Romagna', citta: 'Bologna', tel: '051 000 0601', mail: 'info@renocomputer.example', liv: 'Gold', linee: 'Tutte le linee' },
-    { nome: 'Via Emilia IT', reg: 'Emilia-Romagna', citta: 'Parma', tel: '0521 000 0602', mail: 'sales@viaemiliait.example', liv: 'Silver', linee: 'Monitor, scuola' },
-    { nome: 'Isonzo Tech', reg: 'Friuli-Venezia Giulia', citta: 'Udine', tel: '0432 000 0701', mail: 'info@isonzotech.example', liv: 'Silver', linee: 'Monitor, server' },
-    { nome: 'Dolomiti Data', reg: 'Trentino-Alto Adige', citta: 'Trento', tel: '0461 000 0801', mail: 'data@dolomiti.example', liv: 'Silver', linee: 'Scuola, touch' },
-    { nome: 'Portofranco IT', reg: 'Liguria', citta: 'Genova', tel: '010 000 0901', mail: 'info@portofranco.example', liv: 'Silver', linee: 'Monitor, retail' },
-    { nome: 'Conero Sistemi', reg: 'Marche', citta: 'Ancona', tel: '071 000 1001', mail: 'info@conero.example', liv: 'Silver', linee: 'Scuola, ufficio' },
-    { nome: 'Trasimeno Reti', reg: 'Umbria', citta: 'Perugia', tel: '075 000 1101', mail: 'reti@trasimeno.example', liv: 'Silver', linee: 'Server, monitor' },
-    { nome: 'Gran Sasso IT', reg: 'Abruzzo', citta: "L'Aquila", tel: '0862 000 1201', mail: 'info@gransassoit.example', liv: 'Silver', linee: 'Scuola, PA' },
-    { nome: 'Partenope Digital', reg: 'Campania', citta: 'Napoli', tel: '081 000 1301', mail: 'info@partenope.example', liv: 'Gold', linee: 'Signage, retail' },
-    { nome: 'Adriatica Office', reg: 'Puglia', citta: 'Bari', tel: '080 000 1401', mail: 'office@adriatica.example', liv: 'Silver', linee: 'Monitor, notebook' },
-    { nome: 'Magna Grecia Tech', reg: 'Calabria', citta: 'Catanzaro', tel: '0961 000 1501', mail: 'info@magnagrecia.example', liv: 'Silver', linee: 'Scuola, touch' },
-    { nome: 'Trinacria Sistemi', reg: 'Sicilia', citta: 'Palermo', tel: '091 000 1601', mail: 'info@trinacria.example', liv: 'Gold', linee: 'Tutte le linee' },
-    { nome: 'Etna Display', reg: 'Sicilia', citta: 'Catania', tel: '095 000 1602', mail: 'display@etna.example', liv: 'Silver', linee: 'Signage, totem' },
-    { nome: 'Nuraghe IT', reg: 'Sardegna', citta: 'Cagliari', tel: '070 000 1701', mail: 'info@nuraghe.example', liv: 'Silver', linee: 'Monitor, server' }
+  /* Distributori e negozi online: nomi, loghi e indirizzi vengono dalla pagina
+     "Where to buy" di yashiweb.com. L'elenco dei rivenditori al dettaglio il
+     sito non lo pubblica, quindi qui non c'è: al suo posto c'è il contatto. */
+  var DIST = [
+    { n: 'ALSO', u: 'https://www.also.com/ec/cms5/it_2710/2710/index.jsp', img: 'assets/img/partner/dist-35.png' },
+    { n: 'Brevi Distribuzione Informatica', u: 'https://www.brevi.it/', img: 'assets/img/partner/dist-1.png' },
+    { n: 'Cometa', u: 'https://www.cometa.it/', img: 'assets/img/partner/dist-10.png' },
+    { n: 'Computer Gross', u: 'https://www.computergross.it/', img: 'assets/img/partner/dist-37.png' },
+    { n: 'Esprinet', u: 'https://www.esprinet.com/', img: 'assets/img/partner/dist-39.png' },
+    { n: 'Next H&S', u: 'https://www.nexths.it/', img: 'assets/img/partner/dist-2.png' },
+    { n: 'Runner', u: 'https://www.runner.it/indexd.php', img: 'assets/img/partner/dist-33.png' },
+    { n: 'TS Distribution', u: 'https://www.techstoreltd.com/', img: 'assets/img/partner/dist-8.png' },
+    { n: 'VAD', u: '', img: 'assets/img/partner/dist-9.png' },
+    { n: 'Tehnica Vizuala', u: 'https://www.tehnicavizuala.ro', img: 'assets/img/partner/dist-6.png' },
+    { n: 'PK Trisel Electronics', u: 'https://www.pk-trisel.com/product-category/monitors/yashi/', img: 'assets/img/partner/dist-36.png' },
+    { n: 'BMK', u: 'https://www.ismanimokykla.lt/', img: 'assets/img/partner/dist-41.png' },
+    { n: 'E.A. Management', u: '', img: 'assets/img/partner/dist-42.png' }
+  ];
+  var RET = [
+    { n: 'Amazon', u: 'https://www.amazon.it/yashi', img: 'assets/img/partner/ret-12.png' },
+    { n: 'ePrice', u: 'https://www.eprice.it/s/informatica/personal-computer?br=YAS', img: 'assets/img/partner/ret-13.png' },
+    { n: 'MediaExpert', u: 'https://www.mediaexpert.pl/monitory-led/yashi', img: 'assets/img/partner/ret-34.png' }
   ];
 
-  var sel = null;
-
-  function countIn(reg) {
-    var n = 0;
-    for (var i = 0; i < D.length; i++) if (D[i].reg === reg) n++;
-    return n;
+  function schedaPartner(p) {
+    var dentro = '<img class="logo" src="' + esc(p.img) + '" width="600" height="200"'
+      + ' loading="lazy" decoding="async" alt="' + esc(p.n) + '">'
+      + '<p class="card__title" style="font-size:1rem">' + esc(p.n) + '</p>';
+    return p.u
+      ? '<a class="card card__link" href="' + esc(p.u) + '" rel="noopener">' + dentro + '</a>'
+      : '<div class="card">' + dentro + '</div>';
   }
+  qs('[data-distributori]').innerHTML = DIST.map(schedaPartner).join('');
+  qs('[data-retailer]').innerHTML = RET.map(schedaPartner).join('');
 
-  function renderRegions() {
-    qs('[data-regions]').innerHTML = REGIONI.map(function (r) {
-      var n = countIn(r);
-      return '<button type="button" class="region" data-region="' + esc(r) + '"'
-        + ' aria-pressed="' + (sel === r ? 'true' : 'false') + '">'
-        + '<span class="micro">' + esc(r) + '</span>'
-        + '<span class="region__n num">' + (n ? n + (n === 1 ? ' rivenditore' : ' rivenditori') : 'in apertura') + '</span>'
-        + '</button>';
-    }).join('');
-    qs('[data-region-all]').hidden = !sel;
-  }
+  qs('[data-pv-mail]').href = Y.mailto('contact@yashi.tech', 'Rivenditore di zona',
+    ['Buongiorno,', 'vorrei sapere qual è il rivenditore Yashi più vicino.', '',
+     'Zona: ', 'Prodotti di interesse: ', 'Azienda o ente: ', 'Recapito: ']);
 
-  function renderDealers() {
-    var list = sel ? D.filter(function (d) { return d.reg === sel; }) : D;
-    qs('[data-dealers]').innerHTML = list.map(function (d) {
-      return '<article class="dealer">'
-        + '<p class="row" style="gap:var(--sp-2)"><span class="tag">' + esc(d.liv) + '</span>'
-        + '<span class="micro muted">' + esc(d.reg) + '</span></p>'
-        + '<h3 class="dealer__name">' + esc(d.nome) + '</h3>'
-        + '<p class="small muted" style="margin:0">' + esc(d.citta) + ' · ' + esc(d.linee) + '</p>'
-        + '<p class="small" style="margin:0"><a href="tel:' + d.tel.replace(/\s/g, '') + '">'
-        + esc(d.tel) + '</a><br><a href="mailto:' + esc(d.mail) + '">' + esc(d.mail) + '</a></p>'
-        + '</article>';
-    }).join('');
-    qs('[data-dealers]').hidden = list.length === 0;
-    qs('[data-dealers-empty]').hidden = list.length > 0;
-    qs('[data-region-summary]').textContent = sel
-      ? (list.length ? list.length + ' rivenditori in ' + sel : 'Nessun rivenditore in ' + sel + ', per ora.')
-      : D.length + ' rivenditori autorizzati in Italia.';
-
-    var mail = qs('[data-dealers-mail]');
-    if (mail) {
-      mail.href = Y.mailto('contact@yashi.tech', 'Rivenditore in ' + (sel || 'Italia'), [
-        'Buongiorno,',
-        'cerco un rivenditore Yashi in ' + (sel || '…') + '.', '',
-        'Prodotti di interesse: ', 'Città: ', 'Nome e recapito: '
-      ]);
-    }
-  }
-
-  on(qs('[data-regions]'), 'click', function (e) {
-    var b = e.target.closest('[data-region]');
-    if (!b) return;
-    var r = b.getAttribute('data-region');
-    sel = (sel === r) ? null : r;
-    renderRegions(); renderDealers();
-  });
-  on(qs('[data-region-all]'), 'click', function () { sel = null; renderRegions(); renderDealers(); });
-
-  /* Candidatura partner: mailto precompilato, con validazione minima. */
   on(qs('[data-partner]'), 'submit', function (e) {
     e.preventDefault();
     var f = e.target, err = qs('[data-partner-error]');
@@ -2155,8 +2124,6 @@ if (!window.Yashi) {
     ]);
   });
 
-  renderRegions();
-  renderDealers();
 })();
 </script>
 </body>

@@ -28,11 +28,11 @@
       </nav>
       <div class="pagehead__inner">
         <div>
-          <p class="eyebrow">Calendario</p>
-          <h1 class="display" style="font-size:var(--t-h1)">Dove ci<br>trovate</h1>
+          <p class="eyebrow">Archivio</p>
+          <h1 class="display" style="font-size:var(--t-h1)">Eventi<br>e open day</h1>
         </div>
-        <p class="lead">Fiere di settore, open day nei nostri showroom e formazione tecnica per
-        i rivenditori. Agli eventi B2B si entra con l'invito che rilascia il rivenditore.</p>
+        <p class="lead">Fiere, open day e incontri con i rivenditori. L'archivio qui sotto è quello
+        pubblicato sul sito attuale; il calendario dei prossimi appuntamenti va ricostruito.</p>
       </div>
     </div>
   </header>
@@ -41,15 +41,15 @@
     <div class="wrap">
       <p class="notice" style="margin-bottom:var(--sp-6)">
         <svg aria-hidden="true"><use href="#i-alert"/></svg>
-        <span><strong>Dati dimostrativi.</strong> Date, padiglioni e numeri di stand di questa
-        pagina sono inventati per il prototipo. Vanno sostituiti con il calendario reale prima di
-        qualunque pubblicazione.</span>
+        <span><strong>Archivio fermo al 2013.</strong> Questi sono gli eventi realmente pubblicati
+        sul sito attuale, l'ultimo dei quali risale a marzo 2013. Il calendario dei prossimi
+        appuntamenti non esiste: va costruito prima di pubblicare la pagina, o la pagina va tolta.</span>
       </p>
 
       <div class="section-head section-head--split">
         <div>
-          <p class="eyebrow">Prossimi appuntamenti</p>
-          <h2 id="pro-title">I prossimi mesi</h2>
+          <p class="eyebrow">Cosa c'è stato</p>
+          <h2 id="pro-title">L'archivio</h2>
         </div>
         <p class="muted">Filtra per tipo. Il conteggio si aggiorna da solo; senza JavaScript
         l'elenco resta completo e leggibile.</p>
@@ -70,18 +70,18 @@
     <div class="wrap">
       <div class="grid-hair grid-2">
         <div style="padding:var(--sp-6)">
-          <p class="eyebrow">Inviti</p>
+          <p class="eyebrow">Prossimi appuntamenti</p>
           <h2 id="inv-title">Venite a vedere gli schermi accesi</h2>
           <p class="muted" style="margin-top:var(--sp-4)">Un monitor si giudica davanti, non da una
-          scheda tecnica: uniformità, riflessi, resa a schermo intero. Agli eventi portiamo le serie
-          complete, comprese quelle che non sono ancora a catalogo.</p>
-          <p class="small muted" style="margin-top:var(--sp-4)">Gli appuntamenti in fiera si
-          fissano tramite il vostro rivenditore, che gestisce l'agenda dello stand.</p>
+          scheda tecnica: uniformità, riflessi, resa a schermo intero. Per sapere se saremo a una
+          fiera o per fissare una visita, la strada più corta è scriverci.</p>
+          <p class="small muted" style="margin-top:var(--sp-4)">Ufficio commerciale,
+          lunedì–venerdì 8.30–13 e 14–18, <a href="tel:+390456766909">045 6766909</a>.</p>
         </div>
         <div style="padding:var(--sp-6)" class="stack">
           <p class="micro muted">Richieste</p>
-          <p><a class="link-arrow" data-ev-mail-invito href="#">Chiedi un invito</a></p>
-          <p><a class="link-arrow" data-ev-mail-demo href="#">Prenota una demo in showroom</a></p>
+          <p><a class="link-arrow" data-ev-mail-invito href="#">Chiedi dove ci trovate</a></p>
+          <p><a class="link-arrow" data-ev-mail-demo href="#">Prenota una visita</a></p>
           <p><a class="link-arrow" href="dove-acquistare.html">Trova il rivenditore di zona</a></p>
           <p class="small muted" style="margin-top:var(--sp-5)">Nessun modulo da compilare: i link
           aprono una mail già scritta nel vostro programma di posta.</p>
@@ -101,33 +101,30 @@ if (!window.Yashi) {
   'use strict';
   var Y = window.Yashi, qs = Y.qs, qsa = Y.qsa, on = Y.on, esc = Y.esc;
 
-  /* Calendario. In produzione arriva dal CMS: un oggetto per evento, struttura
-     piatta. `tipo` guida i filtri, `iso` serve solo a ordinare e a <time>. */
+  /* Archivio eventi pubblicato su yashiweb.com/it/eventi/. Le date sono quelle
+     vere e si fermano al 2013: la pagina non è più aggiornata da allora. */
   var E = [
-    { nome: 'Didacta Italia', tipo: 'fiera', iso: '2026-03-11', quando: '11–13 marzo 2026',
-      dove: 'Firenze, Fortezza da Basso', stand: 'Pad. Cavaniglia, stand C14',
-      testo: 'Monitor touch 65–86" con staffa motorizzata e PC OPS, in configurazione da aula.' },
-    { nome: 'SPS Italia', tipo: 'fiera', iso: '2026-05-26', quando: '26–28 maggio 2026',
-      dove: 'Parma, Fiere di Parma', stand: 'Pad. 3, stand F52',
-      testo: 'Panel PC industriali e display per quadro, con prova di leggibilità in piena luce.' },
-    { nome: 'Open day Verona', tipo: 'showroom', iso: '2026-04-16', quando: '16 aprile 2026',
-      dove: 'Verona, sede Yashi', stand: 'Sede Yashi, Verona',
-      testo: 'Parete LED 3,9 mm montata e calibrata, con il configuratore proiettato accanto.' },
-    { nome: 'Open day Milano', tipo: 'showroom', iso: '2026-06-04', quando: '4 giugno 2026',
-      dove: 'Milano, showroom partner', stand: 'Su invito',
-      testo: 'Serie Pro e Gaming a confronto sulla stessa sorgente, con strumenti di misura.' },
-    { nome: 'Corso installatori — digital signage', tipo: 'formazione', iso: '2026-02-19',
-      quando: '19 febbraio 2026', dove: 'Verona, sede Yashi', stand: 'Aula tecnica, 12 posti',
-      testo: 'Montaggio, allineamento e collaudo di una parete LED. Giornata intera, pranzo incluso.' },
-    { nome: 'Corso rivenditori — capitolati PA', tipo: 'formazione', iso: '2026-09-24',
-      quando: '24 settembre 2026', dove: 'Online', stand: 'Webinar, 90 minuti',
-      testo: 'Come si legge un capitolato scolastico e quali certificazioni servono per rispondere.' }
+    { nome: 'Nuove soluzioni per l\'azienda estesa', tipo: 'openday', iso: '2013-03-18',
+      quando: '18 marzo 2013', dove: 'Settimo di Pescantina (VR)', stand: 'Yashi Italia Warehouse',
+      testo: 'Presentazione ai rivenditori delle soluzioni per l\'azienda estesa, con i product marketing manager della divisione OEM di Microsoft Italia su Server 2012 e Windows 8.' },
+    { nome: 'Yashi Open Day — Nord Est', tipo: 'openday', iso: '2012-06-22',
+      quando: '22 giugno 2012', dove: 'Pordenone', stand: 'Sede Horizon',
+      testo: 'Incontro con i dealer specializzati del Nord Est per presentare il nuovo rapporto di agenzia con Horizon.' },
+    { nome: 'SMAU Business Roma', tipo: 'fiera', iso: '2012-03-04',
+      quando: 'marzo 2012', dove: 'Roma', stand: 'Intel Village',
+      testo: 'Due giorni di workshop e incontri all\'interno dell\'Intel Village.' },
+    { nome: 'SMAU Business Bari', tipo: 'fiera', iso: '2012-02-15',
+      quando: 'febbraio 2012', dove: 'Bari', stand: 'SMAU Business 2012',
+      testo: 'Focus sulle soluzioni per il nuovo mondo del lavoro e per la pubblica amministrazione.' },
+    { nome: 'SBS 2011 e soluzioni professionali', tipo: 'formazione', iso: '2011-10-28',
+      quando: 'ottobre 2011', dove: 'Italia', stand: 'Ciclo di incontri',
+      testo: 'Yashi Ypad e le soluzioni professionali per aziende e pubblica amministrazione, in attesa di Windows 8.' }
   ];
 
-  var TIPI = { fiera: 'Fiere', showroom: 'Showroom', formazione: 'Formazione' };
+  var TIPI = { fiera: 'Fiere', openday: 'Open day', formazione: 'Formazione' };
   var attivo = '';
 
-  E.sort(function (a, b) { return a.iso < b.iso ? -1 : 1; });
+  E.sort(function (a, b) { return a.iso > b.iso ? -1 : 1; });   /* dal più recente */
 
   function visibili() {
     return E.filter(function (e) { return !attivo || e.tipo === attivo; });
@@ -150,7 +147,7 @@ if (!window.Yashi) {
     var list = visibili();
     qs('[data-ev-list]').innerHTML = list.map(function (e) {
       return '<article class="card">'
-        + '<p class="eyebrow' + (e.tipo === 'fiera' ? ' eyebrow--live' : '') + '">' + esc(TIPI[e.tipo]) + '</p>'
+        + '<p class="eyebrow">' + esc(TIPI[e.tipo]) + '</p>'
         + '<h3 class="card__title" style="margin-top:var(--sp-3)">' + esc(e.nome) + '</h3>'
         + '<p class="card__meta"><time datetime="' + esc(e.iso) + '">' + esc(e.quando) + '</time>'
         + '<span>' + esc(e.dove) + '</span></p>'
@@ -164,8 +161,8 @@ if (!window.Yashi) {
     qs('[data-ev-list]').hidden = list.length === 0;
     qs('[data-ev-empty]').hidden = list.length !== 0;
     qs('[data-ev-count]').textContent = list.length === E.length
-      ? E.length + ' appuntamenti in calendario'
-      : list.length + ' di ' + E.length + ' appuntamenti';
+      ? E.length + ' eventi in archivio'
+      : list.length + ' di ' + E.length + ' eventi';
     renderFiltri();
   }
 
@@ -179,12 +176,12 @@ if (!window.Yashi) {
     if (ev.target.closest('[data-ev-reset]')) { attivo = ''; render(); }
   });
 
-  qs('[data-ev-mail-invito]').href = Y.mailto('contact@yashi.tech', 'Richiesta invito evento',
-    ['Buongiorno,', 'vorrei un invito per:', '', 'Evento: ', 'Persone: ', 'Azienda: ',
-     'Rivenditore di riferimento: ', 'Recapito: ']);
-  qs('[data-ev-mail-demo]').href = Y.mailto('contact@yashi.tech', 'Prenotazione demo in showroom',
-    ['Buongiorno,', 'vorrei prenotare una demo in showroom.', '', 'Prodotti di interesse: ',
-     'Periodo preferito: ', 'Azienda: ', 'Recapito: ']);
+  qs('[data-ev-mail-invito]').href = Y.mailto('contact@yashi.tech', 'Prossimi eventi Yashi',
+    ['Buongiorno,', 'vorrei sapere a quali fiere o eventi sarete presenti.', '',
+     'Settore di interesse: ', 'Azienda o ente: ', 'Recapito: ']);
+  qs('[data-ev-mail-demo]').href = Y.mailto('contact@yashi.tech', 'Richiesta di una visita',
+    ['Buongiorno,', 'vorremmo vedere i prodotti dal vivo.', '', 'Prodotti di interesse: ',
+     'Periodo preferito: ', 'Azienda o ente: ', 'Recapito: ']);
 
   render();
 })();

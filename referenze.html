@@ -31,8 +31,8 @@
           <p class="eyebrow">Installazioni</p>
           <h1 class="display" style="font-size:var(--t-h1)">Dove sono<br>finiti gli schermi</h1>
         </div>
-        <p class="lead">Non installiamo noi: ogni impianto è stato progettato e montato da un
-        rivenditore autorizzato. Qui c'è cosa è stato messo, dove, e cosa ha richiesto.</p>
+        <p class="lead">Enti pubblici, forze armate, università e centri di ricerca che hanno
+        scelto Yashi. Non installiamo noi: ogni impianto passa da un rivenditore autorizzato.</p>
       </div>
     </div>
   </header>
@@ -40,29 +40,23 @@
   <section class="s-paper section--flush" aria-label="Le installazioni in numeri">
     <div class="wrap">
       <div class="grid-hair grid-4">
-        <div class="stat"><p class="stat__value">1.200</p><p class="stat__label">rivenditori attivi</p></div>
-        <div class="stat"><p class="stat__value">20</p><p class="stat__label">regioni coperte</p></div>
-        <div class="stat"><p class="stat__value">4</p><p class="stat__label">settori principali</p></div>
-        <div class="stat"><p class="stat__value">5 anni</p><p class="stat__label">garanzia sui monitor Pro</p></div>
+        <div class="stat"><p class="stat__value">32</p><p class="stat__label">referenze pubblicate</p></div>
+        <div class="stat"><p class="stat__value">10</p><p class="stat__label">fra comuni e prefetture</p></div>
+        <div class="stat"><p class="stat__value">7</p><p class="stat__label">scuole e università</p></div>
+        <div class="stat"><p class="stat__value">4</p><p class="stat__label">istituti del CNR</p></div>
       </div>
     </div>
   </section>
 
   <section class="s-light section" id="casi" aria-labelledby="cas-title">
     <div class="wrap">
-      <p class="notice" style="margin-bottom:var(--sp-6)">
-        <svg aria-hidden="true"><use href="#i-alert"/></svg>
-        <span><strong>Dati dimostrativi.</strong> Committenti, quantità e dettagli di queste schede
-        sono inventati per il prototipo. Ogni referenza reale va pubblicata solo con l'autorizzazione
-        scritta del cliente e del rivenditore che ha eseguito l'impianto.</span>
-      </p>
-
       <div class="section-head section-head--split">
         <div>
-          <p class="eyebrow">Casi</p>
-          <h2 id="cas-title">Otto impianti, quattro settori</h2>
+          <p class="eyebrow">Committenti</p>
+          <h2 id="cas-title">Chi ha scelto Yashi</h2>
         </div>
-        <p class="muted">Filtra per settore. Senza JavaScript l'elenco resta completo.</p>
+        <p class="muted">L'elenco è quello pubblicato sul sito attuale. Quantità, date e dettagli
+        dei singoli impianti non sono pubblici: chiederli al rivenditore che ha eseguito il lavoro.</p>
       </div>
 
       <div class="row" data-rf-filters role="group" aria-label="Filtra per settore"></div>
@@ -79,9 +73,9 @@
           <p class="eyebrow">Rivenditori</p>
           <h2 id="rac-title">Avete fatto un bell'impianto?</h2>
           <p class="muted" style="margin-top:var(--sp-4)">Se avete installato prodotti Yashi e il
-          cliente è d'accordo a comparire, la scheda la scriviamo noi su vostre note e foto, e
-          resta firmata con il vostro nome. Non pubblichiamo nulla senza autorizzazione scritta di
-          entrambi.</p>
+          committente è d'accordo a comparire, aggiungiamo la referenza a questo elenco. Non
+          pubblichiamo nulla senza autorizzazione scritta di entrambi, e i dettagli tecnici
+          dell'impianto restano vostri.</p>
         </div>
         <div style="padding:var(--sp-6)" class="stack">
           <p class="micro muted">Proponi una referenza</p>
@@ -105,43 +99,55 @@ if (!window.Yashi) {
   'use strict';
   var Y = window.Yashi, qs = Y.qs, on = Y.on, esc = Y.esc;
 
-  /* Referenze. In produzione arrivano dal CMS, un oggetto per impianto. */
+  /* Referenze pubblicate su yashiweb.com/it/referenze/. Sono nomi di enti,
+     non schede di progetto: il sito non pubblica quantità né date, e
+     inventarle sarebbe peggio che non averle. */
   var R = [
-    { nome: 'Istituto comprensivo — 32 aule', settore: 'scuola', dove: 'Provincia di Brescia',
-      anno: '2025', prodotti: 'Monitor touch 75" + PC OPS',
-      testo: 'Sostituzione completa delle LIM a proiezione. Staffe a muro con regolazione in altezza per le aule della primaria.' },
-    { nome: 'Polo universitario — aula magna', settore: 'scuola', dove: 'Padova', anno: '2025',
-      prodotti: 'Parete LED 3,9 mm, 4,8 × 2,7 m',
-      testo: 'Parete calibrata su misura del palco. Il configuratore aveva stimato peso e assorbimento entro il 5% dei valori reali.' },
-    { nome: 'Comune — sportello al cittadino', settore: 'pa', dove: 'Verona', anno: '2024',
-      prodotti: '18 all-in-one 24" + 6 display verticali',
-      testo: 'Postazioni con display verticali per la coda numerata. Alimentazione singola per postazione, cablaggio a vista ridotto al minimo.' },
-    { nome: 'Agenzia regionale — uffici tecnici', settore: 'pa', dove: 'Bologna', anno: '2025',
-      prodotti: '120 monitor 27" QHD, doppio schermo',
-      testo: 'Gara vinta dal rivenditore sul capitolato energetico. USB-C 96 W per collegare il portatile con un cavo solo.' },
-    { nome: 'Catena di ottica — 14 punti vendita', settore: 'retail', dove: 'Nord Italia', anno: '2024',
-      prodotti: 'Display professionali 43" verticali',
-      testo: 'Vetrine con palinsesto centralizzato. Luminosità 700 cd/m² per reggere il controluce del pomeriggio.' },
-    { nome: 'Ristorazione — menu board', settore: 'retail', dove: 'Trento', anno: '2025',
-      prodotti: '9 display 55" in configurazione 3 × 3',
-      testo: 'Menu board sopra il banco, montaggio a filo soffitto. Accensione e spegnimento programmati sugli orari del locale.' },
-    { nome: 'Casa di cura — reparti e sale d\'attesa', settore: 'sanita', dove: 'Modena', anno: '2024',
-      prodotti: '40 monitor 24" + 8 display 55"',
-      testo: 'Superfici pulibili e nessuna ventola nelle aree degenza. Chiamata pazienti sui display delle sale.' },
-    { nome: 'Poliambulatorio — refertazione', settore: 'sanita', dove: 'Firenze', anno: '2025',
-      prodotti: '22 monitor 27" QHD calibrati',
-      testo: 'Postazioni di refertazione con calibrazione di fabbrica documentata, richiesta esplicitamente dal capitolato.' }
+    { n: 'Aeronautica Militare Comando Logistico 2° divisione - 11° deposito centrale AM di Orte', s: 'difesa' },
+    { n: 'Brigata Alpina Taurinense - 9° Reggimento Alpini', s: 'difesa' },
+    { n: 'Comando Brigata Alpina "Julia" di Udine', s: 'difesa' },
+    { n: 'Comando Generale dell\'Arma di Carabinieri - Centro di Eccellenza per le Stability Police Units', s: 'difesa' },
+    { n: 'Comando delle Scuole dell’Arma dei Carabinieri - Scuola Marescialli e Brigadieri di Firenze', s: 'difesa' },
+    { n: 'Dipartimento della Pubblica Sicurezza – Centro TLC Liguria', s: 'difesa' },
+    { n: 'Comune di Belfiore', s: 'pa' },
+    { n: 'Comune di Belluno', s: 'pa' },
+    { n: 'Comune di Castell’Arquato', s: 'pa' },
+    { n: 'Comune di Foiano della Chiana', s: 'pa' },
+    { n: 'Comune di Pianezza', s: 'pa' },
+    { n: 'Comune di Pula', s: 'pa' },
+    { n: 'Sardegna IT', s: 'pa' },
+    { n: 'Ufficio Territoriale del Governo Ex Prefettura di Cremona', s: 'pa' },
+    { n: 'Ufficio Territoriale del Governo Ex Prefettura di Teramo', s: 'pa' },
+    { n: 'comune di La Spezia', s: 'pa' },
+    { n: 'IPSSAR Bergese di Genova', s: 'scuola' },
+    { n: 'Istituto Comprensivo VR 15 – Borgo Venezia - Verona', s: 'scuola' },
+    { n: 'Istituto Statale di Istruzione Secondaria Superiore "M.O. Luciano Dal Cero" di San Bonifacio (VR)', s: 'scuola' },
+    { n: 'Università degli Studi di Genova – Polo di Savona', s: 'scuola' },
+    { n: 'Università degli Studi di Padova - Dipartimento di Biologia', s: 'scuola' },
+    { n: 'Università degli Studi di Udine', s: 'scuola' },
+    { n: 'Università per Stranieri di Siena', s: 'scuola' },
+    { n: 'C.N.R. Istituto Nanoscienze di Modena', s: 'ricerca' },
+    { n: 'C.N.R. Istituto Superconduttori materiali innovativi e dispositivi Genova', s: 'ricerca' },
+    { n: 'C.N.R. Istituto di Fisica Applicata Nello Carrara Sesto Fiorentino', s: 'ricerca' },
+    { n: 'C.N.R. Istituto per l’energetica e le interfasi di Padova', s: 'ricerca' },
+    { n: 'Azienda Ospedaliera S. Luigi Gonzaga di Torino', s: 'sanita' },
+    { n: 'Azienda Sanitaria Provinciale di Catania', s: 'sanita' },
+    { n: 'Centro Residenziale Anziani di Cittadella', s: 'sanita' },
+    { n: 'I.R.I.S. Consorzio Intercomunale Servizi Socio Assistenziali di Biella', s: 'sanita' },
+    { n: 'EIDOS S.c.', s: 'altro' }
   ];
 
-  var SET = { scuola: 'Scuola', pa: 'Ufficio e PA', retail: 'Retail', sanita: 'Sanità' };
+  var SET = { difesa: 'Difesa e sicurezza', pa: 'Pubblica amministrazione', scuola: 'Scuola e università',
+              ricerca: 'Ricerca', sanita: 'Sanità e sociale', altro: 'Altro' };
   var attivo = '';
 
   function renderFiltri() {
     var html = '<button type="button" class="chip" data-set=""'
-      + (attivo ? '' : ' aria-pressed="true"') + '>Tutti <span class="num">' + R.length + '</span></button>';
+      + (attivo ? '' : ' aria-pressed="true"') + '>Tutte <span class="num">' + R.length + '</span></button>';
     for (var k in SET) {
       if (!SET.hasOwnProperty(k)) continue;
-      var n = R.filter(function (r) { return r.settore === k; }).length;
+      var n = R.filter(function (r) { return r.s === k; }).length;
+      if (!n) continue;
       html += '<button type="button" class="chip" data-set="' + k + '"'
         + (attivo === k ? ' aria-pressed="true"' : '') + '>' + SET[k]
         + ' <span class="num">' + n + '</span></button>';
@@ -150,21 +156,16 @@ if (!window.Yashi) {
   }
 
   function render() {
-    var list = R.filter(function (r) { return !attivo || r.settore === attivo; });
+    var list = R.filter(function (r) { return !attivo || r.s === attivo; });
     qs('[data-rf-list]').innerHTML = list.map(function (r) {
-      return '<article class="card">'
-        + '<div class="card__head"><h3 class="card__title">' + esc(r.nome) + '</h3>'
-        + '<span class="tag">' + esc(SET[r.settore]) + '</span></div>'
-        + '<p class="card__meta"><span>' + esc(r.dove) + '</span><span class="num">' + esc(r.anno) + '</span></p>'
-        + '<p class="small muted">' + esc(r.testo) + '</p>'
-        + '<p class="card__foot"><span class="micro">' + esc(r.prodotti) + '</span></p>'
+      return '<article class="card card--sku">'
+        + '<div class="card__head"><h3 class="card__title">' + esc(r.n) + '</h3></div>'
+        + '<p class="card__foot"><span class="tag">' + esc(SET[r.s]) + '</span></p>'
         + '</article>';
     }).join('');
-    /* La griglia a filo va riempita per intero, o resta scoperto il fondo grigio. */
-    if (list.length % 2) qs('[data-rf-list]').insertAdjacentHTML('beforeend', '<div aria-hidden="true"></div>');
     qs('[data-rf-count]').textContent = list.length === R.length
-      ? R.length + ' installazioni'
-      : list.length + ' di ' + R.length + ' installazioni';
+      ? R.length + ' referenze pubblicate'
+      : list.length + ' di ' + R.length + ' referenze';
     renderFiltri();
   }
 
@@ -176,9 +177,8 @@ if (!window.Yashi) {
   });
 
   qs('[data-rf-mail]').href = Y.mailto('contact@yashi.tech', 'Proposta di referenza',
-    ['Buongiorno,', 'vorremmo proporre un impianto come referenza.', '', 'Settore: ', 'Luogo: ',
-     'Prodotti installati: ', 'Data di consegna: ', 'Referente del committente: ',
-     'Rivenditore: ']);
+    ['Buongiorno,', 'vorremmo proporre un impianto come referenza.', '', 'Committente: ',
+     'Settore: ', 'Prodotti installati: ', 'Referente che autorizza: ', 'Rivenditore: ']);
 
   render();
 })();
