@@ -206,7 +206,7 @@ if (!window.Yashi) {
 
     var mail = qs('[data-dealers-mail]');
     if (mail) {
-      mail.href = Y.mailto('commerciale@yashiweb.com', 'Rivenditore in ' + (sel || 'Italia'), [
+      mail.href = Y.mailto('contact@yashi.tech', 'Rivenditore in ' + (sel || 'Italia'), [
         'Buongiorno,',
         'cerco un rivenditore Yashi in ' + (sel || '…') + '.', '',
         'Prodotti di interesse: ', 'Città: ', 'Nome e recapito: '
@@ -233,7 +233,7 @@ if (!window.Yashi) {
       return;
     }
     err.hidden = true;
-    location.href = Y.mailto('partner@yashiweb.com', 'Candidatura rivenditore — ' + f.rag.value, [
+    location.href = Y.mailto('contact@yashi.tech', 'Candidatura rivenditore — ' + f.rag.value, [
       'Buongiorno,', 'ci candidiamo come rivenditori Yashi.', '',
       'Ragione sociale: ' + f.rag.value,
       'Città: ' + f.citta.value,

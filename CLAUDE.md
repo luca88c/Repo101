@@ -65,7 +65,8 @@ cookie.html             dichiarazione cookie (il sito non ne imposta)
 assets/yashi.css        font, token, tipografia, header, footer, confronto, stampa
 assets/yashi.js         template header/footer, sprite icone, disegni, comportamenti
 assets/fonts/           Archivo variabile (latin, latin-ext) + licenza OFL
-assets/img/             immagini; il README spiega convenzioni e formati
+assets/img/             foto prodotto da yashiweb.com; il README spiega le convenzioni
+assets/doc/             brochure PDF scaricate dal sito
 .htaccess               ErrorDocument 404, CSP, cache, compressione
 build.py                genera dist/
 dist/                   GENERATA — non toccare
@@ -73,6 +74,14 @@ dist/                   GENERATA — non toccare
 
 I dati sono array JS in fondo a ciascuna pagina. In produzione arrivano dal CMS:
 la struttura è piatta apposta, un oggetto per record.
+
+**Il catalogo è reale.** I 154 prodotti dell'array `P`, le foto e le brochure
+vengono da yashiweb.com: codice articolo, nome, specifiche e categoria sono
+quelli a listino. È una fotografia presa una volta, non un aggancio in tempo
+reale: quando il listino cambia va rifatta. Le specifiche sono testo libero
+estratto dalle schede, quindi `pollici`, `ris`, `hz` e `pannello` ci sono solo
+dove erano ricavabili — i filtri lo reggono, i prodotti senza quel dato
+semplicemente non compaiono sotto quella faccetta.
 
 ## Design
 
@@ -112,10 +121,11 @@ galleggiano su un'ombra, bottoni a pillola. La tavolozza però non è cambiata:
   toni secondari restano quelli del chiaro e spariscono sul nero. Menu, drawer,
   footer e dialogo confronto sono passati al chiaro e non stanno più lì.
   Non aggiungere un theme toggle, romperebbe il meccanismo.
-- **Prodotti come disegni tecnici SVG** (`Yashi.draw(tipo, etichetta, quota)`),
-  non foto. Segnaposto onesto finché non arrivano le immagini vere, e non si
-  rompe mai. Quando arriva la foto si sostituisce la chiamata con un `<img
-  class="photo">`: stesso ingombro 4/3, le griglie non si muovono.
+- **Foto vere, disegno come ripiego.** Le foto prodotto arrivano da
+  yashiweb.com e stanno in `assets/img/`, normalizzate a 4/3 su fondo bianco.
+  `Yashi.draw(tipo, etichetta, quota)` resta come segnaposto dove la foto non
+  c'è: stesso ingombro 4/3, quindi le griglie non si muovono in nessuno dei due
+  casi. Non reintrodurre disegni dove esiste la foto.
 - **Le card galleggiano.** Fondo `--card`, `--radius-lg`, `--shadow-card`, e
   all'hover salgono di `--lift` passando a `--shadow-card-hover`. Sul nero
   l'ombra non si vede: lì `--shadow-card` è `none` e la card si stacca con un
@@ -165,7 +175,8 @@ confronto fino a 3 prodotti in `<dialog>` nativo, con evidenza del valore
 migliore; configuratore parete LED con calcolo di superficie, risoluzione, peso
 e assorbimento; modulo RMA che prepara la mail; showcase con media sticky;
 header che inverte contrasto sulle sezioni scure; mega menu con pannello a tutta
-larghezza e menu mobile generato dagli stessi dati; skip link, `aria-live` sui
+larghezza e menu mobile generato dagli stessi dati; catalogo con i prodotti,
+le foto e i codici veri; skip link, `aria-live` sui
 contatori, tutto navigabile da tastiera; foglio di stampa che apre gli accordion
 via `beforeprint`; Open Graph, JSON-LD, favicon inline; Archivo servito in
 locale, zero richieste a domini terzi; privacy e cookie policy collegate dal
@@ -180,14 +191,16 @@ Ordinati per urgenza reale.
    `D`), calendario (`eventi.html`, array `E`), installazioni (`referenze.html`,
    array `R`). Ognuna porta un avviso visibile. Vanno sostituiti prima di
    qualunque pubblicazione; le referenze solo con autorizzazione scritta del
-   committente e del rivenditore.
-2. **Foto prodotto** al posto degli SVG, dove disponibili.
-3. **Verificare il dominio** nelle `rel="canonical"`: ora puntano a `www.yashiweb.com`.
+   committente e del rivenditore. Il catalogo invece è reale.
+2. **Indirizzo della sede** non pubblicato sul sito attuale: nel prototipo non
+   compare più. Va aggiunto in `privacy.html` e nel footer quando lo si ha.
+3. **Testi legali da validare.** `privacy.html` descrive con esattezza cosa fa il
+   sito, ma tempi di conservazione ed eventuale DPO vanno confermati
+   dall'azienda. C'è un avviso visibile in pagina.
 4. **Login area dealer da collegare** al gestionale esistente: `area-dealer.html`
    ha il modulo disattivato e lo dichiara in pagina.
-5. **Testi legali da validare.** `privacy.html` descrive con esattezza cosa fa il
-   sito, ma tempi di conservazione, anagrafica del titolare ed eventuale DPO
-   vanno confermati dall'azienda. C'è un avviso visibile in pagina.
+5. **Verificare il dominio** nelle `rel="canonical"`: ora puntano a `www.yashiweb.com`.
 6. **Multilingua IT/EN:** il selettore nell'header è finto e lo dichiara.
 7. **Integrazione col PHP esistente:** header e footer diventano `include`,
-   il catalogo legge dal database invece che dall'array `P`.
+   il catalogo legge dal database invece che dall'array `P`, e la fotografia
+   del listino smette di essere una fotografia.

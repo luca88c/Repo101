@@ -111,7 +111,7 @@ if (!window.Yashi) {
       dove: 'Parma, Fiere di Parma', stand: 'Pad. 3, stand F52',
       testo: 'Panel PC industriali e display per quadro, con prova di leggibilità in piena luce.' },
     { nome: 'Open day Verona', tipo: 'showroom', iso: '2026-04-16', quando: '16 aprile 2026',
-      dove: 'Verona, sede Yashi', stand: 'Via Torricelli 15',
+      dove: 'Verona, sede Yashi', stand: 'Sede Yashi, Verona',
       testo: 'Parete LED 3,9 mm montata e calibrata, con il configuratore proiettato accanto.' },
     { nome: 'Open day Milano', tipo: 'showroom', iso: '2026-06-04', quando: '4 giugno 2026',
       dove: 'Milano, showroom partner', stand: 'Su invito',
@@ -179,10 +179,10 @@ if (!window.Yashi) {
     if (ev.target.closest('[data-ev-reset]')) { attivo = ''; render(); }
   });
 
-  qs('[data-ev-mail-invito]').href = Y.mailto('eventi@yashiweb.com', 'Richiesta invito evento',
+  qs('[data-ev-mail-invito]').href = Y.mailto('contact@yashi.tech', 'Richiesta invito evento',
     ['Buongiorno,', 'vorrei un invito per:', '', 'Evento: ', 'Persone: ', 'Azienda: ',
      'Rivenditore di riferimento: ', 'Recapito: ']);
-  qs('[data-ev-mail-demo]').href = Y.mailto('eventi@yashiweb.com', 'Prenotazione demo in showroom',
+  qs('[data-ev-mail-demo]').href = Y.mailto('contact@yashi.tech', 'Prenotazione demo in showroom',
     ['Buongiorno,', 'vorrei prenotare una demo in showroom.', '', 'Prodotti di interesse: ',
      'Periodo preferito: ', 'Azienda: ', 'Recapito: ']);
 

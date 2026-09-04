@@ -29,30 +29,31 @@
     prodotti: {
       cols: [
         { title: 'Monitor', links: [
-          { label: 'Serie Office', href: 'catalogo.html?cat=monitor&serie=office' },
-          { label: 'Serie Pro', href: 'catalogo.html?cat=monitor&serie=pro' },
+          { label: 'Serie Pioneer', href: 'catalogo.html?cat=monitor&serie=pioneer' },
+          { label: 'Serie Matrix', href: 'catalogo.html?cat=monitor&serie=matrix' },
           { label: 'Serie Gaming', href: 'catalogo.html?cat=monitor&serie=gaming' },
           { label: 'Tutti i monitor', href: 'catalogo.html?cat=monitor' }
         ] },
         { title: 'Computer', links: [
-          { label: 'All-in-One', href: 'catalogo.html?cat=aio' },
-          { label: 'Notebook', href: 'catalogo.html?cat=notebook' },
-          { label: 'Mini PC', href: 'catalogo.html?cat=minipc' },
-          { label: 'Server', href: 'catalogo.html?cat=server' }
+          { label: 'All-in-One Victory e Zenith', href: 'catalogo.html?cat=aio' },
+          { label: 'Notebook Le Mans e Monza', href: 'catalogo.html?cat=notebook' },
+          { label: 'Nucky mini PC', href: 'catalogo.html?cat=minipc' },
+          { label: 'Desktop e workstation', href: 'catalogo.html?cat=desktop' },
+          { label: 'Server Hostpower e Ympresa', href: 'catalogo.html?cat=server' }
         ] },
-        { title: 'Digital signage', links: [
-          { label: 'Display professionali', href: 'catalogo.html?cat=signage' },
+        { title: 'Display e signage', links: [
+          { label: 'Quadro, Pyramid, Murales', href: 'catalogo.html?cat=signage' },
           { label: 'Pareti LED', href: 'index.html#configuratore' },
-          { label: 'Totem e chioschi', href: 'catalogo.html?cat=kiosk' },
-          { label: 'Monitor touch', href: 'catalogo.html?cat=touch' }
+          { label: 'Totem e POS', href: 'catalogo.html?cat=kiosk' },
+          { label: 'Interattivi e aule', href: 'catalogo.html?cat=touch' }
         ] }
       ],
       feature: {
         kicker: 'Novità 2026',
-        title: 'Le Mans AI 27"',
-        text: 'QD-OLED 240 Hz con motore di upscaling on-device.',
+        title: 'Le Mans AI 16"',
+        text: 'IPS 2K 165 Hz e Ryzen 9 AI 365 da 73 TOPS.',
         href: 'prodotto.html',
-        draw: 'monitor'
+        img: 'assets/img/yp1682-yashi-le-mans-16-ai-9-365-16-1tb-w11p.jpg'
       }
     },
     soluzioni: {
@@ -74,11 +75,11 @@
         ] }
       ],
       feature: {
-        kicker: 'Bando scuola',
-        title: 'Aule connesse',
-        text: 'Monitor touch 65–86" con staffa, PC OPS e formazione inclusa.',
-        href: 'catalogo.html?uso=scuola',
-        draw: 'signage'
+        kicker: 'Aule immersive',
+        title: 'Over The Top',
+        text: 'Pareti immersive e SupertouchAI per la didattica.',
+        href: 'catalogo.html?cat=touch',
+        img: 'assets/img/ly21300-yashi-aula-immersiva-over-the-top-1-11-05mq.jpg'
       }
     }
   };
@@ -86,10 +87,11 @@
   var FOOTER_COLS = [
     { title: 'Prodotti', links: [
       { label: 'Monitor', href: 'catalogo.html?cat=monitor' },
+      { label: 'Interattivi', href: 'catalogo.html?cat=touch' },
+      { label: 'Digital signage', href: 'catalogo.html?cat=signage' },
       { label: 'All-in-One', href: 'catalogo.html?cat=aio' },
       { label: 'Notebook', href: 'catalogo.html?cat=notebook' },
-      { label: 'Server', href: 'catalogo.html?cat=server' },
-      { label: 'Digital signage', href: 'catalogo.html?cat=signage' }
+      { label: 'PC e server', href: 'catalogo.html?cat=desktop' }
     ] },
     { title: 'Supporto', links: [
       { label: 'Driver e manuali', href: 'supporto.html#driver' },
@@ -286,7 +288,10 @@
         html += '</ul></div>';
       }
       html += '</div><a class="mega__feature" href="' + m.feature.href + '">'
-        + draw(m.feature.draw, m.feature.title)
+        + (m.feature.img
+            ? '<img class="photo" src="' + m.feature.img + '" width="1000" height="750"'
+              + ' loading="lazy" decoding="async" alt="' + esc(m.feature.title) + '">'
+            : draw(m.feature.draw, m.feature.title))
         + '<p class="eyebrow">' + esc(m.feature.kicker) + '</p>'
         + '<h3>' + esc(m.feature.title) + '</h3>'
         + '<p class="small muted">' + esc(m.feature.text) + '</p></a>'
@@ -328,8 +333,10 @@
     var html = '<footer class="site-footer" id="site-footer"><div class="wrap">'
       + '<div class="footer-top"><div class="footer-brand">'
       + '<p class="display">Yashi</p>'
-      + '<p class="small muted">Yashi Italia Srl · Via Torricelli 15, 37135 Verona<br>'
-      + 'P. IVA 03616270234 · <a href="mailto:info@yashiweb.com">info@yashiweb.com</a></p>'
+      + '<p class="small muted">Yashi Italia Srl · Verona<br>'
+      + 'P. IVA 03893230239 · RAEE IT16110000009563<br>'
+      + '<a href="mailto:contact@yashi.tech">contact@yashi.tech</a> · '
+      + '<a href="tel:+390456766909">045 6766909</a></p>'
       + '<p class="small muted">Vendiamo esclusivamente attraverso rivenditori autorizzati.<br>'
       + '<a class="link-arrow" href="dove-acquistare.html">Trova il tuo</a></p>'
       + '</div><div class="footer-cols">';
@@ -502,8 +509,15 @@
         steps.forEach(function (s) { s.setAttribute('data-active', 'false'); });
         en.target.setAttribute('data-active', 'true');
         var media = qs('[data-showcase-media]');
+        var etichetta = en.target.getAttribute('data-draw-label') || '';
+        var foto = en.target.getAttribute('data-img');
         var kind = en.target.getAttribute('data-draw');
-        if (media && kind) media.innerHTML = draw(kind, en.target.getAttribute('data-draw-label') || '', en.target.getAttribute('data-draw-dim') || '');
+        if (media && foto) {
+          media.innerHTML = '<img class="photo" src="' + foto + '" width="1000" height="750"'
+            + ' decoding="async" alt="' + esc(etichetta) + '">';
+        } else if (media && kind) {
+          media.innerHTML = draw(kind, etichetta, en.target.getAttribute('data-draw-dim') || '');
+        }
       });
     }, { threshold: .5 });
     steps.forEach(function (s) { io.observe(s); });

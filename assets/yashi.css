@@ -830,6 +830,9 @@ p:last-child { margin-bottom: 0; }
 .s-dark .card:hover { background: var(--fill-hover); }
 .card__head { display: flex; justify-content: space-between; gap: var(--sp-3); align-items: start; }
 .card__title { font-size: var(--t-h3); }
+/* I nomi a listino sono stringhe da codice articolo, lunghe: alla misura di un
+   titolo occuperebbero tre righe e la griglia diventerebbe un muro di testo. */
+.card--sku .card__title { font-size: 1.02rem; line-height: 1.3; font-variation-settings: "wdth" var(--wdth-body); }
 .card__meta { display: flex; flex-wrap: wrap; gap: var(--sp-1) var(--sp-3); font-size: var(--t-small); color: var(--ink-mute); }
 .card__foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); padding-top: var(--sp-3); border-top: var(--hairline) solid var(--hair); }
 .card__link::after { content: ""; position: absolute; inset: 0; }
